@@ -1,15 +1,33 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from '../../../utils/axios'
+import { InputLabel, Select, MenuItem, Button, Grid, Typography} from '@material-ui/core';
 
 function ProductManager(props) {
     const { paginationState, setPaginationState } = props;
     const { page, lastPage } = paginationState;
+    const [category, setCategory] = useState([]);
 
     const [formState, setFormState] = useState({
         keyword: "",
         category_id: ""
       });
+    
+      const fetchCategories = async () => {
+        try {
+            const res = await axios.get("/categories");
+            const  categories = res
+            const category = categories.data
+            setCategory(category)
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
 
+    useEffect(() => {
+      fetchCategories();
+    }, []);
+
+    console.log(category);
    
 
     const handleChange = (e) => {
@@ -31,6 +49,8 @@ function ProductManager(props) {
         setPaginationState({ ...paginationState, page: page + 1 });
       };
 
+      console.log(category.id);
+
   return (
     
     <div className="col-3">
@@ -47,18 +67,20 @@ function ProductManager(props) {
             className="form-control mb-3"
             onChange={handleChange}
           />
-          <label>Product Category</label>
-          <select
-            name="category_id"
+          <Grid item xs={12} sm={10}>
+            <InputLabel>Category</InputLabel>
+            <Select name="category_id"
             className="form-control"
-            onChange={handleChange}
-          >
-            <option value="">All Items</option>
-            <option value="1">Acne Treatment</option>
-            <option value="2">Alcohol Treatment</option>
-            <option value="3">Anti Depresant</option>
-            <option value="4">Anti histamines</option>
-          </select>
+            onChange={handleChange} >
+               <MenuItem value="">Default</MenuItem>
+              {category.map((category) => (
+                <MenuItem  value={category.id}>
+                  {category.categoryName}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+      
           <button
             onClick={btnSearchHandler}
             className="btn btn-outline-primary mt-3 d-block w-100"
