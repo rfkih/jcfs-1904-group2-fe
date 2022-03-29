@@ -8,6 +8,21 @@ import CustomTextField from '../../CustomTextField';
 function AddProduct() {
     const methods = useForm();
     const [category, setCategory] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [formState, setFormState] = useState({
+        category_id: 0,
+        productName: "",
+        productDetails: "",
+        productIMG: "",
+        isLiquidString: "",
+        isDeleted: 0,
+        price: "",
+    });
+
+    const handleChange = (e) => {
+        setFormState({ ...formState, [e.target.name]: e.target.value });
+        console.log(e);
+      };
 
     const fetchCategories = async () => {
         try {
@@ -24,39 +39,70 @@ function AddProduct() {
       fetchCategories();
     }, []);
 
+    const addNewProduct = () => {
+        
+        const { category_id, productName, productDetails, productIMG, isLiquidString, isDeleted, priceString } =
+          formState;
+          
+        const isLiquid = parseInt(isLiquidString)
+        const price = parseInt(priceString)
+
+        const newProduct = {
+          category_id,
+          productName,
+          productDetails,
+          productIMG,
+          isLiquid,
+          isDeleted,
+          price,
+        };
+
+        axios
+      .post("/products", newProduct)
+      .then((res) => {
+       alert(res.data.message);
+       console.log(newProduct);
+      })
+      .catch((error) => console.log({ error }));
+  };
+
 
   return (
     <>
-      <Typography variant="h6" gutterBottom> Shipping Address</Typography>
+      <Typography variant="h6" gutterBottom> Add New Product</Typography>
       <FormProvider {...methods}>
         <form > 
             <Grid container spacing={3}>
-                <CustomTextField required name='productName' label='Product Name'/>
-                <CustomTextField required name='productDetail' label='Product Detail'/>
-                <CustomTextField required name='productIMG' label='Product Image'/>
-                <CustomTextField required name='Price' label='Price'/>
-                <Grid>
+                <CustomTextField required name='productName' label='Product Name' onChange={handleChange} />
+                <CustomTextField required name='productDetail' label='Product Detail ' onChange={handleChange}/>
+                <CustomTextField required name='productIMG' label='Product Image' onChange={handleChange}/>
+                <CustomTextField required name='Price' label='Price' onChange={handleChange}/>
+                <Grid item xs={12} sm={6}>
                     <InputLabel>Liquid ?</InputLabel>
-                    <Select name='isLiquid'>
-                    <MenuItem value="true">Yes</MenuItem>
-                    <MenuItem value="false">No</MenuItem>
+                    <Select defaultValue="" name='isLiquid' onChange={handleChange} >
+                    <MenuItem value='1'>Yes</MenuItem>
+                    <MenuItem value='0'>No</MenuItem>
                     </Select>
                 </Grid>
-                <Grid item xs={12} sm={10}>
+                <Grid item xs={12} sm={6}>
                     <InputLabel>Category</InputLabel>
-                        <Select name="category_id"
-                            className="form-control"
+                        <Select
+                            defaultValue=""
+                            name="category_id"
+                            onChange={handleChange}
                          >
                         <MenuItem value="">Default</MenuItem>
                         {category.map((category) => (
-                        <MenuItem  value={category.id}>
+                        <MenuItem  key={category.id} value={category.id}>
                             {category.categoryName}
                             </MenuItem>
                         ))}
-            </Select>
-          </Grid>
-            </Grid>
+                        </Select>
+                </Grid>
+            <Button onClick={addNewProduct} >Add New Product </Button>
+        </Grid>
         </form>
+        
       </FormProvider>    
     </>
   )

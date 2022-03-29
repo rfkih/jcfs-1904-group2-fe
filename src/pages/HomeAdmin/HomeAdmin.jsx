@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import AddProduct from './component/AddProduct/AddProduct'
+import EditProduct from './component/EditProduct'
 
 function HomeAdmin() {
   return (
-    <AddProduct/>
+    <EditProduct/>
   )
 }
 
