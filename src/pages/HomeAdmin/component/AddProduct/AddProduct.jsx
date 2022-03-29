@@ -73,8 +73,8 @@ function AddProduct() {
       <FormProvider {...methods}>
         <form > 
             <Grid container spacing={3}>
-                <CustomTextField required name='productName' label='Product Name' onChange={handleChange} />
-                <CustomTextField required name='productDetail' label='Product Detail ' onChange={handleChange}/>
+                <CustomTextField required name='productName' label='Product Name'  onInput={handleChange} />
+                <CustomTextField required name='productDetail' label='Product Detail ' onInput={handleChange}/>
                 <CustomTextField required name='productIMG' label='Product Image' onChange={handleChange}/>
                 <CustomTextField required name='Price' label='Price' onChange={handleChange}/>
                 <Grid item xs={12} sm={6}>

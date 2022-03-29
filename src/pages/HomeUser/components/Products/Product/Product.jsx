@@ -1,17 +1,22 @@
 import React from 'react'
 import {Card, CardMedia, CardContent, CardActions, Typography, IconButton, useTheme} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
+import { Link } from 'react-router-dom'
+
 
 import useStyles from './styles'
 
 function Product({product}) {
+    
     const classes = useStyles();
+
+
   return (
     <Card className={classes.root}>
         <CardMedia className={classes.media} image={product.productIMG} tittle={product.productName}/>
         <CardContent>
             <div className={classes.cardContent}>
-                <Typography variant="h6" gutterBottom>
+                <Typography component={Link} to={`/products/${product.id}`} variant="h6" gutterBottom>
                     {product.productName}
                 </Typography>
                 <Typography variant="body2">

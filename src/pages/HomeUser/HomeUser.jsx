@@ -100,7 +100,7 @@ function HomeUser() {
   return (
     <div>
         <div>
-        <ProductManager
+          <ProductManager
             filterProducts={filterProducts}
             paginationState={paginationState}
             setPaginationState={setPaginationState}
