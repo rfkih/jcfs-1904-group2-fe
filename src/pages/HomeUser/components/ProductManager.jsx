@@ -53,10 +53,11 @@ function ProductManager(props) {
 
   return (
     
-    <div className="col-3">
+    <div className="container mt-5 ">
+      
         {/* Filter */}
       <div className="card">
-        <div className="card-header">
+        <div className="card-header  mt-4">
           <strong>Filter products</strong>
         </div>
         <div className="card-body">
@@ -67,18 +68,17 @@ function ProductManager(props) {
             className="form-control mb-3"
             onChange={handleChange}
           />
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={12} sm={6}>
             <InputLabel>Category</InputLabel>
-            <Select name="category_id"
-            className="form-control"
-            onChange={handleChange} >
-               <MenuItem value="">Default</MenuItem>
-              {category.map((category) => (
-                <MenuItem  value={category.id}>
+            <Select  defaultValue="" name="category_id" onChange={handleChange}>
+            <MenuItem value="">Default</MenuItem>
+            {category.map((category) => (
+                <MenuItem key={category.id}  value={category.id}>
                   {category.categoryName}
                 </MenuItem>
               ))}
-            </Select>
+              </Select>
+            
           </Grid>
       
           <button
@@ -110,24 +110,27 @@ function ProductManager(props) {
         </div>
     </div>
      {/* Pagination */}
-    <div className="d-flex flex-row justify-content-between align-items-center">
+    <div className="d-flex flex-row justify-content-between align-items-center ">
         <button
+            
             onClick={btnPrevPageHandler}
-            className={`btn btn-dark ${page === 1 && "disabled"}`}
+            className={`btn col-3 btn-dark ${page === 1 && "disabled"}`}
            >
             {"<"}
         </button>
-        <div className="text-center">
+        <div className="text-center col-3 ">
          Page {page} of {lastPage}
         </div>
 
-        </div>
         <button
             onClick={btnNextPageHandler}
-            className={`btn btn-dark ${page === lastPage && "disabled"} `}
+            className={`btn col-3 btn-dark ${page === lastPage && "disabled"} `}
         >
             {">"}
         </button>
+
+        </div>
+        
     </div>
     );
 }

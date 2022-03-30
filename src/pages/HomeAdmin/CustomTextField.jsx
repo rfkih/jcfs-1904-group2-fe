@@ -2,7 +2,7 @@ import React from 'react'
 import { TextField, Grid } from '@material-ui/core';
 import { useFormContext, Controller } from 'react-hook-form'
 
-function CustomTextField({name, label, required}) {
+function CustomTextField({name, label, handleChange}) {
     const { control } = useFormContext();
 
   return (
@@ -14,7 +14,7 @@ function CustomTextField({name, label, required}) {
                 <TextField
                 fullWidth
                 label={label}
-                required={required}
+                onChange={handleChange}
                 />
             )}    
         />

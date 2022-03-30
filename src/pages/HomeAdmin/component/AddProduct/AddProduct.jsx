@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { InputLabel, Select, MenuItem, Button, Grid, Typography} from '@material-ui/core';
+import { TextField, InputLabel, Select, MenuItem, Button, Grid, Typography} from '@material-ui/core';
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
 
@@ -14,15 +14,34 @@ function AddProduct() {
         productName: "",
         productDetails: "",
         productIMG: "",
-        isLiquidString: "",
+        isLiquid: "",
         isDeleted: 0,
         price: "",
     });
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const handleChange = (e) => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
-        console.log(e);
       };
+    const fileSelectedHandler = (e) => {
+      setSelectedFile(e.target.files[0]);
+    }
+
+
+    const fileUploadHandler = () => {
+
+      const fd = new FormData();
+      fd.append('image', selectedFile, selectedFile.name)
+      console.log(selectedFile.name);
+      console.log({fd});
+      axios.post("/products/upload", fd)
+      .then((res) => {
+        alert(res.data.message);
+        console.log(selectedFile);
+       })
+       .catch((error) => console.log({ error }));
+
+    }
 
     const fetchCategories = async () => {
         try {
@@ -41,11 +60,12 @@ function AddProduct() {
 
     const addNewProduct = () => {
         
-        const { category_id, productName, productDetails, productIMG, isLiquidString, isDeleted, priceString } =
+        const { category_id, productName, productDetails, productIMG, isLiquid, isDeleted, price } =
           formState;
-          
-        const isLiquid = parseInt(isLiquidString)
-        const price = parseInt(priceString)
+
+        console.log({price});
+        parseInt(isLiquid)
+        
 
         const newProduct = {
           category_id,
@@ -56,6 +76,7 @@ function AddProduct() {
           isDeleted,
           price,
         };
+        console.log({newProduct})
 
         axios
       .post("/products", newProduct)
@@ -73,10 +94,10 @@ function AddProduct() {
       <FormProvider {...methods}>
         <form > 
             <Grid container spacing={3}>
-                <CustomTextField required name='productName' label='Product Name'  onInput={handleChange} />
-                <CustomTextField required name='productDetail' label='Product Detail ' onInput={handleChange}/>
-                <CustomTextField required name='productIMG' label='Product Image' onChange={handleChange}/>
-                <CustomTextField required name='Price' label='Price' onChange={handleChange}/>
+                <TextField fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
+                <TextField fullWidth name='productDetails' label='Product Detail'  onInput={handleChange}/>
+                {/* <TextField fullWidth name='productIMG' label='Product Image'  onInput={handleChange}/> */}
+                <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
                 <Grid item xs={12} sm={6}>
                     <InputLabel>Liquid ?</InputLabel>
                     <Select defaultValue="" name='isLiquid' onChange={handleChange} >
@@ -98,6 +119,20 @@ function AddProduct() {
                             </MenuItem>
                         ))}
                         </Select>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <input
+                      type="file"
+                      name="productPhoto"
+                      onChange={fileSelectedHandler}
+                    />  
+                     <Button
+                        variant="contained"
+                        component="label"
+                        onClick={fileUploadHandler}
+                      >
+                        Upload File
+                      </Button>  
                 </Grid>
             <Button onClick={addNewProduct} >Add New Product </Button>
         </Grid>

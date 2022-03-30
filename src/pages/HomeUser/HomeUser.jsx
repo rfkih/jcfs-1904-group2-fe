@@ -11,7 +11,7 @@ function HomeUser() {
     const [paginationState, setPaginationState] = useState({
         page: 1,
         lastPage: 0,
-        itemsPerPage: 2,
+        itemsPerPage: 4,
       });
 
     const fetchProducts = async () => {
@@ -98,19 +98,24 @@ function HomeUser() {
 
       
   return (
-    <div>
-        <div>
+    <div class="container">
+        <div  class="row">
+          <div class="col-3">
           <ProductManager
             filterProducts={filterProducts}
             paginationState={paginationState}
             setPaginationState={setPaginationState}
             sortProducts={sortProducts}
             />
-            <Products 
+            
+          </div>
+          <div class="col-9">
+          <Products 
             products={sortedProducts}
             paginationState={paginationState}
             />
-           
+
+          </div>
         </div>
     </div>
   )

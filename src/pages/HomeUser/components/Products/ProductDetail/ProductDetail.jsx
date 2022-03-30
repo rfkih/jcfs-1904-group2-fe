@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {Card, CardMedia, CardContent, CardActions, Typography, IconButton, useTheme} from '@material-ui/core';
-import {Grid} from '@material-ui/core'
+import {Card, Paper, CardMedia, Button, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
+import { AddShoppingCart } from '@material-ui/icons'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
+
 
 import useStyles from './styles';
 
@@ -10,12 +11,16 @@ function ProductDetail() {
   const classes= useStyles();
   const params = useParams();
   const [product, setProduct] = useState({});
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
+  const [ stocks, setStocks] = useState({})
+  const [ stock, setStock] = useState(5)
+ 
 
   useEffect(() => {
     axios
-      .get("/products", { params: { id: params.productId } })
+      .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
       .then((res) => {
+
         setProduct(res.data[0]);
       })
       .catch((err) => {
@@ -23,19 +28,77 @@ function ProductDetail() {
       });
   }, []);
 
-  console.log(product);
+  const fetchStocks = async () => {
+    try {
+        const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
+        const { data } = res;
+        
+       
+        setStocks(data[0]);
+    } catch (error) {
+        console.log(alert(error.message));
+    }
+};
+
+useEffect (() => {
+  fetchStocks();
+}, []);
+
+
+
+useEffect(() => {
+  if (!product.isLiquid) {
+    setStock(stocks.qtyBoxAvailable * stocks.qtyStripsavailable) 
+    console.log(stocks.qtyBoxAvailable);
+  } else {
+    setStock(stocks.qtyBoxAvailable * stocks.qtyBottleAvailable)
+    console.log(stocks.qtyBoxAvailable);
+  }
+},[])
+
+
+
+
+ 
 
   const { category_id, productName, productDetails, productIMG, price } = product
   return (
-    <Card className={classes.root}>
-      <CardMedia className={classes.media} image={productIMG} tittle={productName}>
-        
-      </CardMedia>
-      <Typography>
-        {productDetails}
-      </Typography>
+    <main className={classes.layout}>
+      <Paper className={classes.paper}>
+      <Card className={classes.root}>
+        <CardMedia className={classes.media} image={product.productIMG} tittle={product.productName}/>
+        <CardContent>
+            <div className={classes.cardContent}>
+                <Typography variant="h6" gutterBottom>
+                    {productName}
+                </Typography>
+                <Typography variant="body2">
+                       Rp.{price}
+                </Typography>
+            </div>
+        </CardContent>
+        <CardActions disableSpacing className={classes.cardActions}>
+            <Typography>{productDetails}</Typography>
+        </CardActions>
+      </Card>
 
-    </Card>
+
+      <CardActions disableSpacing className={classes.cardActions}>
+          {quantity === 0 ? <Button type="button" size="small" > - </Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity - 1)}>-</Button> }
+            <Typography>{quantity}</Typography>
+
+          {quantity === stock ? <Button type="button" size="small" >+</Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity + 1)}>+</Button> }
+            
+            <IconButton aria-label='Add to Cart' >
+                <AddShoppingCart/>
+            </IconButton>
+            
+        </CardActions>
+    </Paper>
+
+    </main>
+    
+    
   )
 }
 

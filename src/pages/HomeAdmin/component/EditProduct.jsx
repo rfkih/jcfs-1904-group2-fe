@@ -14,7 +14,7 @@ function EditProduct(props) {
         <div className={classes.toolbar}/>
         <main className={classes.layout}>
             <Paper className={classes.paper}>
-                <Typography variant="h4" align="center"> AddProduct </Typography>
+                <Typography variant="h4" align="center"> Add Product </Typography>
                 <AddProduct/>
             </Paper>
         </main>
