@@ -118,7 +118,7 @@ function ProductManager(props) {
            >
             {"<"}
         </button>
-        <div className="text-center col-3 ">
+        <div className="text-center col-6 ">
          Page {page} of {lastPage}
         </div>
 

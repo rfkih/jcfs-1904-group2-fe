@@ -42,22 +42,31 @@ function ProductDetail() {
 
 useEffect (() => {
   fetchStocks();
+
+  
 }, []);
 
 
 
 useEffect(() => {
-  if (!product.isLiquid) {
-    setStock(stocks.qtyBoxAvailable * stocks.qtyStripsavailable) 
-    console.log(stocks.qtyBoxAvailable);
+  if (product.isLiquid) {
+    let result = stocks.qtyBoxAvailable * stocks.qtyBottleAvailable
+    console.log(stocks.qtyBoxAvailable * stocks.qtyBottleAvailable);
+    console.log(stocks.qtyBoxAvailable * stocks.qtyBottleAvailable);
+    setStock(parseInt(result))
+    console.log(result);
   } else {
-    setStock(stocks.qtyBoxAvailable * stocks.qtyBottleAvailable)
+
+    let result = stocks.qtyBoxAvailable * stocks.qtyStripsavailable
+    console.log(stocks.qtyBoxAvailable * stocks.qtyStripsavailable);
+    console.log(result);
+    setStock(parseInt(result))
     console.log(stocks.qtyBoxAvailable);
   }
 },[])
 
-
-
+console.log(product.isLiquid);
+console.log(stock);
 
  
 

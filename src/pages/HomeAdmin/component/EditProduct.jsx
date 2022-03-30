@@ -12,17 +12,15 @@ function EditProduct(props) {
   return (
     <>
         <div className={classes.toolbar}/>
-        <main className={classes.layout}>
-            <Paper className={classes.paper}>
-                <Typography variant="h4" align="center"> Add Product </Typography>
-                <AddProduct/>
-            </Paper>
-        </main>
+          <main className={classes.layout}>
+              <AddProduct/>
+            
+          </main>
         <Typography variant="h4" align="center"> Edit Product </Typography>
-                <Products
-                    products={products}
-                    paginationState={paginationState}
-                />
+        <Products
+          products={products}
+          paginationState={paginationState}
+        />
     </>
   )
 }
