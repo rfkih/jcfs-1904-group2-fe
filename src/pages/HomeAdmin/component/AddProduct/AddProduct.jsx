@@ -41,22 +41,17 @@ function AddProduct() {
         fd.append("productPhoto", selectedFile)
 
         axios.post("/products/upload", fd)
-        .then((res) => window.location.href = res.data.image)
+        .then((res) => {
+          const productIMG = res.data.image  
+          setFormState({ ...formState, productIMG })
+          })
         .catch((error) => console.log({ error }));
-      }
-
-    //   const fd = new FormData();
-    //   fd.append('productPhoto', selectedFile, selectedFile.name)
-    //  console.log(fd);
-    //   axios.post("/products/upload", fd)
-    //   .then((res) => {
-    //     alert(res.data[0]);
-        
-    //    })
-    //    
-
+      } 
     }
-
+    // window.location.href = res.data.image
+    
+      
+          console.log({formState});
     const fetchCategories = async () => {
         try {
             const res = await axios.get("/categories");
@@ -105,7 +100,7 @@ function AddProduct() {
   return (
     <>
   
-      <div class="w-100 p-3">
+      <div className="w-100 p-3">
       <div
         className="d-flex w-100 justify-content-center align-items-center"
         style={{ height: "80vh" }}
@@ -166,21 +161,7 @@ function AddProduct() {
                         ))}
                         </Select>
                 </Grid>
-                {/* <Grid item xs={12} sm={6}>
-                  <input
-                      type="file"
-                      name="iphone"
-                      onChange={fileSelectedHandler}
-                    />  
-                        <Button
-                          variant="contained"
-                          component="label"
-                          onClick={fileUploadHandler}
-                        >
-                          Upload File
-                          /Button>  
-                    </Grid>
-                <Button onClick={addNewProduct} >Add New Product </Button> */}
+                <Button onClick={addNewProduct} >Add New Product </Button>
               </Grid>
             </form>
         

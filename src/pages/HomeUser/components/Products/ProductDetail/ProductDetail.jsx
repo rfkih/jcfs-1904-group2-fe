@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Card, Paper, CardMedia, Button, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
+import {Card, Paper, CardMedia, Button, Grid, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
@@ -14,6 +14,9 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(0);
   const [ stocks, setStocks] = useState({})
   const [ stock, setStock] = useState(5)
+
+
+ const {stockLiquid, stockNonLiquid } = stocks
  
 
   useEffect(() => {
@@ -32,9 +35,7 @@ function ProductDetail() {
     try {
         const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
         const { data } = res;
-        
-       
-        setStocks(data[0]);
+        setStocks(data);
     } catch (error) {
         console.log(alert(error.message));
     }
@@ -42,32 +43,23 @@ function ProductDetail() {
 
 useEffect (() => {
   fetchStocks();
-
-  
 }, []);
 
 
+  useEffect(()=> {
 
-useEffect(() => {
-  if (product.isLiquid) {
-    let result = stocks.qtyBoxAvailable * stocks.qtyBottleAvailable
-    console.log(stocks.qtyBoxAvailable * stocks.qtyBottleAvailable);
-    console.log(stocks.qtyBoxAvailable * stocks.qtyBottleAvailable);
-    setStock(parseInt(result))
-    console.log(result);
-  } else {
+    if (product.isLiquid) {
+      setStock(stockLiquid)
+    }else{
+      setStock(stockNonLiquid)
+    }
+  }, [stocks])
 
-    let result = stocks.qtyBoxAvailable * stocks.qtyStripsavailable
-    console.log(stocks.qtyBoxAvailable * stocks.qtyStripsavailable);
-    console.log(result);
-    setStock(parseInt(result))
-    console.log(stocks.qtyBoxAvailable);
-  }
-},[])
 
-console.log(product.isLiquid);
+
+
+
 console.log(stock);
-
  
 
   const { category_id, productName, productDetails, productIMG, price } = product
@@ -93,6 +85,11 @@ console.log(stock);
 
 
       <CardActions disableSpacing className={classes.cardActions}>
+          <Grid>
+              <Typography>
+                Stock Available : {stock}
+              </Typography>
+          </Grid>
           {quantity === 0 ? <Button type="button" size="small" > - </Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity - 1)}>-</Button> }
             <Typography>{quantity}</Typography>
 
