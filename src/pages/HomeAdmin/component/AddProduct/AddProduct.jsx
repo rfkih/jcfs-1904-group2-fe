@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { TextField, Paper, InputLabel, Select, MenuItem, Button, Grid, Typography} from '@material-ui/core';
+import { TextField, Paper, InputLabel, Select, MenuItem, Button, Grid, CardMedia, CardContent, CardActions, Card, Typography, Input} from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
 import useStyles from './styles'
@@ -10,23 +10,36 @@ function AddProduct() {
     const methods = useForm();
     const [image, setImage] = useState("https://fakeimg.pl/350x200/");
     const [category, setCategory] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState('Choose State');
     const [formState, setFormState] = useState({
         category_id: 0,
         productName: "",
         productDetails: "",
         productIMG: "",
-        isLiquid: "",
+        isLiquid: false,
         isDeleted: 0,
         price: "",
     });
+    const [stockFormState, setStockFormState] = useState({
+      product_id: 0,
+      qtyBoxAvailable: null,
+      qtyBoxTotal: null,
+      qtyBottleAvailable:null,
+      qtyBottleTotal: null,
+      qtyStripsavailable: null,
+      qtyStripsTotal: null,
+    })
     const [selectedFile, setSelectedFile] = useState(null);
+
+    const stockHandleChange = (e) => {
+      
+      setStockFormState({ ...stockFormState, [e.target.name]: e.target.value });
+    };
 
     const handleChange = (e) => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
       };
     const fileSelectedHandler = (e) => {
-      console.log(e.target.files[0]);
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
       setSelectedFile(uploaded)
@@ -48,10 +61,8 @@ function AddProduct() {
         .catch((error) => console.log({ error }));
       } 
     }
-    // window.location.href = res.data.image
     
-      
-          console.log({formState});
+    
     const fetchCategories = async () => {
         try {
             const res = await axios.get("/categories");
@@ -59,7 +70,7 @@ function AddProduct() {
             const category = categories.data
             setCategory(category)
         } catch (error) {
-            console.log(alert(error.message));
+            // console.log(alert(error.message));
         }
     };
 
@@ -72,10 +83,8 @@ function AddProduct() {
         const { category_id, productName, productDetails, productIMG, isLiquid, isDeleted, price } =
           formState;
 
-        console.log({price});
         parseInt(isLiquid)
         
-
         const newProduct = {
           category_id,
           productName,
@@ -91,53 +100,58 @@ function AddProduct() {
       .post("/products", newProduct)
       .then((res) => {
        alert(res.data.message);
-       console.log(newProduct);
+       setStockFormState({ ...stockFormState, product_id: res.data.productId });
+       
+       addNewStock();
       })
       .catch((error) => console.log({ error }));
   };
 
+    
 
+      
+  const addNewStock = () => {
+    console.log(stockFormState)
+  }
+     
+
+  
   return (
     <>
-  
-      <div className="w-100 p-3">
-      <div
-        className="d-flex w-100 justify-content-center align-items-center"
-        style={{ height: "80vh" }}
-      >
-        <div className="w-25 mt-5 mx-auto">
-          <div>
-            <img src={image} className="img-thumbnail" alt="..." />
-          </div>
-          <div className="my-3">
-            <label htmlFor="formFile" className="form-label">
-              Upload image here
-            </label>
-            <input
-              onChange={fileSelectedHandler}
-              className="form-control"
-              type="file"
-              id="formFile"
-            />
-            <button onClick={fileUploadHandler}  className="btn btn-primary mt-2 w-100">
-              Save my photo
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-     
+       <Paper className={classes.paper} >
+        <Typography variant="h4" align="center"> Upload image here </Typography>
+          <form > 
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={image}
+                    alt="..."
+                  />
+                  <CardContent>
+                      <Input
+                        type="file"
+                        onChange={fileSelectedHandler}
+                      />
+                     <Typography gutterBottom variant="h5" component="div">
+                          Product Image
+                     </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button onClick={fileUploadHandler} >Upload Image </Button>
+                  </CardActions>
+                </Card>
+            </form>          
+        </Paper>
 
       <Paper className={classes.paper} >
         <Typography variant="h4" align="center"> Add Product </Typography>
         <Typography variant="h6" gutterBottom> Add New Product</Typography>
-        <FormProvider {...methods}>
+        
           <form > 
             <Grid container spacing={3}>
-                <TextField fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
+                <TextField  fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
                 <TextField fullWidth name='productDetails' label='Product Detail'  onInput={handleChange}/>
-                {/* <TextField fullWidth name='productIMG' label='Product Image'  onInput={handleChange}/> */}
                 <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
                 <Grid item xs={12} sm={6}>
                     <InputLabel>Liquid ?</InputLabel>
@@ -161,11 +175,30 @@ function AddProduct() {
                         ))}
                         </Select>
                 </Grid>
-                <Button onClick={addNewProduct} >Add New Product </Button>
               </Grid>
-            </form>
-        
-          </FormProvider>           
+                <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
+                {formState.isLiquid == 1
+    ? 
+        <Grid container spacing={3}>
+          <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
+          <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
+          <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
+          <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
+        </Grid>
+    : 
+        <Grid container spacing={3}>
+          <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box'onInput={stockHandleChange}/>
+          <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box'onInput={stockHandleChange}/>
+          <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
+          <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
+        </Grid>}
+                          
+              <br/>
+              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <Button  variant="contained" color="primary" onClick={addNewProduct} >Add New Product </Button>
+              </div>
+             
+            </form>    
         </Paper>
     
     
