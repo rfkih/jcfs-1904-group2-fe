@@ -51,11 +51,11 @@ function ProductManager(props) {
 
   return (
     
-    <div className="container mt-5 ">
+    <div className="container flex row ">
       
         {/* Filter */}
-      <div className="card">
-        <div className="card-header  mt-4">
+      <div className="card col-6">
+        <div className="card-header ">
           <strong>Filter products</strong>
         </div>
         <div className="card-body">
@@ -88,7 +88,7 @@ function ProductManager(props) {
         </div>
       </div>
         {/* Sort */}
-      <div className="card mt-4">
+      <div className="card mt-4 col-6">
         <div className="card-header">
           <strong>Sort Products</strong>
         </div>

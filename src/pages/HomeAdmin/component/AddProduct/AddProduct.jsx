@@ -3,7 +3,6 @@ import { TextField, Paper, InputLabel, Select, MenuItem, Button, Grid, CardMedia
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
 import useStyles from './styles'
-import CustomTextField from '../../CustomTextField';
 
 function AddProduct() {
     const classes = useStyles();

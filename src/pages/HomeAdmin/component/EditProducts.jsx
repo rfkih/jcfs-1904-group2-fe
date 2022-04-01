@@ -2,12 +2,12 @@ import React from 'react'
 import { Paper, Typography, Button} from '@material-ui/core'
 import useStyles from './styles'
 import AddProduct from './AddProduct/AddProduct'
+import ProductsAdmin from './ProductsAdmin/ProductsAdmin'
+import ProductManager from './ProductManager'
 
-import Products from '../../HomeUser/components/Products/Products'
 
-
-function EditProduct(props) {
-    const { paginationState, products } = props;
+function EditProducts(props) {
+    const { paginationState, products,setPaginationState,sortProducts,filterProducts } = props;
     const classes = useStyles();
   return (
     <>
@@ -16,12 +16,19 @@ function EditProduct(props) {
               <AddProduct/>
           </main>
         <Typography variant="h4" align="center"> Edit Product </Typography>
-        <Products
+        <ProductManager
+            filterProducts={filterProducts}
+            paginationState={paginationState}
+            setPaginationState={setPaginationState}
+            sortProducts={sortProducts}
+          />
+        <ProductsAdmin
           products={products}
           paginationState={paginationState}
         />
+        
     </>
   )
 }
 
-export default EditProduct
+export default EditProducts
