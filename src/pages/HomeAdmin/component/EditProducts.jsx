@@ -3,7 +3,7 @@ import { Paper, Typography, Button} from '@material-ui/core'
 import useStyles from './styles'
 import AddProduct from './AddProduct/AddProduct'
 
-import Products from '../../../pages/HomeUser/components/Products/Products'
+import Products from '../../HomeUser/components/Products/Products'
 
 
 function EditProduct(props) {
