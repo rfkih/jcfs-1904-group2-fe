@@ -2,11 +2,24 @@ import React from 'react'
 import {Card, CardMedia, CardContent, CardActions, Typography, Button, useTheme} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
+import axios from '../../../../../utils/axios'
 
 
 function ProductAdmin({product}) {
   
-  
+
+  const id = {id: product.id}
+  const deleteProduct = () => {
+
+    
+    axios
+    .put("/products", id)
+    .then((res) => {
+      alert(res.data.message);
+      window.location.reload(); 
+     })
+     .catch((error) => console.log({ error }));
+  }
   return (
     <Card sx={{ maxWidth: 300 }}>
         <CardMedia component="img"  height="140" image={product.productIMG} alt="product Image"/>
@@ -19,8 +32,8 @@ function ProductAdmin({product}) {
                 </Typography>
         </CardContent>
         <CardActions >
-          <Button size="small">Edit</Button>
-          <Button size="small">Delete</Button>
+          <Button component={Link} to={`/editproducts/${product.id}`} size="small">Edit</Button>
+          <Button onClick={deleteProduct} size="small">Delete</Button>
         </CardActions>
     </Card>
   )

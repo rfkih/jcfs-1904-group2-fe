@@ -106,8 +106,6 @@ function AddProduct() {
           qtyStripsTotal
         }
 
-        
-        
 
       await axios
       .post("/products", {newProduct, newStock} )
@@ -123,27 +121,7 @@ function AddProduct() {
     
 
       
-  // const addNewStock = () => {
-  //   const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyStripsavailable, qtyStripsTotal} = stockFormState
-  //   parseInt(product_id, 10)
-  //   product_id ++
-  //   const newStock = {
-  //     product_id,
-  //     qtyBoxAvailable,
-  //     qtyBoxTotal,
-  //     qtyBottleAvailable,
-  //     qtyBottleTotal,
-  //     qtyStripsavailable,
-  //     qtyStripsTotal
-  //   }
-  //   console.log(product_id);
-  //   axios
-  //   .post("/stocks", newStock)
-  //   .then((res) => {
-  //     alert(res.data.message);
-  //    })
-  //    .catch((error) => console.log({ error }));
-  // }
+ 
      
 
   
