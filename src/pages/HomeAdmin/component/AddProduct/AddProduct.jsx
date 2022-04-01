@@ -117,13 +117,6 @@ function AddProduct() {
       })
       .catch((error) => console.log({ error }));
   };
-
-    
-
-      
- 
-     
-
   
   return (
       <>

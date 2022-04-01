@@ -5,6 +5,7 @@ import Navbar from './component/Navbar/Navbar'
 import HomeUser from './pages/HomeUser/HomeUser'
 import HomeAdmin from './pages/HomeAdmin/HomeAdmin';
 import ProductDetail from './pages/HomeUser/components/Products/ProductDetail/ProductDetail';
+import EditDetailProduct from './pages/HomeAdmin/component/ProductsAdmin/EditDetailProduct/EditDetailProduct';
 
 
 function App () {
@@ -17,6 +18,7 @@ function App () {
           <Route path="/" element={<HomeUser/>} />
           <Route path="homeadmin" element={<HomeAdmin/>}/>
           <Route path={`products/:productId`} element={<ProductDetail/>} />
+          <Route path={`editproducts/:productId`} element={<EditDetailProduct/>}/>
         </Routes>
       </div>
     </Router>
