@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
-
+import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, TextField,} from '@material-ui/core';
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 
@@ -14,6 +13,7 @@ function EditDetailProduct() {
     const [isEditImage, setIsEditImage ] = useState(false);
     const [image, setImage] = useState(product.productIMG);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [isEditProductName, setIsEditProductName] = useState(false)
 
     const { id, category_id, productName, productDetails, productIMG, isLiquid, price } = product
 
@@ -22,7 +22,9 @@ function EditDetailProduct() {
         setIsEditImage(!isEditImage)
     }
 
-    console.log(productIMG);
+    const productNameHandleChange = () => {
+        setIsEditProductName(!isEditProductName)
+    }
 
     useEffect(() => {
         axios
@@ -110,8 +112,42 @@ function EditDetailProduct() {
                                 Save
                             </Button>
                         </CardActions>
-                    </Card> }
+                    </Card> }   
+             </Paper>
+             <Paper className={classes.paper} >
+                <Typography variant="h4" align="center"> Edit Product </Typography>
+                <Box sx={{ flexGrow: 1 }}>
+                    {isEditProductName === false ? 
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <Typography variant="body1" gutterBottom >Product Name: {productName}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button onClick={productNameHandleChange} size="small">Edit</Button>
+                        </Grid>
+                    </Grid> :
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                        <TextField  fullWidth name='productName' label='Product Name'  />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button onClick={productNameHandleChange} size="small">Save</Button>
+                        </Grid>
+                    </Grid>
+                    }
                     
+                    <Grid container spacing={2} >
+                        <Grid item xs={8}>
+                            <Typography>Product Detail: {productDetails}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button size="small">Edit</Button>
+                        </Grid>
+                    </Grid>
+                        
+                    
+                </Box>
+
              </Paper>
             </main>
         
