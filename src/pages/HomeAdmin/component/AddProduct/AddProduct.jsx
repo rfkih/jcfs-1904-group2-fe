@@ -21,7 +21,7 @@ function AddProduct() {
         price: "",
     });
     const [stockFormState, setStockFormState] = useState({
-      product_id: 0,
+      product_id: null,
       qtyBoxAvailable: null,
       qtyBoxTotal: null,
       qtyBottleAvailable:null,
@@ -78,10 +78,12 @@ function AddProduct() {
       fetchCategories();
     }, []);
 
-    const addNewProduct = () => {
+    const addNewProduct = async () => {
         
         const { category_id, productName, productDetails, productIMG, isLiquid, isDeleted, price } =
           formState;
+        const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyStripsavailable, qtyStripsTotal} = stockFormState
+        
 
         parseInt(isLiquid)
         
@@ -94,15 +96,27 @@ function AddProduct() {
           isDeleted,
           price,
         };
-        console.log({newProduct})
 
-        axios
-      .post("/products", newProduct)
+        const newStock = {
+          product_id,
+          qtyBoxAvailable,
+          qtyBoxTotal,
+          qtyBottleAvailable,
+          qtyBottleTotal,
+          qtyStripsavailable,
+          qtyStripsTotal
+        }
+
+        
+        
+
+      await axios
+      .post("/products", {newProduct, newStock} )
       .then((res) => {
-       alert(res.data.message);
-       setStockFormState({ ...stockFormState, product_id: res.data.productId });
+       alert(res.data);
+       console.log( res );
+      //  setStockFormState({ ...stockFormState, product_id: res.data.productId });
        
-       addNewStock();
       })
       .catch((error) => console.log({ error }));
   };
@@ -110,14 +124,33 @@ function AddProduct() {
     
 
       
-  const addNewStock = () => {
-    console.log(stockFormState)
-  }
+  // const addNewStock = () => {
+  //   const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyStripsavailable, qtyStripsTotal} = stockFormState
+  //   parseInt(product_id, 10)
+  //   product_id ++
+  //   const newStock = {
+  //     product_id,
+  //     qtyBoxAvailable,
+  //     qtyBoxTotal,
+  //     qtyBottleAvailable,
+  //     qtyBottleTotal,
+  //     qtyStripsavailable,
+  //     qtyStripsTotal
+  //   }
+  //   console.log(product_id);
+  //   axios
+  //   .post("/stocks", newStock)
+  //   .then((res) => {
+  //     alert(res.data.message);
+  //    })
+  //    .catch((error) => console.log({ error }));
+  // }
      
 
   
   return (
-    <>
+      <>
+        {/* <h1>{stockFormState.product_id}</h1> */}
        <Paper className={classes.paper} >
         <Typography variant="h4" align="center"> Upload image here </Typography>
           <form > 
@@ -201,8 +234,8 @@ function AddProduct() {
             </form>    
         </Paper>
     
-    
-    </>     
+        </>
+       
     
   )
 }

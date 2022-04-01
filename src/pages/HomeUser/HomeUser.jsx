@@ -98,9 +98,9 @@ function HomeUser() {
 
       
   return (
-    <div class="container">
-        <div  class="row">
-          <div class="col-3">
+    <div className="container">
+        <div  className="row">
+          <div className="col-3">
           <ProductManager
             filterProducts={filterProducts}
             paginationState={paginationState}
@@ -109,7 +109,7 @@ function HomeUser() {
             />
             
           </div>
-          <div class="col-9">
+          <div className="col-9">
           <Products 
             products={sortedProducts}
             paginationState={paginationState}

@@ -57,9 +57,6 @@ useEffect (() => {
 
 
 
-
-
-console.log(stock);
  
 
   const { category_id, productName, productDetails, productIMG, price } = product

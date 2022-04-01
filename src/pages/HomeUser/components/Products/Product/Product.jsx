@@ -12,17 +12,15 @@ function Product({product}) {
 
 
   return (
-    <Card className={classes.root}>
-        <CardMedia className={classes.media} image={product.productIMG} tittle={product.productName}/>
+    <Card sx={{ maxWidth: 300 }}>
+        <CardMedia component="img"  height="140" image={product.productIMG} alt="product Image"/>
         <CardContent>
-            <div className={classes.cardContent}>
-                <Typography component={Link} to={`/products/${product.id}`} variant="h6" gutterBottom>
-                    {product.productName}
-                </Typography>
                 <Typography variant="body2">
                        Rp.{product.price}
                 </Typography>
-            </div>
+                <Typography component={Link} to={`/products/${product.id}`} variant="subtitle2" gutterBottom>
+                    {product.productName}
+                </Typography>
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
             <IconButton aria-label='Add to Cart' >

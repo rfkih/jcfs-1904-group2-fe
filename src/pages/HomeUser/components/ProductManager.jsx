@@ -27,8 +27,6 @@ function ProductManager(props) {
       fetchCategories();
     }, []);
 
-    console.log(category);
-   
 
     const handleChange = (e) => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -49,7 +47,7 @@ function ProductManager(props) {
         setPaginationState({ ...paginationState, page: page + 1 });
       };
 
-      console.log(category.id);
+     
 
   return (
     

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from '../../utils/axios'
 
 import EditProduct from './component/EditProduct'
+import AddProduct from "./component/AddProduct/AddProduct";
 
 function HomeAdmin() {
 
