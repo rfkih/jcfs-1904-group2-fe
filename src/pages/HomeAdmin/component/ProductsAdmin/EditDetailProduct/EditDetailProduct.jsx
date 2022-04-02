@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, TextField,} from '@material-ui/core';
+import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, TextField, InputLabel, Select, MenuItem} from '@material-ui/core';
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 
@@ -11,19 +11,43 @@ function EditDetailProduct() {
     const params = useParams();
     const [product, setProduct] = useState({});
     const [isEditImage, setIsEditImage ] = useState(false);
-    const [image, setImage] = useState(product.productIMG);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [isEditProductName, setIsEditProductName] = useState(false)
-
     const { id, category_id, productName, productDetails, productIMG, isLiquid, price } = product
+    const [image, setImage] = useState(productIMG);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [isEditProductName, setIsEditProductName] = useState(false)
+    const [isEditProductDetail, setIsEditProductDetail] = useState(false)
+    const [isEditProductPrice, setIsEditProductPrice] = useState(false)
+    const [isSave, setIsSave] = useState(false)
+    
+
+    const handleChange = (e) => {
+        setProduct({ ...product, [e.target.name]: e.target.value });
+        if ([e.target.name] == "isLiquid" || [e.target.name] == "category_id") {
+            setIsSave(false)
+        }
+    };
 
 
     const imageHandleChange = () => {
         setIsEditImage(!isEditImage)
     }
-
     const productNameHandleChange = () => {
+        if (isEditProductName) {
+            updateProduct();
+        }
         setIsEditProductName(!isEditProductName)
+        
+    }
+    const buttonHandleChange = () =>{
+        updateProduct();
+        setIsSave(true)
+    }
+    const productDetailHandleChange = () => {
+        setIsEditProductDetail(!isEditProductDetail)
+    }
+    const productPriceHandleChange = () => {
+        setIsEditProductPrice(!isEditProductPrice)
     }
 
     useEffect(() => {
@@ -58,7 +82,74 @@ function EditDetailProduct() {
             })
           .catch((error) => console.log({ error }));
         } 
-      }
+      };
+
+      const fetchCategories = async () => {
+        try {
+            const res = await axios.get("/categories");
+            const  categories = res
+            const category = categories.data
+            setCategories(category)
+            
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    useState(() => {
+        fetchCategories();
+    },[]);
+
+    
+
+    const updateProduct = async () => {
+        // parseInt(isLiquid)
+        const updatedProduct = {
+          id,
+          category_id,
+          productName,
+          productDetails,
+          productIMG,
+          isLiquid,
+          price,
+        };
+
+        console.log(updatedProduct);
+      await axios
+      .put(`/products/${params.productId}`, {updatedProduct, params: { id: params.productId } } )
+      .then((res) => {
+       alert(res.data.message);
+       console.log( res.data ); 
+      })
+      .catch((error) => console.log({ error }));
+  };
+
+  
+       
+
+
+
+let choosenCategory = categories.filter(function (category) {
+    return category.id === category_id
+}).map(function(category) {
+    return category.categoryName
+})
+
+
+
+
+
+
+
+
+ 
+
+
+  
+      
+  
+
+    
 
   return (
     <>
@@ -128,22 +219,96 @@ function EditDetailProduct() {
                     </Grid> :
                     <Grid container spacing={2}>
                         <Grid item xs={8}>
-                        <TextField  fullWidth name='productName' label='Product Name'  />
+                        <TextField  fullWidth name='productName' label='New Product Name' onInput={handleChange}  />
                         </Grid>
                         <Grid item xs={2}>
                             <Button onClick={productNameHandleChange} size="small">Save</Button>
                         </Grid>
                     </Grid>
                     }
-                    
+                    {isEditProductDetail === false ? 
                     <Grid container spacing={2} >
                         <Grid item xs={8}>
                             <Typography>Product Detail: {productDetails}</Typography>
                         </Grid>
                         <Grid item xs={2}>
-                            <Button size="small">Edit</Button>
+                            <Button size="small" onClick={productDetailHandleChange}>Edit</Button>
+                        </Grid>
+                    </Grid> : 
+                    <Grid container spacing={2} >
+                        <Grid item xs={8}>
+                            <TextField  fullWidth multiline name='productDetails' label='New Product Detail' onInput={handleChange}  />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button size="small" onClick={productDetailHandleChange} >Save</Button>
                         </Grid>
                     </Grid>
+                    }
+                    {isEditProductPrice === false  ? 
+                    <Grid container spacing={2} >
+                        <Grid item xs={8}>
+                            <Typography>Product Price: Rp.{price}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button size="small" onClick={productPriceHandleChange}>Edit</Button>
+                        </Grid>
+                    </Grid> : 
+                    <Grid container spacing={2} >
+                        <Grid item xs={8}>
+                        <TextField  fullWidth name='price' label='New Product Price' onInput={handleChange}  />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button size="small" onClick={productPriceHandleChange}>Save</Button>
+                        </Grid>
+                    </Grid>
+                    }
+                    
+                    <Paper className={classes.paper} >
+                        <Grid container spacing={2} >
+                            <Grid item xs={8}>
+                                <Typography>isLiquid ? : {isLiquid}  </Typography>   
+                            </Grid>
+                            <Grid item xs={2}>
+                            <Select defaultValue="" name='isLiquid' onChange={handleChange} >
+                                <MenuItem value='1'>Yes</MenuItem>
+                                <MenuItem value='0'>No</MenuItem>
+                            </Select>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <Typography>Category : {choosenCategory[0]}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Select
+                                defaultValue=""
+                                name="category_id"
+                                onChange={handleChange}
+                            >
+                        <MenuItem value="">Default</MenuItem>
+                            {categories.map((category) => (
+                                <MenuItem  key={category.id} value={category.id}>
+                            {category.categoryName}
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    </Grid>  
+                    </Grid>
+                    {isSave === false ?
+                    <Button onClick={buttonHandleChange} size="small" color="primary">
+                        Save
+                    </Button> : 
+                    <Button onClick={buttonHandleChange} size="small" color="primary">
+                        Saved
+                    </Button> }
+                    
+                    </Paper>
+                   
+                    
+
+                      
+                    
+                    
                         
                     
                 </Box>

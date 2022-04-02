@@ -11,7 +11,7 @@ import EditDetailProduct from './pages/HomeAdmin/component/ProductsAdmin/EditDet
 function App () {
 
     return (
-        <Router>
+      <Router>
       <div>
        <Navbar/>
         <Routes>

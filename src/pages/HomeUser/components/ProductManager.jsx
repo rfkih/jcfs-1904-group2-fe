@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../utils/axios'
-import { InputLabel, Select, MenuItem, Button, Grid, Typography} from '@material-ui/core';
+import { InputLabel, Select, MenuItem, Button, Grid, Typography, TextField} from '@material-ui/core';
 
 function ProductManager(props) {
     const { paginationState, setPaginationState } = props;
@@ -59,17 +59,11 @@ function ProductManager(props) {
           <strong>Filter products</strong>
         </div>
         <div className="card-body">
-          <label>Product Name</label>
-          <input
-            name="keyword"
-            type="text"
-            className="form-control mb-3"
-            onChange={handleChange}
-          />
-          <Grid item xs={12} sm={6}>
+        <TextField  name="keyword" id="outlined-basic" label="Product Name" variant="standard" onChange={handleChange} />
+          <Grid >
             <InputLabel>Category</InputLabel>
             <Select  defaultValue="" name="category_id" onChange={handleChange}>
-            <MenuItem value="">Default</MenuItem>
+            <MenuItem key={0} value="">Default</MenuItem>
             {category.map((category) => (
                 <MenuItem key={category.id}  value={category.id}>
                   {category.categoryName}
@@ -78,7 +72,6 @@ function ProductManager(props) {
               </Select>
             
           </Grid>
-      
           <button
             onClick={btnSearchHandler}
             className="btn btn-outline-primary mt-3 d-block w-100"

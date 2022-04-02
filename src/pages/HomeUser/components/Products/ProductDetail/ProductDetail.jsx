@@ -35,7 +35,8 @@ function ProductDetail() {
     try {
         const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
         const { data } = res;
-        setStocks(data);
+        console.log(data.result[0].qtyBoxAvailable);
+        setStocks(data.calculatedStock);
     } catch (error) {
         console.log(alert(error.message));
     }

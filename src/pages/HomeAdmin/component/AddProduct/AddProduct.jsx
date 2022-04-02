@@ -69,7 +69,7 @@ function AddProduct() {
             const category = categories.data
             setCategory(category)
         } catch (error) {
-            // console.log(alert(error.message));
+            console.log(alert(error.message));
         }
     };
 
@@ -82,9 +82,7 @@ function AddProduct() {
         const { category_id, productName, productDetails, productIMG, isLiquid, isDeleted, price } =
           formState;
         const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyStripsavailable, qtyStripsTotal} = stockFormState
-        
-
-        parseInt(isLiquid)
+        // parseInt(isLiquid)
         
         const newProduct = {
           category_id,
@@ -105,8 +103,6 @@ function AddProduct() {
           qtyStripsavailable,
           qtyStripsTotal
         }
-
-
       await axios
       .post("/products", {newProduct, newStock} )
       .then((res) => {
@@ -156,30 +152,31 @@ function AddProduct() {
                 <TextField  fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
                 <TextField fullWidth name='productDetails' label='Product Detail'  onInput={handleChange}/>
                 <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
-                <Grid item xs={12} sm={6}>
-                    <InputLabel>Liquid ?</InputLabel>
-                    <Select defaultValue="" name='isLiquid' onChange={handleChange} >
-                    <MenuItem value='1'>Yes</MenuItem>
-                    <MenuItem value='0'>No</MenuItem>
-                    </Select>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <InputLabel>Category</InputLabel>
-                        <Select
-                            defaultValue=""
-                            name="category_id"
-                            onChange={handleChange}
-                         >
-                        <MenuItem value="">Default</MenuItem>
-                        {category.map((category) => (
+                    <Grid item xs={12} sm={6}>
+                        <InputLabel>Liquid ?</InputLabel>
+                        <Select defaultValue="" name='isLiquid' onChange={handleChange} >
+                        <MenuItem value='1'>Yes</MenuItem>
+                        <MenuItem value='0'>No</MenuItem>
+                        </Select>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <InputLabel>Category</InputLabel>
+                            <Select
+                                defaultValue=""
+                                name="category_id"
+                                onChange={handleChange}
+                            >
+                            <MenuItem value="">Default</MenuItem>
+                            {category.map((category) => (
                         <MenuItem  key={category.id} value={category.id}>
                             {category.categoryName}
                             </MenuItem>
                         ))}
                         </Select>
-                </Grid>
+                    </Grid>
               </Grid>
                 <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
+
                 {formState.isLiquid == 1
     ? 
         <Grid container spacing={3}>
@@ -194,7 +191,8 @@ function AddProduct() {
           <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box'onInput={stockHandleChange}/>
           <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
           <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
-        </Grid>}
+        </Grid>} 
+                
                           
               <br/>
               <div style={{display: 'flex', justifyContent: 'space-between'}}>

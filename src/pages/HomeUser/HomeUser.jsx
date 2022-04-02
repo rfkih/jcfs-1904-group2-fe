@@ -55,7 +55,7 @@ function HomeUser() {
       };
 
   
-
+ console.log(products);
 
 
       const sortProducts = (sortValue) => {
