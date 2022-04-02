@@ -19,8 +19,19 @@ function EditDetailProduct() {
     const [isEditProductDetail, setIsEditProductDetail] = useState(false)
     const [isEditProductPrice, setIsEditProductPrice] = useState(false)
     const [isSave, setIsSave] = useState(false)
+    const [stocks, setStocks] = useState({
+        product_id: null,
+        qtyBoxAvailable: null,
+        qtyBoxTotal: null,
+        qtyBottleAvailable: null,
+        qtyBottleTotal: null,
+        qtyMlAvailable: null,
+        qtyMlTotal: null,
+        qtyStripsavailable: null,
+        qtyStripsTotal: null
+    })
     
-
+    console.log(stocks);
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
         if ([e.target.name] == "isLiquid" || [e.target.name] == "category_id") {
@@ -99,6 +110,20 @@ function EditDetailProduct() {
     useState(() => {
         fetchCategories();
     },[]);
+
+    const fetchStocks = async () => {
+        try {
+            const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
+            const { data } = res;
+            setStocks(data.result[0]);
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    useState(() => {
+        fetchStocks();
+    }, [] )
 
     
 
