@@ -63,7 +63,7 @@ function ProductManager(props) {
           <Grid >
             <InputLabel>Category</InputLabel>
             <Select  defaultValue="" name="category_id" onChange={handleChange}>
-            <MenuItem key={0} value="">Default</MenuItem>
+            <MenuItem key={0} value="">{`Default`}</MenuItem>
             {category.map((category) => (
                 <MenuItem key={category.id}  value={category.id}>
                   {category.categoryName}

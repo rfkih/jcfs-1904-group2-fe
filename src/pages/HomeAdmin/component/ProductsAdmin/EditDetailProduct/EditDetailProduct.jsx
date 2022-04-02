@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, TextField, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, TextField, Select, MenuItem} from '@material-ui/core';
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 
@@ -18,6 +18,7 @@ function EditDetailProduct() {
     const [isEditProductName, setIsEditProductName] = useState(false)
     const [isEditProductDetail, setIsEditProductDetail] = useState(false)
     const [isEditProductPrice, setIsEditProductPrice] = useState(false)
+    const [isEditStock, setIsEditStock] = useState(false)
     const [isSave, setIsSave] = useState(false)
     const [stocks, setStocks] = useState({
         product_id: null,
@@ -28,15 +29,24 @@ function EditDetailProduct() {
         qtyMlAvailable: null,
         qtyMlTotal: null,
         qtyStripsavailable: null,
-        qtyStripsTotal: null
+        qtyStripsTotal: null,
+        qtyMgAvailable: null,
+        qtyMgTotal: null
     })
+
+    const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
     console.log(stocks);
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
-        if ([e.target.name] == "isLiquid" || [e.target.name] == "category_id") {
+        if ([e.target.name] === "isLiquid" || [e.target.name] === "category_id") {
             setIsSave(false)
         }
+    };
+
+    const stockHandleChange = (e) => {
+        setStocks({ ...stocks, [e.target.name]: e.target.value });
+        
     };
 
 
@@ -51,14 +61,30 @@ function EditDetailProduct() {
         
     }
     const buttonHandleChange = () =>{
+        if (isEditStock === true) {
+            setIsEditStock(false)
+        }
         updateProduct();
         setIsSave(true)
     }
     const productDetailHandleChange = () => {
+        if (isEditProductDetail) {
+            updateProduct();
+        }
         setIsEditProductDetail(!isEditProductDetail)
     }
     const productPriceHandleChange = () => {
+        if (isEditProductPrice) {
+            updateProduct();
+        }
         setIsEditProductPrice(!isEditProductPrice)
+    }
+
+    const editStockHandleChange = () => {
+        if (isEditStock) {
+            updateStocks();
+        }  
+        setIsEditStock(!isEditStock)
     }
 
     useEffect(() => {
@@ -149,6 +175,22 @@ function EditDetailProduct() {
       .catch((error) => console.log({ error }));
   };
 
+  const updateStocks = async () => {
+    // parseInt(isLiquid)
+    const updatedStocks = {
+        qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
+    };
+
+    console.log(updatedStocks);
+  await axios
+  .put(`/stocks/${params.productId}`, {updatedStocks, params: { id: params.productId } } )
+  .then((res) => {
+   alert(res.data.message);
+   console.log( res.data ); 
+  })
+  .catch((error) => console.log({ error }));
+};
+
   
        
 
@@ -159,22 +201,6 @@ let choosenCategory = categories.filter(function (category) {
 }).map(function(category) {
     return category.categoryName
 })
-
-
-
-
-
-
-
-
- 
-
-
-  
-      
-  
-
-    
 
   return (
     <>
@@ -327,16 +353,57 @@ let choosenCategory = categories.filter(function (category) {
                         Saved
                     </Button> }
                     
-                    </Paper>
-                   
-                    
-
-                      
-                    
-                    
-                        
-                    
+                    </Paper>  
                 </Box>
+                    {isEditStock === false ? <Button onClick={editStockHandleChange} size="medium" color="primary"> Edit Stock </Button>
+                    :
+                    <Grid container spacing={2}>
+                        <Grid  xs={5}>
+                            <TextField id="outlined-textarea" name='qtyBoxAvailable'  label="Box Available"  placeholder={qtyBoxAvailable} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid  xs={5}>
+                            <TextField id="outlined-textarea" name='qtyBoxTotal'  label="Box Total"  placeholder={qtyBoxTotal} onInput={stockHandleChange} />
+                        </Grid>
+                        {isLiquid === true ?
+                         <>
+                         <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyBottleAvailable'  label="Bottle Available"  placeholder={qtyBottleAvailable} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyBottleTotal'  label="Bottle Total"  placeholder={qtyBottleTotal} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyMlAvailable'  label="Ml Available"  placeholder={qtyMlAvailable} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={qtyMlTotal} onInput={stockHandleChange} />
+                        </Grid>
+                        <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                         </> : 
+                         <>
+                         <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyStripsavailable'  label="Strips Available"  placeholder={qtyStripsavailable} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyStripsTotal'  label="Strips Total"  placeholder={qtyStripsTotal} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyMgAvailable'  label="Mg Available"  placeholder={qtyMgAvailable} onInput={stockHandleChange} />
+                        </Grid>
+                        <Grid xs={5}>
+                            <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
+                        </Grid>
+                        <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                         </>}
+                       
+                        
+                        
+                    </Grid>   
+                    
+                    
+                    }
+                    
+                    
 
              </Paper>
             </main>
