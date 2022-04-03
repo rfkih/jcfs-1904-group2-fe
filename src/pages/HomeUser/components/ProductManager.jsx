@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../utils/axios'
-import { InputLabel, Select, MenuItem, FormControl, Grid, Menu, TextField} from '@material-ui/core';
+import { InputLabel, Select, MenuItem, FormControl, Grid, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
+
+import useStyles from './styles';
+
 
 function ProductManager(props) {
+    const classes = useStyles();
     const { paginationState, setPaginationState } = props;
     const { page, lastPage } = paginationState;
     const [category, setCategory] = useState([{categoryName: "Default"}]);
@@ -51,45 +55,47 @@ function ProductManager(props) {
 
   return (
     
-    <div className="container mt-5 ">
-      
+    <Container>
+      <div className={classes.toolbar}/>
         {/* Filter */}
-      <div className="card">
-        <div className="card-header  mt-4">
-          <strong>Filter products</strong>
-        </div>
-        <div className="card-body">
-        <TextField  name="keyword" id="outlined-basic" label="Product Name" variant="standard" onChange={handleChange} />
-          <div>
+      <Paper variant="outlined" >
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div" >
+                Filter Products
+            </Typography>
+            <TextField  name="keyword" id="outlined-basic" label="Product Name" variant="standard" onChange={handleChange} />
+            <br />
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="category-select">Category</InputLabel>
-              <Select
-                labelId="category-select"
-                id="1"
-                defaultValue=""
-                name="category_id"
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem key={0} value="">
-                  <em>Default</em>
-                </MenuItem>
-                  {category.map((category) => (
+                <InputLabel id="category-select">Category</InputLabel>
+                  <Select
+                    labelId="category-select"
+                    id="1"
+                    defaultValue=""
+                    name="category_id"
+                    label="Age"
+                    onChange={handleChange}
+                  >
+                    <MenuItem key={1} value="">
+                      <em>Default</em>
+                    </MenuItem>
+                    {category.map((category) => (
                     <MenuItem key={category.id}  value={category.id}>
                       {category.categoryName}
                     </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </div>
-          <button
-            onClick={btnSearchHandler}
-            className="btn btn-outline-primary mt-3 d-block w-100"
-          >
-            Search
-          </button>
-        </div>
-      </div>
+                    ))}
+                  </Select>
+              </FormControl>
+          </CardContent>
+          <CardActions>
+            <Button onClick={btnSearchHandler} variant="contained">Search</Button>
+          </CardActions>
+          
+
+        </Card>
+        
+        
+      </Paper>
         {/* Sort */}
       <div className="card mt-4">
         <div className="card-header">
@@ -129,7 +135,7 @@ function ProductManager(props) {
             {">"}
         </button>
         </div>
-    </div>
+    </Container>
     );
 }
 

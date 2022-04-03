@@ -103,7 +103,7 @@ function HomeUser() {
     <Container>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={0}>
-          <Grid xs={3}>
+          <Grid item xs={3}>
             <ProductManager
               filterProducts={filterProducts}
               paginationState={paginationState}
@@ -111,7 +111,7 @@ function HomeUser() {
               sortProducts={sortProducts}
             />
           </Grid>
-          <Grid xs={9}>
+          <Grid item xs={9}>
             <Products 
               products={sortedProducts}
               paginationState={paginationState}
