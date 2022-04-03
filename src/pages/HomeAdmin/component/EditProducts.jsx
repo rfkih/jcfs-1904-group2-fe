@@ -11,25 +11,24 @@ function EditProducts(props) {
     const classes = useStyles();
   return (
     <>
-        <div className={classes.toolbar}/>
-          <main className={classes.layout}>
-              <AddProduct/>
-          </main>
-        <Typography variant="h4" align="center"> Edit Product </Typography>
-        <ProductManager
-            filterProducts={filterProducts}
-            paginationState={paginationState}
-            setPaginationState={setPaginationState}
-            sortProducts={sortProducts}
-            deletedProducts={deletedProducts}
-            setDeletedProducts={setDeletedProducts}
-          />
-        <ProductsAdmin
-          products={products}
-          paginationState={paginationState}
-          deletedProducts={deletedProducts}
-        />
-        
+      <div className={classes.toolbar}/>
+      <main className={classes.layout}>
+        <AddProduct/>
+      </main>
+      <Typography variant="h4" align="center"> Edit Product </Typography>
+      <ProductManager
+        filterProducts={filterProducts}
+        paginationState={paginationState}
+        setPaginationState={setPaginationState}
+        sortProducts={sortProducts}
+        deletedProducts={deletedProducts}
+        setDeletedProducts={setDeletedProducts}
+      />
+      <ProductsAdmin
+        products={products}
+        paginationState={paginationState}
+        deletedProducts={deletedProducts}
+      />  
     </>
   )
 }

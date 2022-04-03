@@ -56,7 +56,6 @@ function ProductManager(props) {
   return (
     
     <div className="container flex row ">
-      
         {/* Filter */}
       <div className="card col-6">
         <div className="card-header ">

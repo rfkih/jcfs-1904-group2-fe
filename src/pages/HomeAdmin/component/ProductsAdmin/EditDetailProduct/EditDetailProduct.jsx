@@ -192,9 +192,6 @@ function EditDetailProduct() {
 };
 
   
-       
-
-
 
 let choosenCategory = categories.filter(function (category) {
     return category.id === category_id
@@ -239,15 +236,15 @@ let choosenCategory = categories.filter(function (category) {
                                 image={productIMG}
                                 alt="product Image"
                             />
-                        <CardContent>   
-                        <Typography variant="body2" >
-                            {productName}
-                        </Typography>
-                        <Input
-                        type="file"
-                        onChange={fileSelectedHandler}       
-                            />
-                        </CardContent>
+                            <CardContent>   
+                                <Typography variant="body2" >
+                                    {productName}
+                                </Typography>
+                                <Input
+                                    type="file"
+                                    onChange={fileSelectedHandler}       
+                                />
+                            </CardContent>
                         </CardActionArea>
                         <CardActions>
                             <Button onClick={fileUploadHandler} size="small" color="primary">
@@ -306,7 +303,7 @@ let choosenCategory = categories.filter(function (category) {
                     </Grid> : 
                     <Grid container spacing={2} >
                         <Grid item xs={8}>
-                        <TextField  fullWidth name='price' label='New Product Price' onInput={handleChange}  />
+                            <TextField  fullWidth name='price' label='New Product Price' onInput={handleChange}  />
                         </Grid>
                         <Grid item xs={2}>
                             <Button size="small" onClick={productPriceHandleChange}>Save</Button>
@@ -327,24 +324,24 @@ let choosenCategory = categories.filter(function (category) {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                            <Typography>Category : {choosenCategory[0]}</Typography>
+                            <Grid item xs={8}>
+                                <Typography>Category : {choosenCategory[0]}</Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Select
+                                    defaultValue=""
+                                    name="category_id"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="">Default</MenuItem>
+                                    {categories.map((category) => (
+                                    <MenuItem  key={category.id} value={category.id}>
+                                        {category.categoryName}
+                                    </MenuItem>
+                                    ))}
+                                </Select>
+                            </Grid>  
                         </Grid>
-                        <Grid item xs={2}>
-                            <Select
-                                defaultValue=""
-                                name="category_id"
-                                onChange={handleChange}
-                            >
-                        <MenuItem value="">Default</MenuItem>
-                            {categories.map((category) => (
-                                <MenuItem  key={category.id} value={category.id}>
-                            {category.categoryName}
-                            </MenuItem>
-                        ))}
-                        </Select>
-                    </Grid>  
-                    </Grid>
                     {isSave === false ?
                     <Button onClick={buttonHandleChange} size="small" color="primary">
                         Save
@@ -355,53 +352,49 @@ let choosenCategory = categories.filter(function (category) {
                     
                     </Paper>  
                 </Box>
-                    {isEditStock === false ? <Button onClick={editStockHandleChange} size="medium" color="primary"> Edit Stock </Button>
-                    :
-                    <Grid container spacing={2}>
-                        <Grid  xs={5}>
-                            <TextField id="outlined-textarea" name='qtyBoxAvailable'  label="Box Available"  placeholder={qtyBoxAvailable} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid  xs={5}>
-                            <TextField id="outlined-textarea" name='qtyBoxTotal'  label="Box Total"  placeholder={qtyBoxTotal} onInput={stockHandleChange} />
-                        </Grid>
+                    {isEditStock === false ? 
+                        <Button onClick={editStockHandleChange} size="medium" color="primary"> Edit Stock </Button>
+                        :
+                        <Grid container spacing={2}>
+                            <Grid  xs={5}>
+                                <TextField id="outlined-textarea" name='qtyBoxAvailable'  label="Box Available"  placeholder={qtyBoxAvailable} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid  xs={5}>
+                                <TextField id="outlined-textarea" name='qtyBoxTotal'  label="Box Total"  placeholder={qtyBoxTotal} onInput={stockHandleChange} />
+                            </Grid>
                         {isLiquid === true ?
                          <>
-                         <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyBottleAvailable'  label="Bottle Available"  placeholder={qtyBottleAvailable} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyBottleTotal'  label="Bottle Total"  placeholder={qtyBottleTotal} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyMlAvailable'  label="Ml Available"  placeholder={qtyMlAvailable} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={qtyMlTotal} onInput={stockHandleChange} />
-                        </Grid>
-                        <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyBottleAvailable'  label="Bottle Available"  placeholder={qtyBottleAvailable} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyBottleTotal'  label="Bottle Total"  placeholder={qtyBottleTotal} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyMlAvailable'  label="Ml Available"  placeholder={qtyMlAvailable} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={qtyMlTotal} onInput={stockHandleChange} />
+                            </Grid>
+                            <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
                          </> : 
                          <>
-                         <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyStripsavailable'  label="Strips Available"  placeholder={qtyStripsavailable} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyStripsTotal'  label="Strips Total"  placeholder={qtyStripsTotal} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyMgAvailable'  label="Mg Available"  placeholder={qtyMgAvailable} onInput={stockHandleChange} />
-                        </Grid>
-                        <Grid xs={5}>
-                            <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
-                        </Grid>
-                        <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyStripsavailable'  label="Strips Available"  placeholder={qtyStripsavailable} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyStripsTotal'  label="Strips Total"  placeholder={qtyStripsTotal} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyMgAvailable'  label="Mg Available"  placeholder={qtyMgAvailable} onInput={stockHandleChange} />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
+                            </Grid>
+                            <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
                          </>}  
-                    </Grid>   
-                    
-                    
+                        </Grid>   
                     }
-                    
-                    
-
                 </Paper>
             </main>
         

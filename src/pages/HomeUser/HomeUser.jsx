@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from '../../utils/axios'
-
+import { Grid, Box, Item, Typography } from "@material-ui/core";
 import Products from './components/Products/Products'
 import ProductManager from './components/ProductManager'
 
@@ -99,26 +99,26 @@ function HomeUser() {
 
       
   return (
-    <div className="container">
-        <div  className="row">
-          <div className="col-3">
-          <ProductManager
-            filterProducts={filterProducts}
-            paginationState={paginationState}
-            setPaginationState={setPaginationState}
-            sortProducts={sortProducts}
+    
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={0}>
+          <Grid xs={3}>
+            <ProductManager
+              filterProducts={filterProducts}
+              paginationState={paginationState}
+              setPaginationState={setPaginationState}
+              sortProducts={sortProducts}
             />
-            
-          </div>
-          <div className="col-9">
-          <Products 
-            products={sortedProducts}
-            paginationState={paginationState}
+          </Grid>
+          <Grid xs={9}>
+            <Products 
+              products={sortedProducts}
+              paginationState={paginationState}
             />
-
-          </div>
-        </div>
-    </div>
+          </Grid>
+        </Grid>
+    </Box>
+        
   )
 }
 
