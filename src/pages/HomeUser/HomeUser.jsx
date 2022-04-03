@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from '../../utils/axios'
-import { Grid, Box, Item, Typography } from "@material-ui/core";
+import { Grid, Box, Container, Typography } from "@material-ui/core";
 import Products from './components/Products/Products'
 import ProductManager from './components/ProductManager'
 
@@ -99,7 +99,8 @@ function HomeUser() {
 
       
   return (
-    
+
+    <Container>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={0}>
           <Grid xs={3}>
@@ -117,7 +118,9 @@ function HomeUser() {
             />
           </Grid>
         </Grid>
-    </Box>
+      </Box>
+    </Container>
+      
         
   )
 }
