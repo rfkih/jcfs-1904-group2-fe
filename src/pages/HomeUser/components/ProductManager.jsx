@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../utils/axios'
-import { InputLabel, Select, MenuItem, Button, Grid, Typography, TextField} from '@material-ui/core';
+import { InputLabel, Select, MenuItem, FormControl, Grid, Menu, TextField} from '@material-ui/core';
 
 function ProductManager(props) {
     const { paginationState, setPaginationState } = props;
     const { page, lastPage } = paginationState;
-    const [category, setCategory] = useState([]);
+    const [category, setCategory] = useState([{categoryName: "Default"}]);
 
     const [formState, setFormState] = useState({
         keyword: "",
@@ -47,7 +47,7 @@ function ProductManager(props) {
         setPaginationState({ ...paginationState, page: page + 1 });
       };
 
-     
+     console.log(category);
 
   return (
     
@@ -60,18 +60,28 @@ function ProductManager(props) {
         </div>
         <div className="card-body">
         <TextField  name="keyword" id="outlined-basic" label="Product Name" variant="standard" onChange={handleChange} />
-          <Grid >
-            <InputLabel>Category</InputLabel>
-            <Select  defaultValue="" name="category_id" onChange={handleChange}>
-            <MenuItem key={0} value="">{`Default`}</MenuItem>
-            {category.map((category) => (
-                <MenuItem key={category.id}  value={category.id}>
-                  {category.categoryName}
+          <div>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="category-select">Category</InputLabel>
+              <Select
+                labelId="category-select"
+                id="1"
+                defaultValue=""
+                name="category_id"
+                label="Age"
+                onChange={handleChange}
+              >
+                <MenuItem key={0} value="">
+                  <em>Default</em>
                 </MenuItem>
-              ))}
+                  {category.map((category) => (
+                    <MenuItem key={category.id}  value={category.id}>
+                      {category.categoryName}
+                    </MenuItem>
+                  ))}
               </Select>
-            
-          </Grid>
+            </FormControl>
+          </div>
           <button
             onClick={btnSearchHandler}
             className="btn btn-outline-primary mt-3 d-block w-100"
