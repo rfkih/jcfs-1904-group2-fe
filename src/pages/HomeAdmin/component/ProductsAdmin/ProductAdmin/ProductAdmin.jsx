@@ -5,13 +5,12 @@ import { Link } from 'react-router-dom'
 import axios from '../../../../../utils/axios'
 
 
-function ProductAdmin({product}) {
+function ProductAdmin({product, deletedProducts}) {
   
 
   const id = {id: product.id}
+ 
   const deleteProduct = () => {
-
-    
     axios
     .put("/products", id)
     .then((res) => {
@@ -20,6 +19,19 @@ function ProductAdmin({product}) {
      })
      .catch((error) => console.log({ error }));
   }
+
+  const undeleteProduct = () => {
+    console.log(id)
+    axios
+    .put("/products/undelete", id)
+    .then((res) => {
+      alert(res.data.message);
+      window.location.reload(); 
+     })
+     .catch((error) => console.log({ error }));
+  }
+
+
   return (
     <Card sx={{ maxWidth: 300 }}>
         <CardMedia component="img"  height="140" image={product.productIMG} alt="product Image"/>
@@ -33,7 +45,10 @@ function ProductAdmin({product}) {
         </CardContent>
         <CardActions >
           <Button component={Link} to={`/editproducts/${product.id}`} size="small">Edit</Button>
-          <Button onClick={deleteProduct} size="small">Delete</Button>
+          {deletedProducts === false ? 
+          <Button onClick={deleteProduct} size="small">Delete</Button> :
+          <Button onClick={undeleteProduct} size="small">Un-Delete</Button> }
+          
         </CardActions>
     </Card>
   )

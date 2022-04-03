@@ -18,6 +18,7 @@ function HomeUser() {
         try {
             const res = await axios.get("/products");
             const { data } = res;
+            console.log(data);
             setProducts(data);
             setSortedProducts(data);
             setFilteredProducts(data);
@@ -55,7 +56,7 @@ function HomeUser() {
       };
 
   
- console.log(products);
+
 
 
       const sortProducts = (sortValue) => {

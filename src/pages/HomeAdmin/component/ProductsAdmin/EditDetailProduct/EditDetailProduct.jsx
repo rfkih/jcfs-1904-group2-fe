@@ -108,10 +108,10 @@ function EditDetailProduct() {
         if(!selectedFile){
           alert("upload image first")
         }else{
+            updateProduct();
             imageHandleChange();
           const fd = new FormData();
           fd.append("productPhoto", selectedFile)
-  
           axios.post("/products/upload", fd)
           .then((res) => {
             const productIMG = res.data.image  

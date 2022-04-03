@@ -14,6 +14,7 @@ function HomeAdmin() {
         lastPage: 0,
         itemsPerPage: 4,
       });
+    const [deletedProducts, setDeletedProducts] = useState(false)
 
     const fetchProducts = async () => {
         try {
@@ -31,9 +32,36 @@ function HomeAdmin() {
         }
     };
 
-    useEffect(() => {
-        fetchProducts();
-      }, []);
+
+    const fetchDeletedProducts = async () => {
+      try {
+          const res = await axios.get("/products/deleted");
+          const { data } = res;
+          setProducts(data);
+          setSortedProducts(data);
+          setFilteredProducts(data);
+          setPaginationState({
+              ...paginationState,
+              lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
+            });
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+  };
+
+  useEffect(() => {
+    if (!deletedProducts) {
+      fetchProducts();
+  }else{
+      fetchDeletedProducts();
+  }
+  }, [deletedProducts])
+  
+
+  
+
+
+    
 
 
       const filterProducts = (formData) => {
@@ -99,6 +127,8 @@ function HomeAdmin() {
 
   return (
     <EditProducts
+    setDeletedProducts={setDeletedProducts}
+    deletedProducts={deletedProducts}
     products={sortedProducts}
     paginationState={paginationState}
     filterProducts={filterProducts}
