@@ -176,33 +176,29 @@ function AddProduct() {
                     </Grid>
               </Grid>
                 <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
-
-                {formState.isLiquid == 1
-    ? 
-        <Grid container spacing={3}>
-          <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
-          <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
-          <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
-          <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
-        </Grid>
-    : 
-        <Grid container spacing={3}>
-          <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box'onInput={stockHandleChange}/>
-          <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box'onInput={stockHandleChange}/>
-          <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
-          <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
-        </Grid>} 
-                
-                          
-              <br/>
+                  {formState.isLiquid == 1
+                    ? 
+                    <Grid container spacing={3}>
+                      <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
+                      <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
+                      <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
+                      <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
+                    </Grid>
+                    : 
+                    <Grid container spacing={3}>
+                      <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box'onInput={stockHandleChange}/>
+                      <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box'onInput={stockHandleChange}/>
+                      <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
+                      <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
+                    </Grid>}            
+                  <br/>
               <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <Button  variant="contained" color="primary" onClick={addNewProduct} >Add New Product </Button>
               </div>
-             
             </form>    
-        </Paper>
+      </Paper>
     
-        </>
+    </>
        
     
   )

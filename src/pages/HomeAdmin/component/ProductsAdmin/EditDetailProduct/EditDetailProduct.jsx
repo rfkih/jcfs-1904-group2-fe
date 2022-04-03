@@ -205,7 +205,7 @@ let choosenCategory = categories.filter(function (category) {
   return (
     <>
         <div className={classes.toolbar}/>
-        <main className={classes.layout}>
+            <main className={classes.layout}>
                 <Paper className={classes.paper} >
                     {isEditImage === false ?
                     <Card sx={{ maxWidth: 345 }}>
@@ -394,10 +394,7 @@ let choosenCategory = categories.filter(function (category) {
                             <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
                         </Grid>
                         <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
-                         </>}
-                       
-                        
-                        
+                         </>}  
                     </Grid>   
                     
                     
@@ -405,7 +402,7 @@ let choosenCategory = categories.filter(function (category) {
                     
                     
 
-             </Paper>
+                </Paper>
             </main>
         
 
