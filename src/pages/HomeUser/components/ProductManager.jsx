@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../utils/axios'
-import { InputLabel, Select, MenuItem, FormControl, Grid, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
+import { InputLabel, Select, Box, MenuItem, FormControl, Grid, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
 
 import useStyles from './styles';
 
@@ -90,51 +90,60 @@ function ProductManager(props) {
           <CardActions>
             <Button onClick={btnSearchHandler} variant="contained">Search</Button>
           </CardActions>
-          
-
         </Card>
-        
-        
-      </Paper>
         {/* Sort */}
-      <div className="card mt-4">
-        <div className="card-header">
-          <strong>Sort Products</strong>
-        </div>
-        <div className="card-body">
-          <label className="mb-2">Sort by</label>
-          <select
-            name="sortBy"
-            className="form-control"
-            onChange={selectSortHandler}
-          >
-            <option value="">Default</option>
-            <option value="lowPrice">Lowest Price</option>
-            <option value="highPrice">Highest Price</option>
-            <option value="az">A-Z</option>
-            <option value="za">Z-A</option>
-          </select>
-        </div>
-    </div>
-     {/* Pagination */}
-    <div className="d-flex flex-row justify-content-between align-items-center ">
-        <button
-            
-            onClick={btnPrevPageHandler}
-            className={`btn col-3 btn-dark ${page === 1 && "disabled"}`}
-           >
-            {"<"}
-        </button>
-        <div className="text-center col-6 ">
-         Page {page} of {lastPage}
-        </div>
-        <button
-            onClick={btnNextPageHandler}
-            className={`btn col-3 btn-dark ${page === lastPage && "disabled"} `}
-        >
-            {">"}
-        </button>
-        </div>
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div" >
+              Sort Products
+            </Typography>
+            <FormControl sx={{ m: 3, minWidth: 200 }}>
+              <InputLabel id="sort-by" >Sort By</InputLabel>
+                  <Select
+                    labelId="sort-by"
+                    id="1"
+                    defaultValue=""
+                    name="sortBy"
+                    onChange={selectSortHandler}
+                  >
+                    <MenuItem value="" > Default </MenuItem>
+                    <MenuItem value="lowPrice" > Lowest Price </MenuItem>
+                    <MenuItem value="highPrice" > Highest Price </MenuItem>
+                    <MenuItem value="az" > A - Z </MenuItem>
+                    <MenuItem value="za" > Z - A</MenuItem>
+              </Select>   
+            </FormControl>
+          </CardContent>
+        </Card>
+        {/* Pagination */}
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={0}>
+            <Grid item xs={4}>
+              {page === 1 ? 
+                <Button disabled >
+                  {"<"}
+                </Button> :
+                <Button onClick={btnPrevPageHandler} >
+                  {"<"}
+                </Button>
+              }
+            </Grid>
+            <Grid item xs={4}>
+              <Typography>Page {page} of {lastPage}</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              {page === lastPage ? 
+                <Button disabled >
+                  {">"}
+                </Button> : 
+                <Button  onClick={btnNextPageHandler} >
+                  {">"}
+                </Button>
+              } 
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
     </Container>
     );
 }

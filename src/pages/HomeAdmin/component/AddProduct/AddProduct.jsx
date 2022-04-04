@@ -107,8 +107,8 @@ function AddProduct() {
       .post("/products", {newProduct, newStock} )
       .then((res) => {
        alert(res.data);
-       console.log( res );
-      //  setStockFormState({ ...stockFormState, product_id: res.data.productId });
+       window.location.reload(); 
+     
        
       })
       .catch((error) => console.log({ error }));
@@ -116,7 +116,7 @@ function AddProduct() {
   
   return (
       <>
-        {/* <h1>{stockFormState.product_id}</h1> */}
+        
        <Paper className={classes.paper} >
         <Typography variant="h4" align="center"> Upload image here </Typography>
           <form > 
