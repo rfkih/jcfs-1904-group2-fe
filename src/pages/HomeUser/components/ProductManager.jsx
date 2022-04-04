@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../utils/axios'
-import { InputLabel, Select, Box, MenuItem, FormControl, Grid, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
+import { InputLabel, Select, Box, MenuItem, FormControl, Grid, Divider, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
 
 import useStyles from './styles';
 
@@ -91,6 +91,7 @@ function ProductManager(props) {
             <Button onClick={btnSearchHandler} variant="contained">Search</Button>
           </CardActions>
         </Card>
+        <Divider light />
         {/* Sort */}
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
