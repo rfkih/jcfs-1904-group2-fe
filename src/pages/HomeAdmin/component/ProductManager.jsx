@@ -14,7 +14,8 @@ function ProductManager(props) {
       });
 
     const deletedProductHandle = () => {
-      setDeletedProducts(!deletedProducts)
+      setDeletedProducts(!deletedProducts);
+      setPaginationState({...paginationState, page:1})
     }
       const fetchCategories = async () => {
         try {

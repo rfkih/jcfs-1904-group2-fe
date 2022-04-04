@@ -49,6 +49,7 @@ function HomeAdmin() {
       }
   };
 
+
   useEffect(() => {
     if (!deletedProducts) {
       fetchProducts();

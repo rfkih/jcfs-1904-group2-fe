@@ -12,9 +12,9 @@ function EditProducts(props) {
   return (
     <>
       <div className={classes.toolbar}/>
-      <main className={classes.layout}>
+      
         <AddProduct/>
-      </main>
+      
       <Typography variant="h4" align="center"> Edit Product </Typography>
       <ProductManager
         filterProducts={filterProducts}

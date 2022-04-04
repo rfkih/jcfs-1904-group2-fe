@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { TextField, Paper, InputLabel, Select, MenuItem, Button, Grid, CardMedia, CardContent, CardActions, Card, Typography, Input} from '@material-ui/core'
+import { TextField, Paper, InputLabel, Select, MenuItem, Button, Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container} from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
 import useStyles from './styles'
@@ -115,11 +115,12 @@ function AddProduct() {
   };
   
   return (
-      <>
-        
-       <Paper className={classes.paper} >
-        <Typography variant="h4" align="center"> Upload image here </Typography>
-          <form > 
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Paper >
+              <Typography variant="h4" align="center"> Upload image here </Typography>
+              <form > 
                 <Card>
                   <CardMedia
                     component="img"
@@ -140,26 +141,27 @@ function AddProduct() {
                     <Button onClick={fileUploadHandler} >Upload Image </Button>
                   </CardActions>
                 </Card>
-            </form>          
-        </Paper>
-
-      <Paper className={classes.paper} >
-        <Typography variant="h4" align="center"> Add Product </Typography>
-        <Typography variant="h6" gutterBottom> Add New Product</Typography>
+              </form>          
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+          <Paper className={classes.paper} >
+            <Typography variant="h4" align="center"> Add Product </Typography>
+            <Typography variant="h6" gutterBottom> Add New Product</Typography>
         
-          <form > 
-            <Grid container spacing={3}>
+            <form > 
+              <Grid container spacing={2}>
                 <TextField  fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
                 <TextField fullWidth name='productDetails' label='Product Detail'  onInput={handleChange}/>
                 <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={6} sm={6}>
                         <InputLabel>Liquid ?</InputLabel>
                         <Select defaultValue="" name='isLiquid' onChange={handleChange} >
                         <MenuItem value='1'>Yes</MenuItem>
                         <MenuItem value='0'>No</MenuItem>
                         </Select>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={6} sm={6}>
                         <InputLabel>Category</InputLabel>
                             <Select
                                 defaultValue=""
@@ -192,13 +194,17 @@ function AddProduct() {
                       <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
                     </Grid>}            
                   <br/>
-              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+              <div >
                     <Button  variant="contained" color="primary" onClick={addNewProduct} >Add New Product </Button>
               </div>
             </form>    
       </Paper>
+
+          </Grid>
+        </Grid>
+        
     
-    </>
+    </Container>
        
     
   )
