@@ -3,6 +3,7 @@ import axios from '../../utils/axios'
 
 import EditProducts from './component/EditProducts'
 import AddProduct from "./component/AddProduct/AddProduct";
+import SalesReport from "./component/SalesReport/SalesReport";
 
 function HomeAdmin() {
 
@@ -127,15 +128,19 @@ function HomeAdmin() {
       };
 
   return (
-    <EditProducts
-    setDeletedProducts={setDeletedProducts}
-    deletedProducts={deletedProducts}
-    products={sortedProducts}
-    paginationState={paginationState}
-    filterProducts={filterProducts}
-    setPaginationState={setPaginationState}
-    sortProducts={sortProducts}
-    />
+    <>
+      <SalesReport/>
+      <EditProducts
+        setDeletedProducts={setDeletedProducts}
+        deletedProducts={deletedProducts}
+        products={sortedProducts}
+        paginationState={paginationState}
+        filterProducts={filterProducts}
+        setPaginationState={setPaginationState}
+        sortProducts={sortProducts}
+      />
+    </>
+    
   )
 }
 

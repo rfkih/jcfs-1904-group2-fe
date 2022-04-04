@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Card, Paper, CardMedia, Button,CardActionArea, Grid,Box,Input, CardContent, CardActions, Typography, TextField, Select, MenuItem} from '@material-ui/core';
+import {Card, Paper, CardMedia, Button,CardActionArea, Grid, Box, Input, Container, CardContent, CardActions, Typography, TextField, Select, MenuItem} from '@material-ui/core';
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 
@@ -202,114 +202,120 @@ let choosenCategory = categories.filter(function (category) {
   return (
     <>
         <div className={classes.toolbar}/>
-            <main className={classes.layout}>
-                <Paper className={classes.paper} >
-                    {isEditImage === false ?
-                    <Card sx={{ maxWidth: 345 }}>
-                        <CardActionArea>
-                            <CardMedia
-                                component="img"
-                                height="200"
-                                image={productIMG}
-                                alt="product Image"
-                            />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Edit Product Image
-                            </Typography>
-                            <Typography variant="body2">
-                                {productName}
-                            </Typography>
-                        </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                            <Button onClick={imageHandleChange} size="small" color="primary">
-                                Click to Edit
-                            </Button>
-                        </CardActions>
-                    </Card> : 
-                    <Card sx={{ maxWidth: 345 }}>
-                        <CardActionArea>
-                            <CardMedia
-                                component="img"
-                                height="200"
-                                image={productIMG}
-                                alt="product Image"
-                            />
-                            <CardContent>   
-                                <Typography variant="body2" >
-                                    {productName}
-                                </Typography>
-                                <Input
-                                    type="file"
-                                    onChange={fileSelectedHandler}       
-                                />
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                            <Button onClick={fileUploadHandler} size="small" color="primary">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </Card> }   
-             </Paper>
-             <Paper className={classes.paper} >
-                <Typography variant="h4" align="center"> Edit Product </Typography>
-                <Box sx={{ flexGrow: 1 }}>
-                    {isEditProductName === false ? 
-                    <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                            <Typography variant="body1" gutterBottom >Product Name: {productName}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button onClick={productNameHandleChange} size="small">Edit</Button>
-                        </Grid>
-                    </Grid> :
-                    <Grid container spacing={2}>
-                        <Grid item xs={8}>
-                        <TextField  fullWidth name='productName' label='New Product Name' onInput={handleChange}  />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button onClick={productNameHandleChange} size="small">Save</Button>
-                        </Grid>
+            <Container>
+                <Grid container spacing={1}>
+                    <Grid item xs={6}>
+                        <Paper className={classes.paper} >
+                            {isEditImage === false ?
+                                <Card sx={{ maxWidth: 345 }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component="img"
+                                            height="200"
+                                            image={productIMG}
+                                            alt="product Image"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                                Edit Product Image
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                {productName}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions>
+                                        <Button onClick={imageHandleChange} size="small" color="primary">
+                                            Click to Edit
+                                        </Button>
+                                    </CardActions>
+                                </Card> : 
+                                <Card sx={{ maxWidth: 345 }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component="img"
+                                            height="200"
+                                            image={productIMG}
+                                            alt="product Image"
+                                        />
+                                        <CardContent>   
+                                            <Typography variant="body2" >
+                                                {productName}
+                                            </Typography>
+                                            <Input
+                                                type="file"
+                                                onChange={fileSelectedHandler}       
+                                            />
+                                        </CardContent>
+                                    </CardActionArea>
+                                    <CardActions>
+                                        <Button onClick={fileUploadHandler} size="small" color="primary">
+                                            Save
+                                        </Button>
+                                    </CardActions>
+                                </Card> 
+                            }   
+                        </Paper>
+
                     </Grid>
-                    }
-                    {isEditProductDetail === false ? 
-                    <Grid container spacing={2} >
-                        <Grid item xs={8}>
-                            <Typography>Product Detail: {productDetails}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button size="small" onClick={productDetailHandleChange}>Edit</Button>
-                        </Grid>
-                    </Grid> : 
-                    <Grid container spacing={2} >
-                        <Grid item xs={8}>
-                            <TextField  fullWidth multiline name='productDetails' label='New Product Detail' onInput={handleChange}  />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button size="small" onClick={productDetailHandleChange} >Save</Button>
-                        </Grid>
-                    </Grid>
-                    }
-                    {isEditProductPrice === false  ? 
-                    <Grid container spacing={2} >
-                        <Grid item xs={8}>
-                            <Typography>Product Price: Rp.{price}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button size="small" onClick={productPriceHandleChange}>Edit</Button>
-                        </Grid>
-                    </Grid> : 
-                    <Grid container spacing={2} >
-                        <Grid item xs={8}>
-                            <TextField  fullWidth name='price' label='New Product Price' onInput={handleChange}  />
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button size="small" onClick={productPriceHandleChange}>Save</Button>
-                        </Grid>
-                    </Grid>
-                    }
+                    <Grid item xs={6}>
+                        <Paper className={classes.paper} >
+                            <Typography variant="h4" align="center"> Edit Product </Typography>
+                            <Box sx={{ flexGrow: 1 }}>
+                                {isEditProductName === false ? 
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={8}>
+                                            <Typography variant="body1" gutterBottom >Product Name: {productName}</Typography>
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Button onClick={productNameHandleChange} size="small">Edit</Button>
+                                        </Grid>
+                                    </Grid> :
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={8}>
+                                            <TextField  fullWidth  placeholder={productName} name='productName' label='New Product Name' onInput={handleChange}  />
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Button onClick={productNameHandleChange} size="small">Save</Button>
+                                        </Grid>
+                                    </Grid>
+                                }
+                                {isEditProductDetail === false ? 
+                                    <Grid container spacing={2} >
+                                        <Grid item xs={8}>
+                                            <Typography>Product Detail: {productDetails}</Typography>
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Button size="small" onClick={productDetailHandleChange}>Edit</Button>
+                                        </Grid>
+                                    </Grid> : 
+                                    <Grid container spacing={2} >
+                                        <Grid item xs={8}>
+                                            <TextField  fullWidth multiline name='productDetails' label='New Product Detail' onInput={handleChange}  />
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Button size="small" onClick={productDetailHandleChange} >Save</Button>
+                                        </Grid>
+                                    </Grid>
+                                }
+                                {isEditProductPrice === false  ? 
+                                    <Grid container spacing={2} >
+                                        <Grid item xs={8}>
+                                            <Typography>Product Price: Rp.{price}</Typography>
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Button size="small" onClick={productPriceHandleChange}>Edit</Button>
+                                        </Grid>
+                                    </Grid> : 
+                                    <Grid container spacing={2} >
+                                        <Grid item xs={8}>
+                                            <TextField  fullWidth name='price' placeholder={price} label='New Product Price' onInput={handleChange}  />
+                                        </Grid>
+                                        <Grid item xs={2}>
+                                            <Button size="small" onClick={productPriceHandleChange}>Save</Button>
+                                        </Grid>
+                                    </Grid>
+                                }
                     
                     <Paper className={classes.paper} >
                         <Grid container spacing={2} >
@@ -392,11 +398,14 @@ let choosenCategory = categories.filter(function (category) {
                                 <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
                             </Grid>
                             <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
-                         </>}  
-                        </Grid>   
-                    }
-                </Paper>
-            </main>
+                            </>
+                            }  
+                            </Grid>   
+                            }
+                        </Paper>
+                    </Grid>
+                </Grid>     
+            </Container>
         
 
     </>

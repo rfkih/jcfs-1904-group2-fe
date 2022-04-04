@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { TextField, Paper, InputLabel, Select, MenuItem, Button, Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container} from '@material-ui/core'
+import { TextField, Paper, InputLabel, Select, MenuItem, Button, styled,  Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container} from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
 import useStyles from './styles'
@@ -41,7 +41,8 @@ function AddProduct() {
     const fileSelectedHandler = (e) => {
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
-      setSelectedFile(uploaded)
+      setSelectedFile(uploaded);
+      fileUploadHandler();
     }
 
 
@@ -113,6 +114,9 @@ function AddProduct() {
       })
       .catch((error) => console.log({ error }));
   };
+  const Input = styled('input')({
+    display: 'none',
+  });
   
   return (
       <Container>
@@ -129,31 +133,41 @@ function AddProduct() {
                     alt="..."
                   />
                   <CardContent>
-                      <Input
-                        type="file"
-                        onChange={fileSelectedHandler}
-                      />
-                     <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div">
                           Product Image
-                     </Typography>
+                  </Typography>
+                      
                   </CardContent>
                   <CardActions>
-                    <Button onClick={fileUploadHandler} >Upload Image </Button>
+                    <label htmlFor="contained-button-file" >
+                      <Input
+                        type="file"
+                        id="contained-button-file"
+                        onChange={fileSelectedHandler}
+                      />
+                      <Button variant="contained" component="span"  >Upload Image </Button>
+                    </label>
                   </CardActions>
                 </Card>
               </form>          
             </Paper>
           </Grid>
           <Grid item xs={6}>
-          <Paper className={classes.paper} >
+          <Paper >
+            <Container>
+              
+            
             <Typography variant="h4" align="center"> Add Product </Typography>
             <Typography variant="h6" gutterBottom> Add New Product</Typography>
         
             <form > 
               <Grid container spacing={2}>
-                <TextField  fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
-                <TextField fullWidth name='productDetails' label='Product Detail'  onInput={handleChange}/>
-                <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
+                <Grid item xs={9}>
+                  <TextField  fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
+                  <TextField fullWidth multiline name='productDetails' label='Product Detail'  onInput={handleChange}/>
+                  <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
+
+                </Grid>
                     <Grid item xs={6} sm={6}>
                         <InputLabel>Liquid ?</InputLabel>
                         <Select defaultValue="" name='isLiquid' onChange={handleChange} >
@@ -178,26 +192,28 @@ function AddProduct() {
                     </Grid>
               </Grid>
                 <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
-                  {formState.isLiquid == 1
-                    ? 
-                    <Grid container spacing={3}>
-                      <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
-                      <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
-                      <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
-                      <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
-                    </Grid>
-                    : 
-                    <Grid container spacing={3}>
-                      <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box'onInput={stockHandleChange}/>
-                      <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box'onInput={stockHandleChange}/>
-                      <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
-                      <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
-                    </Grid>}            
+                  {formState.isLiquid && 
+                  <Grid container spacing={3}>
+                  <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
+                  <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
+                  {formState.isLiquid == 1 ? <>
+                    <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
+                    <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
+                  </> : <>
+                    <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
+                    <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
+                  </>             
+                  }  
+                </Grid>}
+  
+                    
+
                   <br/>
               <div >
                     <Button  variant="contained" color="primary" onClick={addNewProduct} >Add New Product </Button>
               </div>
-            </form>    
+            </form>  
+            </Container>  
       </Paper>
 
           </Grid>
