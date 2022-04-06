@@ -16,22 +16,30 @@ function HomeAdmin() {
         itemsPerPage: 4,
       });
     const [deletedProducts, setDeletedProducts] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState ({})
+
+    console.log(selectedCategory);
 
     const fetchProducts = async () => {
-        try {
-            const res = await axios.get("/products");
+     
+      try {
+          const res = await axios.get("/products", {params: (selectedCategory)})
+          .then((res=>{
             const { data } = res;
-            setProducts(data);
-            setSortedProducts(data);
-            setFilteredProducts(data);
-            setPaginationState({
-                ...paginationState,
-                lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-              });
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
+          console.log(data);
+          setProducts(data);
+          setSortedProducts(data);
+          setFilteredProducts(data);
+          setPaginationState({
+              ...paginationState,
+              lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
+            });
+          }));
+          
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+  };
 
 
     const fetchDeletedProducts = async () => {
@@ -57,7 +65,7 @@ function HomeAdmin() {
   }else{
       fetchDeletedProducts();
   }
-  }, [deletedProducts])
+  }, [deletedProducts, selectedCategory])
   
 
   
@@ -138,6 +146,7 @@ function HomeAdmin() {
         filterProducts={filterProducts}
         setPaginationState={setPaginationState}
         sortProducts={sortProducts}
+        setSelectedCategory={setSelectedCategory}
       />
     </>
     

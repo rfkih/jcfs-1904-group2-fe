@@ -18,7 +18,6 @@ function ProductManager(props) {
       });
     
       
-
    
       const handleSelectedCategory = (e) => {
         setSelectedCategory({[e.target.name]: e.target.value});

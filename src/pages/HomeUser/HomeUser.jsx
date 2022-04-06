@@ -36,7 +36,7 @@ function HomeUser() {
   
     const fetchProducts = async () => {
      
-      console.log(selectedCategory)
+     
         try {
             const res = await axios.get("/products", {params: (selectedCategory)})
             .then((res=>{

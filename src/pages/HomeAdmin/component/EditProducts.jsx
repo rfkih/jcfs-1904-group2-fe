@@ -7,7 +7,7 @@ import ProductManager from './ProductManager'
 
 
 function EditProducts(props) {
-    const { paginationState, products,setPaginationState,sortProducts,filterProducts,deletedProducts, setDeletedProducts } = props;
+    const { paginationState, products,setPaginationState,sortProducts,filterProducts,deletedProducts, setDeletedProducts, setSelectedCategory } = props;
     const classes = useStyles();
   return (
     <>
@@ -23,6 +23,7 @@ function EditProducts(props) {
         sortProducts={sortProducts}
         deletedProducts={deletedProducts}
         setDeletedProducts={setDeletedProducts}
+        setSelectedCategory={setSelectedCategory}
       />
       <ProductsAdmin
         products={products}
