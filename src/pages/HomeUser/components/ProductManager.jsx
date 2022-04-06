@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from '../../../utils/axios'
-import { InputLabel, Select, Box, MenuItem, FormControl, Grid, Divider, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
+import { InputLabel, Select, Box, MenuItem, FormControl, InputBase, IconButton,  Grid, Divider, Card,Typography, Button, CardActions, TextField, Container, Paper, CardContent} from '@material-ui/core';
+import {SearchOutlined} from '@material-ui/icons'
 
 import useStyles from './styles';
 
@@ -54,7 +55,22 @@ function ProductManager(props) {
             <Typography variant="h5" component="div" >
                 Filter Products
             </Typography>
-            <TextField  name="keyword" id="outlined-basic" label="Product Name" variant="standard" onChange={handleChange} />
+            <Paper
+              component="form"
+              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Search Pharmacy"
+                  name="keyword"
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={handleChange}
+                />
+                  <IconButton sx={{ p: '10px' }} onClick={btnSearchHandler}>
+                    <SearchOutlined />
+                  </IconButton>
+            </Paper>
+            
             <br />
             <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="category-select">Category</InputLabel>
@@ -77,9 +93,7 @@ function ProductManager(props) {
                   </Select>
               </FormControl>
           </CardContent>
-          <CardActions>
-            <Button onClick={btnSearchHandler} variant="contained">Search</Button>
-          </CardActions>
+          
         </Card>
         <Divider light />
         {/* Sort */}
