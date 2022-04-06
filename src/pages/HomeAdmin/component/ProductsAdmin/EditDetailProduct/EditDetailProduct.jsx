@@ -176,7 +176,7 @@ function EditDetailProduct() {
   };
 
   const updateStocks = async () => {
-    // parseInt(isLiquid)
+    
     const updatedStocks = {
         qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
     };

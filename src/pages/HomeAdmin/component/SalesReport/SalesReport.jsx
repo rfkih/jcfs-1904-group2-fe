@@ -2,6 +2,7 @@ import { Typography,Container, Grid, Card, CardContent, CardActions, Button } fr
 import React, { useEffect, useState } from 'react'
 import Chart from './Chart/Chart'
 import axios from '../../../../utils/axios'
+import { Link } from 'react-router-dom'
 // import {UserData} from './Data'
 
 
@@ -135,7 +136,7 @@ function SalesReport() {
                         <Typography variant="h6">{totalSold}</Typography>
                     </CardContent>
                     <CardActions>
-                        <Button>Show Details</Button>
+                        <Button component={Link} to={`/itemsold`}>Show Details</Button>
                     </CardActions>
                 </Card>
             </Grid>

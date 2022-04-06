@@ -28,7 +28,7 @@ function ChartRevenue({graphData}) {
     setRange(e.target.value)
   };
 
-console.log(displayedmonths);
+
   
 
   const data = {
@@ -47,11 +47,11 @@ console.log(displayedmonths);
 
   return (
     <div>
-     Chart.j ss
+    
      <Container>
        <Grid>
-       <FormControl fullWidth>
-  <InputLabel id="range-select-label">Age</InputLabel>
+       <FormControl >
+  <InputLabel id="range-select-label">Range</InputLabel>
   <Select
     labelId="range-select-label"
     id="range-select"

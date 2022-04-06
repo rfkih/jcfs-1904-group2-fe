@@ -14,7 +14,7 @@ function HomeUser() {
         itemsPerPage: 4,
       });
     const [category, setCategory] = useState([{categoryName: "Default"}]);
-    const [selectedCategory, setSelectedCategory] = useState ("")
+    const [selectedCategory, setSelectedCategory] = useState ({})
 
    
 
@@ -33,19 +33,12 @@ function HomeUser() {
     fetchCategories();
   }, []);
   
-  console.log(selectedCategory);
+  
     const fetchProducts = async () => {
-      // const deleteProduct = () => {
-      //   axios
-      //   .put("/products", id)
-      //   .then((res) => {
-      //     alert(res.data.message);
-      //     window.location.reload(); 
-      //    })
-      //    .catch((error) => console.log({ error }));
-      // }
+     
+      console.log(selectedCategory)
         try {
-            const res = await axios.get("/products", selectedCategory)
+            const res = await axios.get("/products", {params: (selectedCategory)})
             .then((res=>{
               const { data } = res;
             console.log(data);
