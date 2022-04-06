@@ -18,7 +18,7 @@ function HomeAdmin() {
     const [deletedProducts, setDeletedProducts] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState ({})
 
-    console.log(selectedCategory);
+    
 
     const fetchProducts = async () => {
      

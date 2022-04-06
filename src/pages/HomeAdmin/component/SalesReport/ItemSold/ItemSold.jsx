@@ -10,6 +10,7 @@ import { Typography,Container, Grid, Card, CardContent, CardActions, Button, Pap
 function ItemSold() {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(10)
+    
 
     
 
@@ -61,7 +62,7 @@ function ItemSold() {
                             const value = column.id;
                             return (
                                 <TableCell key={column.id}>
-                                    
+
                                 </TableCell>
                             )
                         })}

@@ -8,8 +8,8 @@ import { Typography,Container, Grid, Card, CardContent, CardActions, Button, For
 
 
 
-function ChartRevenue({graphData}) {
-  const [range, setRange] = useState(6)
+function ChartRevenue({graphData, setRange}) {
+  
   
 
   const months = graphData.map((graphData) => (
@@ -20,9 +20,8 @@ function ChartRevenue({graphData}) {
   ))
 
     
-  const displayedmonths = months.slice(-range)
-  const displayedrevenue = total_revenue.slice(-range)
-  console.log();
+ 
+  
 
   const handleChange = (e) => {
     setRange(e.target.value)
@@ -32,10 +31,10 @@ function ChartRevenue({graphData}) {
   
 
   const data = {
-    labels: displayedmonths,
+    labels: months,
     datasets: [{
       label: 'Revenue',
-      data: displayedrevenue,
+      data: total_revenue,
       fill: false,
       borderColor: 'rgb(75, 192, 192)',
       tension: 0.1
@@ -62,7 +61,8 @@ function ChartRevenue({graphData}) {
   >
     <MenuItem key={1} value={6} >Last 6 month</MenuItem>
     <MenuItem key={2} value={12} >Last 1 Year</MenuItem>
-    <MenuItem key={3} value={30} >All Time</MenuItem>
+    <MenuItem key={3} value={24} >Last 2 Year</MenuItem>
+    <MenuItem key={4} value={30} >All Time</MenuItem>
   </Select>
 </FormControl>
        </Grid>
