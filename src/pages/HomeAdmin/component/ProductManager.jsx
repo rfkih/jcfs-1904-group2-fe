@@ -76,7 +76,7 @@ function ProductManager(props) {
                         id="1"
                         defaultValue=""
                         name="category_id"
-                        label="Age"
+                        label="Category"
                         onChange={handleChange}
                       >
                         <MenuItem key={1} value="">

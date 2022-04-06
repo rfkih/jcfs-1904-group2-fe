@@ -13,11 +13,41 @@ function HomeUser() {
         lastPage: 0,
         itemsPerPage: 4,
       });
+    const [category, setCategory] = useState([{categoryName: "Default"}]);
+    const [selectedCategory, setSelectedCategory] = useState ("")
 
+   
+
+    const fetchCategories = async () => {
+      try {
+          const res = await axios.get("/categories");
+          const  categories = res
+          const category = categories.data
+          setCategory(category)
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+  
+  console.log(selectedCategory);
     const fetchProducts = async () => {
+      // const deleteProduct = () => {
+      //   axios
+      //   .put("/products", id)
+      //   .then((res) => {
+      //     alert(res.data.message);
+      //     window.location.reload(); 
+      //    })
+      //    .catch((error) => console.log({ error }));
+      // }
         try {
-            const res = await axios.get("/products");
-            const { data } = res;
+            const res = await axios.get("/products", selectedCategory)
+            .then((res=>{
+              const { data } = res;
             console.log(data);
             setProducts(data);
             setSortedProducts(data);
@@ -26,6 +56,8 @@ function HomeUser() {
                 ...paginationState,
                 lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
               });
+            }));
+            
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -33,7 +65,7 @@ function HomeUser() {
 
     useEffect(() => {
         fetchProducts();
-      }, []);
+      }, [selectedCategory]);
 
 
       const filterProducts = (formData) => {
@@ -109,6 +141,9 @@ function HomeUser() {
               paginationState={paginationState}
               setPaginationState={setPaginationState}
               sortProducts={sortProducts}
+              category={category}
+              setCategory={setCategory}
+              setSelectedCategory={setSelectedCategory}
             />
           </Grid>
           <Grid item xs={9}>

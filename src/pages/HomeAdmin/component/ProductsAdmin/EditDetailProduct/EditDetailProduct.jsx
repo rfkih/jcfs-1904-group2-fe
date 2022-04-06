@@ -36,7 +36,7 @@ function EditDetailProduct() {
 
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
-    console.log(stocks);
+
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
         if ([e.target.name] === "isLiquid" || [e.target.name] === "category_id") {

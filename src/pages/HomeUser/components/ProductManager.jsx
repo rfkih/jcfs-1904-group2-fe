@@ -7,30 +7,21 @@ import useStyles from './styles';
 
 function ProductManager(props) {
     const classes = useStyles();
-    const { paginationState, setPaginationState } = props;
+    const { paginationState, setPaginationState, category, setSelectedCategory,  } = props;
     const { page, lastPage } = paginationState;
-    const [category, setCategory] = useState([{categoryName: "Default"}]);
+    
 
     const [formState, setFormState] = useState({
         keyword: "",
         category_id: ""
       });
     
-      const fetchCategories = async () => {
-        try {
-            const res = await axios.get("/categories");
-            const  categories = res
-            const category = categories.data
-            setCategory(category)
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
+      
 
-    useEffect(() => {
-      fetchCategories();
-    }, []);
-
+   
+      const handleSelectedCategory = (e) => {
+        setSelectedCategory({[e.target.name]: e.target.value});
+      }
 
     const handleChange = (e) => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -51,8 +42,7 @@ function ProductManager(props) {
         setPaginationState({ ...paginationState, page: page + 1 });
       };
 
-     console.log(category);
-
+     
   return (
     
     <Container>

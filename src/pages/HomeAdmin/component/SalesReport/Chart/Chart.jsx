@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Chart from 'chart.js/auto'
 import {Doughnut, Line} from 'react-chartjs-2'
+import { Typography,Container, Grid, Card, CardContent, CardActions, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 
 
 
@@ -8,7 +9,7 @@ import {Doughnut, Line} from 'react-chartjs-2'
 
 
 function ChartRevenue({graphData}) {
-
+  const [range, setRange] = useState(6)
   
 
   const months = graphData.map((graphData) => (
@@ -18,10 +19,16 @@ function ChartRevenue({graphData}) {
     graphData.total_revenue
   ))
 
+    
+  const displayedmonths = months.slice(-range)
+  const displayedrevenue = total_revenue.slice(-range)
+  console.log();
 
-  const displayedmonths = months.slice(-12)
-  const displayedrevenue = total_revenue.slice(-12)
+  const handleChange = (e) => {
+    setRange(e.target.value)
+  };
 
+console.log(displayedmonths);
   
 
   const data = {
@@ -41,9 +48,26 @@ function ChartRevenue({graphData}) {
   return (
     <div>
      Chart.j ss
-     <div style={{width:"500px", margin:"0 auto"}}>
+     <Container>
+       <Grid>
+       <FormControl fullWidth>
+  <InputLabel id="range-select-label">Age</InputLabel>
+  <Select
+    labelId="range-select-label"
+    id="range-select"
+    label="Age"
+    name="range"
+    defaultValue=""
+    onChange={handleChange}
+  >
+    <MenuItem key={1} value={6} >Last 6 month</MenuItem>
+    <MenuItem key={2} value={12} >Last 1 Year</MenuItem>
+    <MenuItem key={3} value={30} >All Time</MenuItem>
+  </Select>
+</FormControl>
+       </Grid>
       <Line data={data}/>
-     </div>
+     </Container>
     
   </div>
   )
