@@ -1,6 +1,8 @@
 import { Typography,Container, Grid, Card, CardContent, CardActions, Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
+import Chart from './Chart/Chart'
 import axios from '../../../../utils/axios'
+// import {UserData} from './Data'
 
 
 
@@ -13,6 +15,8 @@ function SalesReport() {
     const [ revenueThirty, setRevenueThirty] = useState(0)
     const [ countUser, setCountUser ] = useState(0)
     const [ totalSold, setTotalSold] = useState(0)
+    const [ graphData, setGraphData ] = useState([])
+    
 
 
 
@@ -27,7 +31,10 @@ function SalesReport() {
             setTotalRevenue(data.sumResultAll[0].total_revenue);
             setRevenueThirty(data.sumResultThirty[0].total_revenue);
             setRevenueSeven(data.sumResultSeven[0].total_revenue);
+            setGraphData(data.detailTransactionMonth);
+           if(data.sumResultToday[0].total_revenue){
             setRevenueToday(data.sumResultToday[0].total_revenue)
+           } 
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -133,6 +140,7 @@ function SalesReport() {
                 </Card>
             </Grid>
         </Grid>
+        <Chart graphData={graphData} />
     </Container>
   )
 }
