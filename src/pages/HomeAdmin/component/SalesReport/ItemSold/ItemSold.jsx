@@ -35,6 +35,7 @@ function ItemSold() {
             const res = await axios.get("/transactiondetails/category")
             const { data } = res;
             setSoldCategory(data)
+            setSortedCategory(data)
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -71,6 +72,10 @@ function ItemSold() {
         sortItem(e.target.value);
       };
 
+      const selectSortCategoryHandler = (e) => {
+        sortCategory(e.target.value);
+      };
+
 
 
 
@@ -104,13 +109,31 @@ function ItemSold() {
           case "descending":
             rawData.sort((a, b) => b.product_id - a.product_id);
             break;
-        
-          
         }
-    
         setSortedItem(rawData);
       };
 
+      const sortCategory = (sortValue) => {
+        const rawData = [...soldCategory];
+    
+        switch (sortValue) {
+          case "leastbought":
+            rawData.sort((a, b) => a.total_bought - b.total_bought);
+            break;
+          case "mostbought":
+            rawData.sort((a, b) => b.total_bought - a.total_bought);
+            break;
+          case "ascending":
+            rawData.sort((a, b) => a.productCategory - b.productCategory);
+            break;
+          case "descending":
+            rawData.sort((a, b) => b.productCategory - a.productCategory);
+            break;
+        }
+        setSortedCategory(rawData);
+      };
+
+      console.log(soldCategory);
     
     
     
@@ -146,6 +169,31 @@ function ItemSold() {
                 </Paper>
             </Grid>
             <Grid item xs={4}>
+                <Paper>
+                    <Card sx={{ minWidth: 275 }}>
+                        <CardContent>
+                            <Typography variant="h5" component="div" >
+                                Sort Category
+                            </Typography>
+                            <FormControl sx={{ m: 3, minWidth: 200 }}>
+                                <InputLabel id="sort-by-category" >Sort By</InputLabel>
+                                    <Select
+                                        labelId="sort-by-category"
+                                        id="1"
+                                        defaultValue=""
+                                        name="categorySortBy"
+                                        onChange={selectSortCategoryHandler}
+                                    >
+                                        <MenuItem value="" > Default </MenuItem>
+                                        <MenuItem value="leastbought" > Least Bought </MenuItem>
+                                        <MenuItem value="mostbought" > Most Bought </MenuItem>
+                                        <MenuItem value="ascending" > Category (Ascending) </MenuItem>
+                                        <MenuItem value="descending" > Category (Descending) </MenuItem>
+                                    </Select>   
+                            </FormControl>
+                        </CardContent>
+                    </Card>
+                </Paper>
 
             </Grid>
             <Grid item xs={8}>
@@ -166,7 +214,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedItem.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                                {sortedItem.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
                                     .map((item) => {
                                     return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={sortedItem.product_id}>
@@ -214,10 +262,10 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {soldCategory
+                                {sortedCategory.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
                                     .map((category) => {
                                         return(
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={soldCategory.productCategory}>
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={sortedCategory.productCategory}>
                                                 {columnsCategory.map((column) => {
                                                     const value = category[column.id];
                                                     return (
