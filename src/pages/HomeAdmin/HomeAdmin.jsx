@@ -26,7 +26,7 @@ function HomeAdmin() {
           const res = await axios.get("/products", {params: (selectedCategory)})
           .then((res=>{
             const { data } = res;
-          console.log(data);
+          
           setProducts(data);
           setSortedProducts(data);
           setFilteredProducts(data);

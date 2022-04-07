@@ -9,15 +9,47 @@ import { Typography,Container, Grid, Card, CardContent, CardActions, Button, For
 
 
 function ChartRevenue({graphData, setRange}) {
+  const [name, setName] = useState([])
+
+  const monthName = [
+    { id: 1, Name:"January"},
+    { id: 2, Name:"February"},
+    { id: 3, Name:"March"},
+    { id: 4, Name:"April"},
+    { id: 5, Name:"May"},
+    { id: 6, Name:"June"},
+    { id: 7, Name:"July"},
+    { id: 8, Name:"August"},
+    { id: 9, Name:"September"},
+    { id: 10, Name:"October"},
+    { id: 11, Name:"November"},
+    { id: 12, Name:"December"},
+]
   
   
 
   const months = graphData.map((graphData) => (
      graphData.month
   ))
+
   const total_revenue = graphData.map((graphData) => (
     graphData.total_revenue
   ))
+
+  
+
+//  months.map((month) => {
+   
+//     monthName.map((names) => {
+//       if (month === names.id) {
+ 
+//       }
+//     })
+   
+    
+//   })
+
+  
 
     
  
