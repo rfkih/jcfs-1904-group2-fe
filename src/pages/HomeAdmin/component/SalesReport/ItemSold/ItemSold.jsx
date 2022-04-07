@@ -13,7 +13,9 @@ function ItemSold() {
     const [ soldItem, setSoldItem] = useState([])
     const [ sortedItem, setSortedItem] = useState([])
     const [ soldCategory, setSoldCategory] = useState([])
-    
+    const [ pageCategory, setPageCategory] = useState(0)
+    const[ categoryPerpage, setCategoryPerPage] = useState(10)
+    const [sortedCategory, setSortedCategory] = useState([])
 
     
 
@@ -44,18 +46,26 @@ function ItemSold() {
      fetchSoldCategory();
     }, [])
 
-    console.log(soldCategory);
+    
 
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
       };
 
+    const handleChangePageCategory = (event, newPage) => {
+        setPageCategory(newPage)
+    }
+
     const handleChangeItemPerPage = (event) => {
-          console.log(event);
         setSoldItemPerPage(+event.target.value);
         setPage(0);
       };
+    
+    const handleChangeCategoryPerPage = (event) => {
+        setCategoryPerPage(+event.target.value)
+        setPageCategory(0)
+    }
 
       const selectSortHandler = (e) => {
         sortItem(e.target.value);
@@ -72,7 +82,7 @@ function ItemSold() {
     ]
 
     const columnsCategory = [
-        {id:'productCategory', label: 'Product Category', align: 'right', minWidth: 90},
+        { id:'productCategory', label: 'Product Category', align: 'right', minWidth: 90},
         { id: 'total_bought', label: 'Total Bought', align: 'right', minWidth: 90}
     ]
 
@@ -187,6 +197,55 @@ function ItemSold() {
                 </Paper>
             </Grid>
             <Grid item xs={4}>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <TableContainer sx={{ maxHeight: 440 }} >
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    {columnsCategory.map((column) => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            style={{minWidth: column.minWidth}}
+                                        >
+                                        {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {soldCategory
+                                    .map((category) => {
+                                        return(
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={soldCategory.productCategory}>
+                                                {columnsCategory.map((column) => {
+                                                    const value = category[column.id];
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align}>
+                                                            {value}
+                                                        </TableCell>
+                                                    )
+                                                })}
+
+                                            </TableRow>
+                                        )
+                                    })
+
+                                        }
+                                
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 20, 30]}
+                        component="div"
+                        count={soldCategory.length}
+                        rowsPerPage={categoryPerpage}
+                        page={pageCategory}
+                        onPageChange={handleChangePageCategory}
+                        onRowsPerPageChange={handleChangeCategoryPerPage}
+                    />
+                </Paper>
 
             </Grid>
         </Grid>
