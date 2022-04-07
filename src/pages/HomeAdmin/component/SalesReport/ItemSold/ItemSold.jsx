@@ -16,8 +16,27 @@ function ItemSold() {
     const [ pageCategory, setPageCategory] = useState(0)
     const[ categoryPerpage, setCategoryPerPage] = useState(10)
     const [sortedCategory, setSortedCategory] = useState([])
+    const [categoryName, setCategoryName] = useState([]);
 
-    
+    sortedItem.forEach((item)=>{
+            categoryName.map((name) => {
+                if (item.productCategory == name.id) {
+                    item.category = name.categoryName   
+                }
+            })
+    });
+
+    sortedCategory.forEach((item)=>{
+        categoryName.map((name) => {
+            if (item.productCategory == name.id){
+                item.category = name.categoryName
+            }
+        })
+    })
+
+
+   
+   
 
     const fetchSoldProducts = async () => {
         try {
@@ -41,24 +60,41 @@ function ItemSold() {
         }
     }
 
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get("/categories");
+            const  categories = res
+            const category = categories.data
+            setCategoryName(category)
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    
+
 
     useEffect(() => {
      fetchSoldProducts();
      fetchSoldCategory();
+     fetchCategories();
     }, [])
 
     
 
 
+    
+
+    const handleChangePageCategory = ( newPageCategory) => {
+        setPageCategory(newPageCategory)
+    }
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
       };
 
-    const handleChangePageCategory = (event, newPage) => {
-        setPageCategory(newPage)
-    }
-
     const handleChangeItemPerPage = (event) => {
+        console.log(event);
         setSoldItemPerPage(+event.target.value);
         setPage(0);
       };
@@ -81,14 +117,15 @@ function ItemSold() {
 
     const columns = [
         { id:'product_id', label: 'Product Id', align: 'right', minWidth: 100},
-        { id:'productCategory', label: 'Product Category', align: 'right', minWidth: 100},
+        { id:'category', label: 'Product Category', align: 'right', minWidth: 100},
         { id:'productName', label: 'Product Name',align: 'left', minWidth: 170},
         { id:'total_bought', label: 'Total Bought', align: 'right', minWidth: 100},
     ]
 
     const columnsCategory = [
-        { id:'productCategory', label: 'Product Category', align: 'right', minWidth: 90},
-        { id: 'total_bought', label: 'Total Bought', align: 'right', minWidth: 90}
+        { id:'productCategory', label: 'Category Id', align: 'right', minWidth: 90},
+        { id:'category', label: 'Category', align: 'right', minWidth: 90},
+        { id: 'total_bought', label: 'Total Bought', align: 'right', minWidth: 90},
     ]
 
     
@@ -133,10 +170,10 @@ function ItemSold() {
         setSortedCategory(rawData);
       };
 
-      console.log(soldCategory);
+     
     
     
-    
+
 
   return (
     <Container>
@@ -187,8 +224,8 @@ function ItemSold() {
                                         <MenuItem value="" > Default </MenuItem>
                                         <MenuItem value="leastbought" > Least Bought </MenuItem>
                                         <MenuItem value="mostbought" > Most Bought </MenuItem>
-                                        <MenuItem value="ascending" > Category (Ascending) </MenuItem>
-                                        <MenuItem value="descending" > Category (Descending) </MenuItem>
+                                        <MenuItem value="ascending" > Category Id(Ascending) </MenuItem>
+                                        <MenuItem value="descending" > Category Id(Descending) </MenuItem>
                                     </Select>   
                             </FormControl>
                         </CardContent>
@@ -214,7 +251,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedItem.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
+                                {sortedItem.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
                                     .map((item) => {
                                     return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={sortedItem.product_id}>
@@ -262,7 +299,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedCategory.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                                {sortedCategory.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
                                     .map((category) => {
                                         return(
                                             <TableRow hover role="checkbox" tabIndex={-1} key={sortedCategory.productCategory}>
