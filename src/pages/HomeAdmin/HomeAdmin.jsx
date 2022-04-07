@@ -66,13 +66,6 @@ function HomeAdmin() {
       fetchDeletedProducts();
   }
   }, [deletedProducts, selectedCategory])
-  
-
-  
-
-
-    
-
 
       const filterProducts = (formData) => {
         const resultFilter = products.filter((product) => {

@@ -2,14 +2,13 @@ import React, {useState, useEffect} from 'react'
 import { TextField, Paper, InputLabel, Select, MenuItem, Button, styled,  Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container} from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
-import useStyles from './styles'
+
 
 function AddProduct() {
-    const classes = useStyles();
-    const methods = useForm();
+    
+    
     const [image, setImage] = useState("https://fakeimg.pl/350x200/");
     const [category, setCategory] = useState([]);
-    const [product, setProduct] = useState('Choose State');
     const [formState, setFormState] = useState({
         category_id: 0,
         productName: "",
