@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from 'react'
 import axios from '../../../../../utils/axios'
-import { Typography,Container, Grid, Card, CardContent, FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
-
+import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import {SearchOutlined} from '@material-ui/icons'
 
 
 
@@ -17,6 +17,18 @@ function ItemSold() {
     const[ categoryPerpage, setCategoryPerPage] = useState(10)
     const [sortedCategory, setSortedCategory] = useState([])
     const [categoryName, setCategoryName] = useState([]);
+    const [formState, setFormState] = useState({
+        keyword: "",
+      });
+
+    
+    const handleChange = (e) => {
+        setFormState({ ...formState, [e.target.name]: e.target.value });
+      };
+
+      const btnSearchHandler = () => {
+        filterProducts(formState);
+      };
 
     sortedItem.forEach((item)=>{
             categoryName.map((name) => {
@@ -32,7 +44,20 @@ function ItemSold() {
                 item.category = name.categoryName
             }
         })
-    })
+    });
+
+    
+    const filterProducts = (formData) => {
+        const resultFilter = soldItem.filter((item) => {
+          const productName = item.productName.toLowerCase();
+          const keyword = formData.keyword.toLowerCase();
+          return (
+            productName.includes(keyword)
+          );
+        });
+        
+        setSortedItem(resultFilter);
+      };
 
 
    
@@ -71,19 +96,12 @@ function ItemSold() {
         }
     };
 
-    
-
-
     useEffect(() => {
      fetchSoldProducts();
      fetchSoldCategory();
      fetchCategories();
     }, [])
 
-    
-
-
-    
 
     const handleChangePageCategory = ( newPageCategory) => {
         setPageCategory(newPageCategory)
@@ -178,33 +196,49 @@ function ItemSold() {
   return (
     <Container>
         <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid item xs={8}>        
                 <Paper>
-                    <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
-                            <Typography variant="h5" component="div" >
-                                Sort Item
-                            </Typography>
-                            <FormControl sx={{ m: 3, minWidth: 200 }}>
-                                <InputLabel id="sort-by" >Sort By</InputLabel>
-                                    <Select
-                                        labelId="sort-by"
-                                        id="1"
-                                        defaultValue=""
-                                        name="sortBy"
-                                        onChange={selectSortHandler}
-                                    >
-                                        <MenuItem value="" > Default </MenuItem>
-                                        <MenuItem value="leastbought" > Least Bought </MenuItem>
-                                        <MenuItem value="mostbought" > Most Bought </MenuItem>
-                                        <MenuItem value="ascending" > Product id (Ascending) </MenuItem>
-                                        <MenuItem value="descending" > Product id (Descending) </MenuItem>
-                                    </Select>   
-                            </FormControl>
-                        </CardContent>
-                    </Card>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <Typography variant="h5" component="div" >
+                                        Sort Item
+                                    </Typography>
+                                    <FormControl sx={{ m: 3, minWidth: 200 }}>
+                                        <InputLabel id="sort-by" >Sort By</InputLabel>
+                                            <Select
+                                                labelId="sort-by"
+                                                id="1"
+                                                defaultValue=""
+                                                name="sortBy"
+                                                onChange={selectSortHandler}
+                                            >
+                                                <MenuItem value="" > Default </MenuItem>
+                                                <MenuItem value="leastbought" > Least Bought </MenuItem>
+                                                <MenuItem value="mostbought" > Most Bought </MenuItem>
+                                                <MenuItem value="ascending" > Product id (Ascending) </MenuItem>
+                                                <MenuItem value="descending" > Product id (Descending) </MenuItem>
+                                            </Select>   
+                                    </FormControl>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Input
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search Pharmacy"
+                                name="keyword"
+                                align="center"
+                                onChange={handleChange}
+                            />
+                            <IconButton sx={{ p: '10px' }}>
+                                <SearchOutlined onClick={btnSearchHandler} />
+                            </IconButton>
+                        </Grid>
+                    </Grid>  
                 </Paper>
-            </Grid>
+            </Grid>                                  
             <Grid item xs={4}>
                 <Paper>
                     <Card sx={{ minWidth: 275 }}>

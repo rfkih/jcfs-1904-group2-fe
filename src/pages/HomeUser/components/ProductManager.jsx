@@ -10,8 +10,6 @@ function ProductManager(props) {
     const classes = useStyles();
     const { paginationState, setPaginationState, category, setSelectedCategory,  } = props;
     const { page, lastPage } = paginationState;
-    
-
     const [formState, setFormState] = useState({
         keyword: "",
         category_id: ""
