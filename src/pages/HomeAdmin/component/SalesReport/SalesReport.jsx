@@ -20,9 +20,10 @@ function SalesReport() {
     const [ totalSold, setTotalSold] = useState(0)
     const [ graphData, setGraphData ] = useState([])
     const [range, setRange] = useState(12)
+    const [year, setYear] = useState(null)
     
 
-
+    
 
     const revenueDetailHandler = () => {
         setRevenueDetail(!revenueDetail)
@@ -30,7 +31,8 @@ function SalesReport() {
 
     
     const getCompletedTransaction = async () => {
-        const month = {month: range}
+        
+        const month = {month: range, yeardata: year}
         try {
             const res = await axios.get("/transaction/completed", {params: (month)});
             const data  = res.data;
@@ -68,7 +70,7 @@ function SalesReport() {
     }
     useEffect(() => {
         getCompletedTransaction();
-    },[range])
+    },[range, year])
     useEffect(() => {
         fetchUser();
     })
@@ -117,6 +119,7 @@ function SalesReport() {
                     </CardContent>
                     <CardActions>
                         <Button onClick={revenueDetailHandler}>Back</Button>
+                        <Button>More...</Button>
                     </CardActions>
                 </Card> 
             }      
@@ -146,7 +149,7 @@ function SalesReport() {
                 </Card>
             </Grid>
         </Grid>
-        <Chart graphData={graphData} setRange={setRange} />
+        <Chart graphData={graphData} setRange={setRange} setYear={setYear} />
     </Container>
   )
 }

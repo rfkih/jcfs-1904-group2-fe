@@ -8,7 +8,7 @@ import { Typography,Container, Grid, FormControl, InputLabel, Select, MenuItem }
 
 
 
-function ChartRevenue({graphData, setRange}) {
+function ChartRevenue({graphData, setRange, setYear}) {
   
 
   const monthName = [
@@ -44,18 +44,17 @@ function ChartRevenue({graphData, setRange}) {
     })
     
   }
-
-  
-
-  
-
-    
  
   
 
   const handleChange = (e) => {
     setRange(e.target.value)
+    setYear(null)
   };
+
+  const handleYearChange= (e) => {
+    setYear(e.target.value)
+  }
 
 
   
@@ -78,25 +77,45 @@ function ChartRevenue({graphData, setRange}) {
     <div>
     
      <Container>
-       <Grid>
-       <FormControl >
-  <InputLabel id="range-select-label">Range</InputLabel>
-  <Select
-    labelId="range-select-label"
-    id="range-select"
-    label="Age"
-    name="range"
-    defaultValue=""
-    onChange={handleChange}
-  >
-    <MenuItem key={1} value={6} >Last 6 month</MenuItem>
-    <MenuItem key={2} value={12} >Last 1 Year</MenuItem>
-    <MenuItem key={3} value={24} >Last 2 Year</MenuItem>
-    <MenuItem key={4} value={30} >All Time</MenuItem>
-  </Select>
-</FormControl>
-       </Grid>
-      <Line data={data}/>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <FormControl >
+              <InputLabel id="range-select-label">Range</InputLabel>
+                <Select
+                  labelId="range-select-label"
+                  id="range-select"
+                  label="Age"
+                  name="range"
+                  defaultValue=""
+                  onChange={handleChange}
+                >
+                  <MenuItem key={1} value={6} >Last 6 month</MenuItem>
+                  <MenuItem key={2} value={12} >Last 1 Year</MenuItem>
+                  <MenuItem key={3} value={24} >Last 2 Year</MenuItem>
+                  <MenuItem key={4} value={40} >All Time</MenuItem>
+                </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+          <FormControl >
+              <InputLabel id="range-select-label">Select Year</InputLabel>
+                <Select
+                  labelId="range-select-label"
+                  id="range-select"
+                  label="Age"
+                  name="year"
+                  defaultValue=""
+                  onChange={handleYearChange}
+                >
+                  <MenuItem key={1} value={null} >Default</MenuItem>
+                  <MenuItem key={2} value={2021} >2021</MenuItem>
+                  <MenuItem key={3} value={2022} >2022</MenuItem>
+                </Select>
+            </FormControl>
+          </Grid>
+          
+         </Grid>
+        <Line data={data}/>
      </Container>
     
   </div>

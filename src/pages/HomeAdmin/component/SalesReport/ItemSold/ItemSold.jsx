@@ -2,6 +2,8 @@ import React, {useEffect,useState} from 'react'
 import axios from '../../../../../utils/axios'
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {SearchOutlined} from '@material-ui/icons'
+import {Link} from 'react-router-dom'
+
 
 
 
@@ -20,6 +22,7 @@ function ItemSold() {
     const [formState, setFormState] = useState({
         keyword: "",
       });
+    const [initialDate, setInitialDate] = useState(null);
 
     
     const handleChange = (e) => {
@@ -196,6 +199,24 @@ function ItemSold() {
   return (
     <Container>
         <Grid container spacing={2}>
+            <Grid item xs={12}>
+            <FormControl >
+              <InputLabel id="range-select-label">Select Year</InputLabel>
+                <Select
+                  labelId="range-select-label"
+                  id="range-select"
+                  label="Select Year"
+                  name="year"
+                  defaultValue=""
+                >
+                    <MenuItem key={1} value={null} >Default</MenuItem>
+                    <MenuItem key={2} value={2021} >2021</MenuItem>
+                    <MenuItem key={3} value={2022} >2022</MenuItem>
+                    </Select>
+                </FormControl>
+                
+
+            </Grid>
             <Grid item xs={8}>        
                 <Paper>
                     <Grid container spacing={2}>
