@@ -95,8 +95,7 @@ useEffect (() => {
             
             <IconButton aria-label='Add to Cart' >
                 <AddShoppingCart/>
-            </IconButton>
-            
+            </IconButton>  
         </CardActions>
     </Paper>
 

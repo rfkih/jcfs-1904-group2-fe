@@ -8,6 +8,7 @@ import ProductDetail from './pages/HomeUser/components/Products/ProductDetail/Pr
 import EditDetailProduct from './pages/HomeAdmin/component/ProductsAdmin/EditDetailProduct/EditDetailProduct';
 import ItemSold from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSold';
 import UsersTransaction from './pages/HomeAdmin/component/SalesReport/UsersTransaction/UsersTransaction';
+import TransactionDetail from './pages/HomeAdmin/component/SalesReport/UsersTransaction/TransactionDetail/TransactionDetail';
 
 function App () {
 
@@ -22,6 +23,7 @@ function App () {
           <Route path={`editproducts/:productId`} element={<EditDetailProduct/>}/>
           <Route path={`itemsold`} element={<ItemSold/>}/>
           <Route path={`userstransaction`} element={<UsersTransaction/>}/>
+          <Route path={`transactiondetails/:transactionId`} element={<TransactionDetail/>}/>
         </Routes>
       </div>
     </Router>

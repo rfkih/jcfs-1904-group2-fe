@@ -132,7 +132,7 @@ function SalesReport() {
                         <Typography variant="h6">{countUser}</Typography>
                     </CardContent>
                     <CardActions>
-                        <Button>Show Details</Button>
+                        <Button component={Link} to={`/userstransaction`}>Show Details</Button>
                     </CardActions>
                 </Card>
             </Grid>

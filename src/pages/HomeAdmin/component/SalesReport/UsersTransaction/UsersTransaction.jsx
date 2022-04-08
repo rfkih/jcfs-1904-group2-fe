@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from '../../../../../utils/axios';
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import {Link} from 'react-router-dom'
 
 function UsersTransaction() {
     const [transaction, setTransaction] = useState([])
@@ -161,7 +162,7 @@ function UsersTransaction() {
                                 {sortTransaction.slice(page * transactionPerPage, page * transactionPerPage + transactionPerPage)
                                 .map((item) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={item.id}>
+                                        <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" tabIndex={-1} key={item.id}>
                                             {columns.map((column) => {
                                                 const value = item[column.id];
                                                 return (
