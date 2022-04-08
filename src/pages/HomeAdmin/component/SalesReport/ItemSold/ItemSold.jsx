@@ -1,10 +1,11 @@
 import React, {useEffect,useState} from 'react'
 import axios from '../../../../../utils/axios'
-import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
-
-
+import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 
 
@@ -22,7 +23,7 @@ function ItemSold() {
     const [formState, setFormState] = useState({
         keyword: "",
       });
-    const [initialDate, setInitialDate] = useState(null);
+      const [value, setValue] = useState([null, null]);
 
     
     const handleChange = (e) => {
@@ -199,10 +200,28 @@ function ItemSold() {
   return (
     <Container>
         <Grid container spacing={2}>
-            <Grid item xs={12}>
+        
             
-                
-
+        <Grid item xs={12}>
+            <Typography>Date range</Typography>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateRangePicker
+                    startText="Check-in"
+                    endText="Check-out"
+                    value={value}
+                    nChange={(newValue) => {
+                    setValue(newValue)}}
+                    renderInput={(startProps, endProps) => (
+                    <>
+                        <TextField {...startProps} />
+                        <Box sx={{ mx: 2 }}> to </Box>
+                        <TextField {...endProps} />
+                    </>
+                    )}
+                />
+            </LocalizationProvider>
+            
+            
             </Grid>
             <Grid item xs={8}>        
                 <Paper>
