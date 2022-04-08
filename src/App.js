@@ -7,7 +7,7 @@ import HomeAdmin from './pages/HomeAdmin/HomeAdmin';
 import ProductDetail from './pages/HomeUser/components/Products/ProductDetail/ProductDetail';
 import EditDetailProduct from './pages/HomeAdmin/component/ProductsAdmin/EditDetailProduct/EditDetailProduct';
 import ItemSold from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSold';
-
+import UsersTransaction from './pages/HomeAdmin/component/SalesReport/UsersTransaction/UsersTransaction';
 
 function App () {
 
@@ -21,6 +21,7 @@ function App () {
           <Route path={`products/:productId`} element={<ProductDetail/>} />
           <Route path={`editproducts/:productId`} element={<EditDetailProduct/>}/>
           <Route path={`itemsold`} element={<ItemSold/>}/>
+          <Route path={`userstransaction`} element={<UsersTransaction/>}/>
         </Routes>
       </div>
     </Router>

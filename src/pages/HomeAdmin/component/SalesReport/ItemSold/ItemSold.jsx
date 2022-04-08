@@ -115,7 +115,7 @@ function ItemSold() {
       };
 
     const handleChangeItemPerPage = (event) => {
-        console.log(event);
+        
         setSoldItemPerPage(+event.target.value);
         setPage(0);
       };
@@ -200,20 +200,7 @@ function ItemSold() {
     <Container>
         <Grid container spacing={2}>
             <Grid item xs={12}>
-            <FormControl >
-              <InputLabel id="range-select-label">Select Year</InputLabel>
-                <Select
-                  labelId="range-select-label"
-                  id="range-select"
-                  label="Select Year"
-                  name="year"
-                  defaultValue=""
-                >
-                    <MenuItem key={1} value={null} >Default</MenuItem>
-                    <MenuItem key={2} value={2021} >2021</MenuItem>
-                    <MenuItem key={3} value={2022} >2022</MenuItem>
-                    </Select>
-                </FormControl>
+            
                 
 
             </Grid>
