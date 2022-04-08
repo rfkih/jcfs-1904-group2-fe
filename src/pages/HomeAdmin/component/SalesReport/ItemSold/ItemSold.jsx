@@ -3,9 +3,9 @@ import axios from '../../../../../utils/axios'
 import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
-import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+// import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
+// import AdapterDateFns from '@mui/lab/AdapterDateFns';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 
 
@@ -204,7 +204,7 @@ function ItemSold() {
             
         <Grid item xs={12}>
             <Typography>Date range</Typography>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateRangePicker
                     startText="Check-in"
                     endText="Check-out"
@@ -219,7 +219,7 @@ function ItemSold() {
                     </>
                     )}
                 />
-            </LocalizationProvider>
+            </LocalizationProvider> */}
             
             
             </Grid>

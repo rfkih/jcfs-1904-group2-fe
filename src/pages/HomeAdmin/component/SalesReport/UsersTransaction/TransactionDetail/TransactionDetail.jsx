@@ -8,6 +8,7 @@ function TransactionDetail() {
     const [ listProduct, setlistProduct] = useState({})
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
+  
 
 
 
@@ -27,24 +28,99 @@ function TransactionDetail() {
         try {
             const res = await axios.get(`/transaction/${params.transactionId}`, {params: {id: params.transactionId}});
             const  {data} = res
-            setTransactionDetail(data);
-
+            setTransactionDetail(data.result[0]);
+            setUserDetail(data.user[0]);
             
         } catch (error) {
             console.log(alert(error.message));
         }
     };
 
+   
     useEffect(() => {
         fetchTransactionDetail();
-    }, [])
+    }, []);
+
+    const columns = [
+      { id:'product_id', label: 'Product Id', align: 'right', minWidth: 100},
+      { id:'productName', label: 'Product Name', align: 'right', minWidth: 100},
+      { id:'price', label: 'Price',align: 'right', minWidth: 100},
+      { id:'quantity', label: 'Quantity', align: 'right', minWidth: 100},
+      { id:'totalPrice', label: 'Total Price', align: 'right', minWidth: 100}
+  ]
 
    
-
+console.log(listProduct);
 
   return (
     <Container>
-            <Typography>Test </Typography>
+        <Paper>
+          <Card variant="outlined">
+            <CardActions>
+              <Grid container spacing={2}>
+                <Grid item xs={2}>
+                  <Typography>Status: {transactionDetail.transactionStatus}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography>No. Invoice {transactionDetail.invoice}</Typography>
+                </Grid>
+                <Grid item xs={5}>
+
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{transactionDetail.created_at}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography>id: {userDetail.id}</Typography>
+                    <br/>
+                    <Typography>Name: {userDetail.name}</Typography>
+                    <br/>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography>{userDetail.username}</Typography>
+                    <br/>
+                    <Typography>Email: {userDetail.email}</Typography>
+                </Grid>
+              </Grid>
+            </CardActions>
+            <CardContent>
+            <Paper>
+              <TableContainer >
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((column) => (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {listProduct.map((item) => {
+                      return(
+                        <TableRow hover key={item.id}>
+                          {columns.map((column) => {
+                            const value = item[column.id];
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                  {value}
+                              </TableCell>
+                            )
+                         })}
+
+                      </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+            </CardContent>
+
+          </Card>
+          
+        </Paper>
     </Container>
   )
 }
