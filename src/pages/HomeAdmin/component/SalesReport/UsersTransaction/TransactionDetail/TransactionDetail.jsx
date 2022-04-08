@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 
 function TransactionDetail() {
+    const [page, setPage] = useState(0)
+    const [soldItemPerPage, setSoldItemPerPage] = useState(10)
     const params = useParams();
-    const [ listProduct, setlistProduct] = useState({})
+    const [ listProduct, setlistProduct] = useState([])
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
   
@@ -50,7 +52,7 @@ function TransactionDetail() {
   ]
 
    
-console.log(listProduct);
+console.log(transactionDetail);
 
   return (
     <Container>
@@ -97,9 +99,10 @@ console.log(listProduct);
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {listProduct.map((item) => {
+                    {listProduct.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                      .map((item) => {
                       return(
-                        <TableRow hover key={item.id}>
+                        <TableRow hover role="checkbox" key={item.id}>
                           {columns.map((column) => {
                             const value = item[column.id];
                             return (
@@ -115,6 +118,15 @@ console.log(listProduct);
                   </TableBody>
                 </Table>
               </TableContainer>
+              <Grid container spacing={2}>
+                <Grid item xs={10}> 
+
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography>Grand Total: Rp.{transactionDetail.totalPrice} </Typography>
+                </Grid>
+
+              </Grid>
             </Paper>
             </CardContent>
 
