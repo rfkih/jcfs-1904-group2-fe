@@ -4,12 +4,11 @@ import { useParams } from "react-router-dom";
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 
 function TransactionDetail() {
-    const [page, setPage] = useState(0)
-    const [soldItemPerPage, setSoldItemPerPage] = useState(10)
     const params = useParams();
     const [ listProduct, setlistProduct] = useState([])
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
+   
   
 
 
@@ -99,7 +98,7 @@ console.log(transactionDetail);
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {listProduct.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                    {listProduct
                       .map((item) => {
                       return(
                         <TableRow hover role="checkbox" key={item.id}>

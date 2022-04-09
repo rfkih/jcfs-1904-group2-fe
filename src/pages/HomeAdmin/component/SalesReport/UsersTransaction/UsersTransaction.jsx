@@ -18,7 +18,9 @@ function UsersTransaction() {
       });
     const [ users, setUsers] = useState([])
     const [ sortUser, setSortUser] = useState([])
-      
+    const [formStateUser, setFormStateUser] = useState({
+      keyword: "",
+    }); 
     
 
 
@@ -84,8 +86,16 @@ function UsersTransaction() {
         setFormState({ ...formState, [e.target.name]: e.target.value });
       };
 
+      const handleChangeKeywordUser = (e) => {
+        setFormStateUser({ ...formStateUser, [e.target.name]: e.target.value });
+      };
+
     const btnSearchHandler = () => {
         filterInvoice(formState);
+      };
+
+      const btnSearchUserHandler = () => {
+        filterUser(formStateUser);
       };
 
 
@@ -103,6 +113,18 @@ function UsersTransaction() {
         setSortTransaction(resultFilter);
       };
 
+      const filterUser = (formData) => {
+        const resultFilter = users.filter((item) => {
+            
+          const username = item.username.toLowerCase();
+          const keyword = formData.keyword.toLowerCase();
+          return (
+                username.includes(keyword)
+          );
+        });
+        
+        setSortUser(resultFilter);
+      };
      
 
     const columns = [
@@ -279,7 +301,9 @@ function UsersTransaction() {
                 </Paper>
             </Grid>
             <Grid item xs={5}>
-                <Paper>   
+              <Paper>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
                     <FormControl sx={{ m: 3, minWidth: 200 }}>
                                 <InputLabel id="sort-by" >Sort By</InputLabel>
                                     <Select
@@ -297,8 +321,21 @@ function UsersTransaction() {
                                         <MenuItem key={6} value={"nameascending"} >Name (ascending)</MenuItem>
                                         <MenuItem key={7} value={"namedescending"}>Name (descending)</MenuItem>
                                     </Select>   
-                        </FormControl>
-                </Paper>
+                      </FormControl>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Input 
+                        placeholder="Search Users"
+                        name="keyword"
+                        align="center"
+                        onChange={handleChangeKeywordUser}
+                    />
+                    <IconButton onClick={btnSearchUserHandler} >
+                         <SearchOutlined />
+                    </IconButton>
+                  </Grid>
+                </Grid>         
+              </Paper>
             </Grid>
             <Grid item xs={7}>
                 <Paper>
@@ -369,7 +406,7 @@ function UsersTransaction() {
                                 { sortUser.slice(pageUser * userPerPage, pageUser * userPerPage + userPerPage)
                                     .map((user) => {
                                         return (
-                                            <TableRow hover role="checkbox" key={user.id}>
+                                            <TableRow component={Link} to={`/usertransaction/${user.id}`} hover role="checkbox" key={user.id}>
                                                 {columnsUser.map((column) => {
                                                     const value = user[column.id];
                                                     return (
@@ -385,7 +422,7 @@ function UsersTransaction() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
+                        rowsPerPageOptions={[10, 20, 30]}
                         component="div"
                         count={users.length}
                         rowsPerPage={userPerPage}

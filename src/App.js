@@ -9,6 +9,7 @@ import EditDetailProduct from './pages/HomeAdmin/component/ProductsAdmin/EditDet
 import ItemSold from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSold';
 import UsersTransaction from './pages/HomeAdmin/component/SalesReport/UsersTransaction/UsersTransaction';
 import TransactionDetail from './pages/HomeAdmin/component/SalesReport/UsersTransaction/TransactionDetail/TransactionDetail';
+import UserDetail from './pages/HomeAdmin/component/SalesReport/UsersTransaction/UserDetail/UserDetail';
 
 function App () {
 
@@ -24,6 +25,7 @@ function App () {
           <Route path={`itemsold`} element={<ItemSold/>}/>
           <Route path={`userstransaction`} element={<UsersTransaction/>}/>
           <Route path={`transactiondetails/:transactionId`} element={<TransactionDetail/>}/>
+          <Route path={`usertransaction/:userId`} element={<UserDetail/>}/>
         </Routes>
       </div>
     </Router>
