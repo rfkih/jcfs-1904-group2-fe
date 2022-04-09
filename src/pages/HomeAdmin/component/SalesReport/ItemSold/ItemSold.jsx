@@ -3,10 +3,13 @@ import axios from '../../../../../utils/axios'
 import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
-// import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
-// import AdapterDateFns from '@mui/lab/AdapterDateFns';
-// import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
+import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import moment from 'moment'
 
 
 
@@ -23,7 +26,15 @@ function ItemSold() {
     const [formState, setFormState] = useState({
         keyword: "",
       });
-    //   const [value, setValue] = useState([null, null]);
+    const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
+    const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
+
+    const handleDateChangeFrom = (date) => {
+        setSelectedDateFrom(date)
+    }
+    const handleDateChangeTo = (date) => {
+        setSelectedDateTo(date)
+    }
 
     
     const handleChange = (e) => {
@@ -77,6 +88,23 @@ function ItemSold() {
             console.log(alert(error.message));
         }
     };
+
+
+    const getTransactionByDate = async () => {
+        const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
+        const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
+        try {
+            const res = await axios.post("transaction/date", {setDateFrom, setDateTo});
+            const { data } = res;
+            console.log(data);
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    const getTransactionHandler = () => {
+        getTransactionByDate();
+    }
 
     const fetchSoldCategory = async () => {
         try {
@@ -195,7 +223,8 @@ function ItemSold() {
      
     
     
-
+console.log(selectedDateFrom);
+console.log(selectedDateTo);
 
   return (
     <Container>
@@ -203,23 +232,52 @@ function ItemSold() {
         
             
         <Grid item xs={12}>
-            <Typography>Date range</Typography>
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateRangePicker
-                    startText="Check-in"
-                    endText="Check-out"
-                    value={value}
-                    nChange={(newValue) => {
-                    setValue(newValue)}}
-                    renderInput={(startProps, endProps) => (
-                    <>
-                        <TextField {...startProps} />
-                        <Box sx={{ mx: 2 }}> to </Box>
-                        <TextField {...endProps} />
-                    </>
-                    )}
-                />
-            </LocalizationProvider> */}
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography>Total Revenue by Interval</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='Select From'
+                                    value={selectedDateFrom}
+                                    onChange={handleDateChangeFrom}
+                                />   
+                            </Grid>                      
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='To'
+                                    value={selectedDateTo}
+                                    onChange={handleDateChangeTo}
+                                /> 
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button onClick={getTransactionHandler}> Search </Button>
+                            </Grid>
+
+                        </Grid>
+               
+                    </MuiPickersUtilsProvider>
+
+                </Grid>
+
+            </Grid>
+            
+            
+            
+           
             
             
             </Grid>
