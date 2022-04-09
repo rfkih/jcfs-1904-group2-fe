@@ -23,7 +23,7 @@ function ItemSold() {
     const [formState, setFormState] = useState({
         keyword: "",
       });
-      const [value, setValue] = useState([null, null]);
+    //   const [value, setValue] = useState([null, null]);
 
     
     const handleChange = (e) => {
@@ -254,13 +254,13 @@ function ItemSold() {
                         <Grid item xs={6}>
                             <Input
                                 sx={{ ml: 1, flex: 1 }}
-                                placeholder="Search Pharmacy"
+                                placeholder="Search Products"
                                 name="keyword"
                                 align="center"
                                 onChange={handleChange}
                             />
-                            <IconButton sx={{ p: '10px' }}>
-                                <SearchOutlined onClick={btnSearchHandler} />
+                            <IconButton onClick={btnSearchHandler}>
+                                <SearchOutlined />
                             </IconButton>
                         </Grid>
                     </Grid>  

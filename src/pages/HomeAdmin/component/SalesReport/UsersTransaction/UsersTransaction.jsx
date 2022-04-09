@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import axios from '../../../../../utils/axios';
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {Link} from 'react-router-dom'
+import {SearchOutlined} from '@material-ui/icons'
 
 function UsersTransaction() {
     const [transaction, setTransaction] = useState([])
@@ -10,6 +11,10 @@ function UsersTransaction() {
     const [transactionPerPage, setTransactionPerPage] = useState(10)
     const [status, setStatus] = useState({})
     const [sortTransaction, setSortTransaction] = useState([])
+    const [formState, setFormState] = useState({
+        keyword: "",
+      });
+      
     
 
 
@@ -43,6 +48,29 @@ function UsersTransaction() {
 
     const handleChangeStatus = (e) => {
         setStatus({[e.target.name]: e.target.value})
+      };
+
+    const handleChangeKeyword = (e) => {
+        setFormState({ ...formState, [e.target.name]: e.target.value });
+      };
+
+    const btnSearchHandler = () => {
+        filterInvoice(formState);
+      };
+
+
+
+    const filterInvoice = (formData) => {
+        const resultFilter = transaction.filter((item) => {
+            
+          const invoice = item.invoice.toLowerCase();
+          const keyword = formData.keyword.toLowerCase();
+          return (
+                invoice.includes(keyword)
+          );
+        });
+        
+        setSortTransaction(resultFilter);
       };
 
      
@@ -86,7 +114,7 @@ function UsersTransaction() {
         sortingTransaction(e.target.value);
       };
 
-      console.log(sortTransaction);
+     
 
 
   return (
@@ -95,7 +123,7 @@ function UsersTransaction() {
             <Grid item xs={6}>
                 <Paper>
                     <Grid container spacing={2}>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <FormControl >
                                 <InputLabel id="range-select-label">Transaction Status</InputLabel>
                                     <Select
@@ -114,7 +142,7 @@ function UsersTransaction() {
                                         </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={3}>
                             <FormControl sx={{ m: 3, minWidth: 200 }}>
                                 <InputLabel id="sort-by" >Sort By</InputLabel>
                                     <Select
@@ -134,14 +162,26 @@ function UsersTransaction() {
                                     </Select>   
                             </FormControl>
                         </Grid>
+                        <Grid item xs={5}>
+                            <Input 
+                                placeholder="Search Invoice"
+                                name="keyword"
+                                align="center"
+                                onChange={handleChangeKeyword}
+                            />
+                            <IconButton  onClick={btnSearchHandler} >
+                                <SearchOutlined />
+                            </IconButton>
+                        </Grid>
                     </Grid> 
                 </Paper>
             </Grid>
             <Grid item xs={6}>
                 <Paper>   
+                    <Typography>Test</Typography>
                 </Paper>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
                 <Paper>
                     <TableContainer sx={{ maxHeight: 440 }} >
                         <Table stickyHeader aria-label="styicky table">
