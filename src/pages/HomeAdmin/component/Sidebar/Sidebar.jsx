@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
 import { Link, useLocation, useNavigate} from 'react-router-dom';
-import {HomeRounded, ReportOutlined,MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
+import {HomeRounded, ReportOutlined, MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
 import { AppBar, Drawer, ListItem, Toolbar, List, ListItemText, Typography,Avatar, ListItemIcon} from '@material-ui/core';
-import { mergeClasses } from '@material-ui/styles';
 import {format} from 'date-fns'
 
 
@@ -17,12 +16,12 @@ function DrawerBar() {
 
     const menuItems =[
         {
-            text: 'My Notes',
-            icon: <SubjectOutlined color="primary"/>,
+            text: 'Home User',
+            icon: <People color="primary"/>,
             path: '/'
         },
         {
-            text: 'Add Product',
+            text: 'Add / Edit Product',
             icon: <AddCircleOutlineOutlined color="primary"/>,
             path: '/homeadmin'
         },
@@ -30,6 +29,11 @@ function DrawerBar() {
             text: 'Financial',
             icon: <AccountBalanceOutlined color="primary"/>,
             path: '/financial'
+        },
+        {
+            text: 'Pending Order',
+            icon: <EmailSharp color="primary"/>,
+            path: '/orders'
         },
     ]
   return (

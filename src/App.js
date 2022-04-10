@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { makeStyles } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
@@ -28,15 +28,17 @@ const useStyles = makeStyles({
 
 function App () {
   const classes = useStyles();
+  const [role, setRole] = useState('admin')
     return (
 
       <div className={classes.root}>
-      <Router>
+        {role == 'admin' ?
+        <Router>
         <div>
           <DrawerBar/>
         </div>
         <div className={classes.page}>
-        <Routes>
+        <Routes> 
           <Route path="/" element={<HomeUser/>} />
           <Route path="homeadmin" element={<HomeAdmin/>}/>
           <Route path="financial" element={<SalesReport/>}/>
@@ -48,7 +50,16 @@ function App () {
           <Route path={`usertransaction/:userId`} element={<UserDetail/>}/>
         </Routes>
         </div> 
-    </Router>
+    </Router> : 
+      <Router>
+        <div className={classes.page}>
+          <Routes>
+            <Route path="/" element={<HomeUser/>} />
+          </Routes>
+        </div>
+      </Router>
+    }
+      
     </div>
     )
 }
