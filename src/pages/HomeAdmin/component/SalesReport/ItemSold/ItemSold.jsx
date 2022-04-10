@@ -10,10 +10,13 @@ import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import moment from 'moment'
+import useStyles from './style'
+ 
 
 
 
 function ItemSold() {
+    const classes = useStyles();
     const [page, setPage] = useState(0)
     const [soldItemPerPage, setSoldItemPerPage] = useState(10)
     const [ soldItem, setSoldItem] = useState([])
@@ -228,6 +231,7 @@ console.log(selectedDateTo);
 
   return (
     <Container>
+        <div className={classes.toolbar}/>
         <Grid container spacing={2}>
         
             

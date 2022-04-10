@@ -3,8 +3,11 @@ import axios from '../../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 import { Typography,Container, Grid, Card, Avatar, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, CardHeader } from '@material-ui/core'
 import {Link} from 'react-router-dom'
+import useStyles from './style'
+
 
 function UserDetail() {
+    const classes = useStyles();
     const params = useParams();
     const [ userDetail, setUserDetail] = useState ({});
     const [ transaction, setTransaction ] = useState([]);
@@ -52,6 +55,7 @@ function UserDetail() {
 
   return (
    <Container>
+       <div className={classes.toolbar}/>
        <Paper>
            <Card>
                <CardHeader

@@ -52,21 +52,25 @@ function ProductManager(props) {
             <Typography variant="h5" component="div" >
                 Filter Products
             </Typography>
-            <Paper
-              component="form"
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-              >
-                <InputBase
-                  sx={{ ml: 1, flex: 1 }}
+              <Grid container spacing={1}>
+                <Grid item xs={9}>
+                <InputBase     
                   placeholder="Search Pharmacy"
                   name="keyword"
                   inputProps={{ 'aria-label': 'search' }}
                   onChange={handleChange}
                 />
+                </Grid>
+                <Grid item xs={3}>
                   <IconButton sx={{ p: '10px' }} onClick={btnSearchHandler}>
                     <SearchOutlined />
                   </IconButton>
-            </Paper>
+                </Grid>
+
+              </Grid>
+                
+                  
+           
             
             <br />
             <FormControl sx={{ m: 1, minWidth: 120 }}>

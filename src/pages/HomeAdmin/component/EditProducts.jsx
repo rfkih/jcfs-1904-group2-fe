@@ -13,7 +13,7 @@ function EditProducts(props) {
     <>
       <div className={classes.toolbar}/>
         <AddProduct/>
-        <Typography variant="h4" align="center"> Edit Product </Typography>
+      <Typography variant="h4" align="center"> Edit Product </Typography>
       <ProductManager
         filterProducts={filterProducts}
         paginationState={paginationState}

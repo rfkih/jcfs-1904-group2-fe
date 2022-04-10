@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Chart from './Chart/Chart'
 import axios from '../../../../utils/axios'
 import { Link } from 'react-router-dom'
+import useStyles from './style'
 // import {UserData} from './Data'
 
 
@@ -11,6 +12,7 @@ import { Link } from 'react-router-dom'
 
 
 function SalesReport() {
+    const classes = useStyles();
     const [ revenueDetail, setRevenueDetail] = useState(false)
     const [ totalRevenue, setTotalRevenue] = useState(0)
     const [ revenueToday, setRevenueToday] = useState(0)
@@ -80,6 +82,7 @@ function SalesReport() {
     })
   return (
     <Container>
+        <div className={classes.toolbar}/>
         <Grid container spacing ={2}>
             <Grid item xs={4}>
                 {revenueDetail === false ? 

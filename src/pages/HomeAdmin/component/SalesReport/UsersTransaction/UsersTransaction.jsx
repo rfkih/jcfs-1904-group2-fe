@@ -4,8 +4,11 @@ import axios from '../../../../../utils/axios';
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import {SearchOutlined} from '@material-ui/icons'
+import useStyles from './style'
+ 
 
 function UsersTransaction() {
+  const classes = useStyles();
     const [transaction, setTransaction] = useState([])
     const [page, setPage] = useState(0)
     const [pageUser, setPageUser] = useState(0)
@@ -243,6 +246,7 @@ function UsersTransaction() {
 
   return (
     <Container>
+      <div className={classes.toolbar}/>
         <Grid container spacing={2}>
             <Grid item xs={7}>
                 <Paper>

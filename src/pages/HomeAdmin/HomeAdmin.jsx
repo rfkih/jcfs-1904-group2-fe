@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from '../../utils/axios'
-
+import { makeStyles } from '@material-ui/core/styles';
 import EditProducts from './component/EditProducts'
 import AddProduct from "./component/AddProduct/AddProduct";
 import SalesReport from "./component/SalesReport/SalesReport";
+const useStyles = makeStyles( (theme) => {
+
+  return {
+      
+      toolbar: theme.mixins.toolbar
+
+  }
+
+  
+})
 
 function HomeAdmin() {
+  const classes = useStyles();
 
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -130,7 +141,7 @@ function HomeAdmin() {
 
   return (
     <>
-      <SalesReport/>
+    <div className={classes.toolbar}/>
       <EditProducts
         setDeletedProducts={setDeletedProducts}
         deletedProducts={deletedProducts}

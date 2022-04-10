@@ -2,16 +2,15 @@ import React, { useState , useEffect} from 'react'
 import axios from '../../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import useStyles from './style'
+
 
 function TransactionDetail() {
+    const classes = useStyles();
     const params = useParams();
     const [ listProduct, setlistProduct] = useState([])
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
-   
-  
-
-
 
     useEffect(() => {
         axios
@@ -55,6 +54,7 @@ console.log(transactionDetail);
 
   return (
     <Container>
+      <div className={classes.toolbar}/>
         <Paper>
           <Card variant="outlined">
             <CardActions>
