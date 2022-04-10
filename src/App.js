@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import { makeStyles } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import { Grid, Box, Stack } from '@material-ui/core';
-import {Brightness2Icon} from '@material-ui/icons'
 import Navbar from './component/Navbar/Navbar'
 import HomeUser from './pages/HomeUser/HomeUser'
 import HomeAdmin from './pages/HomeAdmin/HomeAdmin';
@@ -15,6 +14,8 @@ import TransactionDetail from './pages/HomeAdmin/component/SalesReport/UsersTran
 import UserDetail from './pages/HomeAdmin/component/SalesReport/UsersTransaction/UserDetail/UserDetail';
 import DrawerBar from './pages/HomeAdmin/component/Sidebar/Sidebar';
 import SalesReport from './pages/HomeAdmin/component/SalesReport/SalesReport';
+import PendingOrder from './pages/HomeAdmin/component/PendingOrder/PendingOrder';
+import OrderDetail from './pages/HomeAdmin/component/PendingOrder/OrderDetail/OrderDetail';
 
 const useStyles = makeStyles({
   page: {
@@ -42,6 +43,8 @@ function App () {
           <Route path="/" element={<HomeUser/>} />
           <Route path="homeadmin" element={<HomeAdmin/>}/>
           <Route path="financial" element={<SalesReport/>}/>
+          <Route path="orders" element={<PendingOrder/>}/>
+          <Route path={`orders/:orderId`} element={<OrderDetail/>} />
           <Route path={`products/:productId`} element={<ProductDetail/>} />
           <Route path={`editproducts/:productId`} element={<EditDetailProduct/>}/>
           <Route path={`itemsold`} element={<ItemSold/>}/>

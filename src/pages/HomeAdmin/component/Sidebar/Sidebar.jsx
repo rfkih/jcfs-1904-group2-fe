@@ -31,7 +31,7 @@ function DrawerBar() {
             path: '/financial'
         },
         {
-            text: 'Pending Order',
+            text: 'Orders',
             icon: <EmailSharp color="primary"/>,
             path: '/orders'
         },
@@ -48,7 +48,7 @@ function DrawerBar() {
                     Today is the {format(new Date(), 'do MMM Y')}
                 </Typography>
                 <Typography>
-                   Hi. Users
+                   Hi. Admin
                 </Typography>
                 <Avatar className={classes.avatar}/>
             </Toolbar>

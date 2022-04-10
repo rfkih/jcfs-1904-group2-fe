@@ -118,7 +118,7 @@ function ItemSold() {
         } catch (error) {
             console.log(alert(error.message));
         }
-    }
+    };
 
     const fetchCategories = async () => {
         try {
@@ -226,8 +226,7 @@ function ItemSold() {
      
     
     
-console.log(selectedDateFrom);
-console.log(selectedDateTo);
+
 
   return (
     <Container>

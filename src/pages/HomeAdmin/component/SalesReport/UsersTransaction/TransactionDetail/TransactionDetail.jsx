@@ -24,7 +24,7 @@ function TransactionDetail() {
       }, []);
 
 
-      const fetchTransactionDetail = async () => {
+    const fetchTransactionDetail = async () => {
         try {
             const res = await axios.get(`/transaction/${params.transactionId}`, {params: {id: params.transactionId}});
             const  {data} = res
