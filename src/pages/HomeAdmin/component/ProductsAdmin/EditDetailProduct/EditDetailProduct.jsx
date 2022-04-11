@@ -39,7 +39,7 @@ function EditDetailProduct() {
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
-        if ([e.target.name] === "isLiquid" || [e.target.name] === "category_id") {
+        if ([e.target.name] == "isLiquid" || [e.target.name] == "category_id") {
             setIsSave(false)
         }
     };
@@ -48,6 +48,8 @@ function EditDetailProduct() {
         setStocks({ ...stocks, [e.target.name]: e.target.value });
         
     };
+
+    console.log(isSave);
 
 
     const imageHandleChange = () => {
@@ -108,7 +110,7 @@ function EditDetailProduct() {
         if(!selectedFile){
           alert("upload image first")
         }else{
-            updateProduct();
+        
             imageHandleChange();
           const fd = new FormData();
           fd.append("productPhoto", selectedFile)
@@ -116,7 +118,7 @@ function EditDetailProduct() {
           .then((res) => {
             const productIMG = res.data.image  
             setProduct({ ...product, productIMG })
-            updateProduct();
+            setIsSave(false)
             })
           .catch((error) => console.log({ error }));
         } 
@@ -259,9 +261,9 @@ let choosenCategory = categories.filter(function (category) {
                                             Upload
                                         </Button>
                                     </CardActions>
-                                    {productIMG ? <Button>Save</Button>  : null}
+                                    
                                 </Card> 
-                            }   
+                            }   {}
                         </Paper>
 
                     </Grid>

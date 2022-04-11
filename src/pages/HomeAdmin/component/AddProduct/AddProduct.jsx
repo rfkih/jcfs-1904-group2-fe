@@ -37,6 +37,7 @@ function AddProduct() {
     const handleChange = (e) => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
       };
+
     const fileSelectedHandler = (e) => {
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
@@ -55,11 +56,11 @@ function AddProduct() {
       }else{
         const fd = new FormData();
         fd.append("productPhoto", selectedFile)
-
         axios.post("/products/upload", fd)
         .then((res) => {
           const productIMG = res.data.image  
           setFormState({ ...formState, productIMG })
+          alert("Image Uploaded")
           })
         .catch((error) => console.log({ error }));
       } 
@@ -148,9 +149,9 @@ function AddProduct() {
                       />
                   <CardActions>
                     
-                    <label htmlFor="contained-button-file" > 
+                  
                       <Button variant="contained" component="span"  onClick={onButtonUploadClick} >Upload Image </Button>
-                    </label>
+                   
                   </CardActions>
                 </Card>
               </form>          

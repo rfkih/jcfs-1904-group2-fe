@@ -48,7 +48,6 @@ function HomeUser() {
         }
     };
 
-    console.log(totalPage);
 
     useEffect(() => {
         fetchProducts();
