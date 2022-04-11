@@ -3,10 +3,7 @@ import axios from '../../../utils/axios'
 import { InputLabel, Select, MenuItem, Button, Grid, Typography, Container, Paper, Card, TextField, FormControl, CardActions, Divider, CardContent, Box} from '@material-ui/core';
 
 function ProductManager(props) {
-    const {
-      //  paginationState, setPaginationState,
-       deletedProducts, setDeletedProducts, setSelectedCategory } = props;
-    // const { page, lastPage } = paginationState;
+    const {deletedProducts, setDeletedProducts, setSelectedCategory, setPage } = props;
     const [category, setCategory] = useState([]);
     
 
@@ -16,12 +13,12 @@ function ProductManager(props) {
 
     const deletedProductHandle = () => {
       setDeletedProducts(!deletedProducts);
-      // setPaginationState({...paginationState, page:1})
+      
     };
 
     const handleSelectedCategory = (e) => {
-      console.log([e.target.name]);
       setSelectedCategory({[e.target.name]: e.target.value});
+      setPage(1)
     };
 
       const fetchCategories = async () => {

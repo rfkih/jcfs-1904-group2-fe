@@ -13,12 +13,9 @@ function Products(props) {
 
 
   const renderProducts = () => {
-    // const startIndex = (page - 1) * itemsPerPage;
-    // const endIndex = startIndex + itemsPerPage;
-    const slicedProducts = products
-    // .slice(startIndex, endIndex);
+    
 
-    return slicedProducts.map((product) => (
+    return products.map((product) => (
       <Grid item key={product.id} xs= {3} >
         <Product product={product}/>
       </Grid>

@@ -8,14 +8,10 @@ import useStyles from './styles';
 
 function ProductManager(props) {
     const classes = useStyles();
-    const { 
-      // paginationState, setPaginationState, 
-      
-      category, setSelectedCategory, setPage  } = props;
-    // const { page, lastPage } = paginationState;
+    const { category, setSelectedCategory, setPage  } = props;
+    
     const [formState, setFormState] = useState({
-        keyword: "",
-        // category_id: ""
+        keyword: "", 
       });
     
       
@@ -37,12 +33,7 @@ function ProductManager(props) {
         props.sortProducts(e.target.value);
       };
 
-    // const btnPrevPageHandler = () => {
-    //     setPaginationState({ ...paginationState, page: page - 1 });
-    //   };
-    // const btnNextPageHandler = () => {
-    //     setPaginationState({ ...paginationState, page: page + 1 });
-    //   };
+   
 
      
   return (
@@ -72,9 +63,6 @@ function ProductManager(props) {
                 </Grid>
 
               </Grid>
-                
-                  
-           
             
             <br />
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -125,34 +113,6 @@ function ProductManager(props) {
             </FormControl>
           </CardContent>
         </Card>
-        {/* Pagination */}
-        {/* <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={0}>
-            <Grid item xs={4}>
-              {page === 1 ? 
-                <Button disabled >
-                  {"<"}
-                </Button> :
-                <Button onClick={btnPrevPageHandler} >
-                  {"<"}
-                </Button>
-              }
-            </Grid>
-            <Grid item xs={4}>
-              <Typography>Page {page} of {lastPage}</Typography>
-            </Grid>
-            <Grid item xs={4}>
-              {page === lastPage ? 
-                <Button disabled >
-                  {">"}
-                </Button> : 
-                <Button  onClick={btnNextPageHandler} >
-                  {">"}
-                </Button>
-              } 
-            </Grid>
-          </Grid>
-        </Box> */}
       </Paper>
     </Container>
     );

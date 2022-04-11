@@ -8,11 +8,6 @@ function HomeUser() {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
-    // const [paginationState, setPaginationState] = useState({
-    //     page: 1,
-    //     lastPage: 0,
-    //     itemsPerPage: 4,
-    //   });
     const [ page, setPage ] = useState(1)
     const [ productPerPage, setProductPerPage] = useState(4)
     const [category, setCategory] = useState([{categoryName: "Default"}]);
@@ -37,22 +32,15 @@ function HomeUser() {
   
   
     const fetchProducts = async () => {
-     
         try {
-
             const res = await axios.get("/products", {params: { page, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
             .then((res=>{
               const { data } = res;
-            console.log(data.count[0].count);
           
             setProducts(data.result);
             setSortedProducts(data.result);
             setFilteredProducts(data.result);
             setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
-            // setPaginationState({
-            //     ...paginationState,
-            //     lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-            //   });
             }));
             
         } catch (error) {
@@ -75,12 +63,6 @@ function HomeUser() {
             productName.includes(keyword) 
           );
         });
-    
-        // setPaginationState({
-        //   ...paginationState,
-        //   page: 1,
-        //   lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage),
-        // });
         setFilteredProducts(resultFilter);
         setSortedProducts(resultFilter);
       };
@@ -136,8 +118,6 @@ function HomeUser() {
           <Grid item xs={3}>
             <ProductManager
               filterProducts={filterProducts}
-              // paginationState={paginationState}
-              // setPaginationState={setPaginationState}
               setPage={setPage}
               sortProducts={sortProducts}
               category={category}
@@ -152,7 +132,6 @@ function HomeUser() {
               page={page}
               setProductPerPage={setProductPerPage}
               totalPage={totalPage}
-              // paginationState={paginationState}
             />
           </Grid>
         </Grid>

@@ -30,23 +30,21 @@ function HomeAdmin() {
     const [selectedCategory, setSelectedCategory] = useState ({})
     const [ page, setPage ] = useState(1)
     const [ productPerPage, setProductPerPage] = useState(4)
+    const [totalPage, setTotalPage] = useState(1)
 
     
 
     const fetchProducts = async () => {
      
       try {
-          const res = await axios.get("/products", {params: (selectedCategory)})
+          const res = await axios.get("/products", {params: { page, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
           .then((res=>{
             const { data } = res;
           
-          setProducts(data);
-          setSortedProducts(data);
-          setFilteredProducts(data);
-          // setPaginationState({
-          //     ...paginationState,
-          //     lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-          //   });
+            setProducts(data.result);
+            setSortedProducts(data.result);
+            setFilteredProducts(data.result);
+            setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
           }));
           
       } catch (error) {
@@ -78,7 +76,7 @@ function HomeAdmin() {
   }else{
       fetchDeletedProducts();
   }
-  }, [deletedProducts, selectedCategory])
+  }, [deletedProducts, selectedCategory, page])
 
       const filterProducts = (formData) => {
         const resultFilter = products.filter((product) => {
@@ -147,11 +145,13 @@ function HomeAdmin() {
         setDeletedProducts={setDeletedProducts}
         deletedProducts={deletedProducts}
         products={sortedProducts}
-        // paginationState={paginationState}
-        filterProducts={filterProducts}
-        // setPaginationState={setPaginationState}
+        filterProducts={filterProducts}  
         sortProducts={sortProducts}
         setSelectedCategory={setSelectedCategory}
+        page={page}
+        setProductPerPage={setProductPerPage}
+        totalPage={totalPage}
+        setPage={setPage}
       />
     </>
     
