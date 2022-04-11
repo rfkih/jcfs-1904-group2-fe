@@ -49,7 +49,6 @@ function EditDetailProduct() {
         
     };
 
-    console.log(isSave);
 
 
     const imageHandleChange = () => {
@@ -124,7 +123,6 @@ function EditDetailProduct() {
         } 
       };
 
-      console.log(product);
 
       
 
@@ -172,13 +170,11 @@ function EditDetailProduct() {
           price,
         };
 
-    console.log(productIMG);
        
       await axios
       .put(`/products/${params.productId}`, {updatedProduct, params: { id: params.productId } } )
       .then((res) => {
        alert(res.data.message);
-       console.log( res.data ); 
       })
       .catch((error) => console.log({ error }));
   };

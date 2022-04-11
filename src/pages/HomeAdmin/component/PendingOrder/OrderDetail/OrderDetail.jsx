@@ -10,6 +10,12 @@ function OrderDetail() {
     const classes = useStyles();
     const [order, setOrder] = useState({})
     const params = useParams();
+    const [isApproved, setIsApproved] = useState(false)
+
+
+    const isApprovedHandlerClick = () => {
+        isApprovedMessage();
+    }
 
 
     const fetchOrderById = async () => {
@@ -24,7 +30,16 @@ function OrderDetail() {
         }
     };
 
-    console.log(order);
+    const isApprovedMessage = async () => {
+
+        await axios
+      .put(`/customorders/${params.orderId}`, {params: { isApproved, id: params.orderId } }  )
+      .then((res) => {
+       alert(res);
+      })
+      .catch((error) => console.log({ error }));
+    }
+
 
     useEffect(() => {
         fetchOrderById();
@@ -47,7 +62,7 @@ function OrderDetail() {
                         <Typography variant="body1">{order.notes}</Typography>
                     <CardActions>
                         <Button>Approved</Button>
-                        <Button>Rejected</Button>
+                        <Button onClick={isApprovedHandlerClick}>Rejected</Button>
                         <Button> Open Image</Button>
                     </CardActions>
 
