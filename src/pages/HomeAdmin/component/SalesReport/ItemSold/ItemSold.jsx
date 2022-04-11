@@ -301,11 +301,11 @@ function ItemSold() {
                                                 name="sortBy"
                                                 onChange={selectSortHandler}
                                             >
-                                                <MenuItem value="" > Default </MenuItem>
-                                                <MenuItem value="leastbought" > Least Bought </MenuItem>
-                                                <MenuItem value="mostbought" > Most Bought </MenuItem>
-                                                <MenuItem value="ascending" > Product id (Ascending) </MenuItem>
-                                                <MenuItem value="descending" > Product id (Descending) </MenuItem>
+                                                <MenuItem key={0} value="" > Default </MenuItem>
+                                                <MenuItem key={1} value="leastbought" > Least Bought </MenuItem>
+                                                <MenuItem key={2} value="mostbought" > Most Bought </MenuItem>
+                                                <MenuItem key={3} value="ascending" > Product id (Ascending) </MenuItem>
+                                                <MenuItem key={4} value="descending" > Product id (Descending) </MenuItem>
                                             </Select>   
                                     </FormControl>
                                 </CardContent>

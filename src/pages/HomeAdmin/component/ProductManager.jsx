@@ -49,12 +49,6 @@ function ProductManager(props) {
         props.sortProducts(e.target.value);
       };
 
-    // const btnPrevPageHandler = () => {
-    //     setPaginationState({ ...paginationState, page: page - 1 });
-    //   };
-    // const btnNextPageHandler = () => {
-    //     setPaginationState({ ...paginationState, page: page + 1 });
-    //   };
 
      
 
@@ -84,7 +78,7 @@ function ProductManager(props) {
                         onChange={handleSelectedCategory}
                       >
                         <MenuItem key={1} value="">
-                          <em>Default</em>
+                          <Typography>Default</Typography>
                         </MenuItem>
                         {category.map((category) => (
                         <MenuItem key={category.id}  value={category.id}>
@@ -116,11 +110,11 @@ function ProductManager(props) {
                       name="sortBy"
                       onChange={selectSortHandler}
                     >
-                      <MenuItem value="" > Default </MenuItem>
-                      <MenuItem value="lowPrice" > Lowest Price </MenuItem>
-                      <MenuItem value="highPrice" > Highest Price </MenuItem>
-                      <MenuItem value="az" > A - Z </MenuItem>
-                      <MenuItem value="za" > Z - A</MenuItem>
+                      <MenuItem key={0} value="" > Default </MenuItem>
+                      <MenuItem key={1} value="lowPrice" > Lowest Price </MenuItem>
+                      <MenuItem key={2} value="highPrice" > Highest Price </MenuItem>
+                      <MenuItem key={3} value="az" > A - Z </MenuItem>
+                      <MenuItem key={4} value="za" > Z - A</MenuItem>
                     </Select>   
               </FormControl>
             </CardContent>
@@ -129,33 +123,6 @@ function ProductManager(props) {
               <Button onClick={deletedProductHandle} variant="contained">Show Deleted Product</Button> :
               <Button onClick={deletedProductHandle} variant="contained">Show Listed Product</Button>
             }
-              {/* <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={0}>
-                  <Grid item xs={4}>
-                    {page === 1 ? 
-                      <Button disabled >
-                       {"<"}
-                      </Button> :
-                      <Button onClick={btnPrevPageHandler} >
-                        {"<"}
-                      </Button>
-                    }
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography>Page {page} of {lastPage}</Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    {page === lastPage ? 
-                      <Button disabled >
-                      {">"}
-                      </Button> : 
-                      <Button  onClick={btnNextPageHandler} >
-                        {">"}
-                      </Button>
-                    } 
-                  </Grid>
-                </Grid>
-              </Box> */}
             </CardActions>
           </Card> 
         </Grid>
