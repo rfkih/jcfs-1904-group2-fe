@@ -31,6 +31,7 @@ function ItemSold() {
       });
     const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
     const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
+    const [ revenue, setRevenue] = useState(0)
 
     const handleDateChangeFrom = (date) => {
         setSelectedDateFrom(date)
@@ -97,9 +98,9 @@ function ItemSold() {
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
         try {
-            const res = await axios.post("transaction/date", {setDateFrom, setDateTo});
+            const res = await axios.get("transaction/date", {params: { setDateFrom, setDateTo }});
             const { data } = res;
-            console.log(data);
+            setRevenue(data[0].total_revenue);
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -232,8 +233,6 @@ function ItemSold() {
     <Container>
         <div className={classes.toolbar}/>
         <Grid container spacing={2}>
-        
-            
         <Grid item xs={12}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -269,20 +268,20 @@ function ItemSold() {
                             <Grid item xs={2}>
                                 <Button onClick={getTransactionHandler}> Search </Button>
                             </Grid>
-
                         </Grid>
-               
+                        
                     </MuiPickersUtilsProvider>
 
                 </Grid>
-
+                <Grid item xs={6}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" color="primary" >Revenue :</Typography>
+                            <Typography variant="body1">Rp.{revenue}</Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
-            
-            
-            
-           
-            
-            
             </Grid>
             <Grid item xs={8}>        
                 <Paper>
