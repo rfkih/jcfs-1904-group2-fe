@@ -9,7 +9,7 @@ function HomeUser() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
     const [ page, setPage ] = useState(1)
-    const [ productPerPage, setProductPerPage] = useState(4)
+    const [ productPerPage, setProductPerPage] = useState(12)
     const [category, setCategory] = useState([{categoryName: "Default"}]);
     const [selectedCategory, setSelectedCategory] = useState ({})
     const [totalPage, setTotalPage] = useState(1)

@@ -41,13 +41,17 @@ function AddProduct() {
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
       setSelectedFile(uploaded);
+      
+    }
+
+    const onButtonUploadClick = () => {
       fileUploadHandler();
     }
 
 
     const fileUploadHandler = () => {
       if(!selectedFile){
-        alert("upload image first")
+        alert("Upload Image First")
       }else{
         const fd = new FormData();
         fd.append("productPhoto", selectedFile)
@@ -113,9 +117,9 @@ function AddProduct() {
       })
       .catch((error) => console.log({ error }));
   };
-  const Input = styled('input')({
-    display: 'none',
-  });
+  // const Input = styled('input')({
+  //   display: 'none',
+  // });
   
   return (
       <Container>
@@ -137,14 +141,15 @@ function AddProduct() {
                   </Typography>
                       
                   </CardContent>
-                  <CardActions>
-                    <label htmlFor="contained-button-file" >
-                      <Input
+                  <Input
                         type="file"
                         id="contained-button-file"
                         onChange={fileSelectedHandler}
                       />
-                      <Button variant="contained" component="span"  >Upload Image </Button>
+                  <CardActions>
+                    
+                    <label htmlFor="contained-button-file" > 
+                      <Button variant="contained" component="span"  onClick={onButtonUploadClick} >Upload Image </Button>
                     </label>
                   </CardActions>
                 </Card>
