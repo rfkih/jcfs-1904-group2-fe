@@ -116,10 +116,15 @@ function EditDetailProduct() {
           .then((res) => {
             const productIMG = res.data.image  
             setProduct({ ...product, productIMG })
+            updateProduct();
             })
           .catch((error) => console.log({ error }));
         } 
       };
+
+      console.log(product);
+
+      
 
       const fetchCategories = async () => {
         try {
@@ -151,7 +156,7 @@ function EditDetailProduct() {
         fetchStocks();
     }, [] )
 
-    
+   
 
     const updateProduct = async () => {
         // parseInt(isLiquid)
@@ -165,7 +170,8 @@ function EditDetailProduct() {
           price,
         };
 
-        console.log(updatedProduct);
+    console.log(productIMG);
+       
       await axios
       .put(`/products/${params.productId}`, {updatedProduct, params: { id: params.productId } } )
       .then((res) => {
@@ -250,9 +256,10 @@ let choosenCategory = categories.filter(function (category) {
                                     </CardActionArea>
                                     <CardActions>
                                         <Button onClick={fileUploadHandler} size="small" color="primary">
-                                            Save
+                                            Upload
                                         </Button>
                                     </CardActions>
+                                    {productIMG ? <Button>Save</Button>  : null}
                                 </Card> 
                             }   
                         </Paper>
