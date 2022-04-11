@@ -21,11 +21,6 @@ function HomeAdmin() {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
-    // const [paginationState, setPaginationState] = useState({
-    //     page: 1,
-    //     lastPage: 0,
-    //     itemsPerPage: 4,
-    //   });
     const [deletedProducts, setDeletedProducts] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState ({})
     const [ page, setPage ] = useState(1)
@@ -40,11 +35,11 @@ function HomeAdmin() {
           const res = await axios.get("/products", {params: { page, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
           .then((res=>{
             const { data } = res;
-          
             setProducts(data.result);
             setSortedProducts(data.result);
             setFilteredProducts(data.result);
             setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
+            
           }));
           
       } catch (error) {
@@ -55,15 +50,13 @@ function HomeAdmin() {
 
     const fetchDeletedProducts = async () => {
       try {
-          const res = await axios.get("/products/deleted");
+          const res = await axios.get("/products/deleted", {params: { page, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}});
           const { data } = res;
-          setProducts(data);
-          setSortedProducts(data);
-          setFilteredProducts(data);
-          // setPaginationState({
-          //     ...paginationState,
-          //     lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-          //   });
+          setProducts(data.result);
+          setSortedProducts(data.result);
+          setFilteredProducts(data.result);
+          setTotalPage(Math.ceil(data.count[0].count / productPerPage ));
+          console.log(Math.ceil(data.count[0].count / productPerPage ));
       } catch (error) {
           console.log(alert(error.message));
       }
