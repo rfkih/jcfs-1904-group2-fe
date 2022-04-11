@@ -3,19 +3,20 @@ import axios from '../../../utils/axios'
 import { InputLabel, Select, MenuItem, Button, Grid, Typography, Container, Paper, Card, TextField, FormControl, CardActions, Divider, CardContent, Box} from '@material-ui/core';
 
 function ProductManager(props) {
-    const { paginationState, setPaginationState,deletedProducts, setDeletedProducts, setSelectedCategory } = props;
-    const { page, lastPage } = paginationState;
+    const {
+      //  paginationState, setPaginationState,
+       deletedProducts, setDeletedProducts, setSelectedCategory } = props;
+    // const { page, lastPage } = paginationState;
     const [category, setCategory] = useState([]);
     
 
     const [formState, setFormState] = useState({
         keyword: "",
-        category_id: ""
       });
 
     const deletedProductHandle = () => {
       setDeletedProducts(!deletedProducts);
-      setPaginationState({...paginationState, page:1})
+      // setPaginationState({...paginationState, page:1})
     };
 
     const handleSelectedCategory = (e) => {
@@ -51,12 +52,12 @@ function ProductManager(props) {
         props.sortProducts(e.target.value);
       };
 
-    const btnPrevPageHandler = () => {
-        setPaginationState({ ...paginationState, page: page - 1 });
-      };
-    const btnNextPageHandler = () => {
-        setPaginationState({ ...paginationState, page: page + 1 });
-      };
+    // const btnPrevPageHandler = () => {
+    //     setPaginationState({ ...paginationState, page: page - 1 });
+    //   };
+    // const btnNextPageHandler = () => {
+    //     setPaginationState({ ...paginationState, page: page + 1 });
+    //   };
 
      
 
@@ -131,7 +132,7 @@ function ProductManager(props) {
               <Button onClick={deletedProductHandle} variant="contained">Show Deleted Product</Button> :
               <Button onClick={deletedProductHandle} variant="contained">Show Listed Product</Button>
             }
-              <Box sx={{ flexGrow: 1 }}>
+              {/* <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={0}>
                   <Grid item xs={4}>
                     {page === 1 ? 
@@ -157,7 +158,7 @@ function ProductManager(props) {
                     } 
                   </Grid>
                 </Grid>
-              </Box>
+              </Box> */}
             </CardActions>
           </Card> 
         </Grid>

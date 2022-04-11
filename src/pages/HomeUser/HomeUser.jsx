@@ -8,15 +8,17 @@ function HomeUser() {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
-    const [paginationState, setPaginationState] = useState({
-        page: 1,
-        lastPage: 0,
-        itemsPerPage: 4,
-      });
+    // const [paginationState, setPaginationState] = useState({
+    //     page: 1,
+    //     lastPage: 0,
+    //     itemsPerPage: 4,
+    //   });
+    const [ page, setPage ] = useState(1)
+    const [ productPerPage, setProductPerPage] = useState(4)
     const [category, setCategory] = useState([{categoryName: "Default"}]);
     const [selectedCategory, setSelectedCategory] = useState ({})
-
-   
+    const [totalPage, setTotalPage] = useState(1)
+  
 
     const fetchCategories = async () => {
       try {
@@ -36,18 +38,21 @@ function HomeUser() {
   
     const fetchProducts = async () => {
      
-     
         try {
-            const res = await axios.get("/products", {params: (selectedCategory)})
+
+            const res = await axios.get("/products", {params: { page, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
             .then((res=>{
               const { data } = res;
-            setProducts(data);
-            setSortedProducts(data);
-            setFilteredProducts(data);
-            setPaginationState({
-                ...paginationState,
-                lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-              });
+            console.log(data.count[0].count);
+          
+            setProducts(data.result);
+            setSortedProducts(data.result);
+            setFilteredProducts(data.result);
+            setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
+            // setPaginationState({
+            //     ...paginationState,
+            //     lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
+            //   });
             }));
             
         } catch (error) {
@@ -55,9 +60,11 @@ function HomeUser() {
         }
     };
 
+    console.log(totalPage);
+
     useEffect(() => {
         fetchProducts();
-      }, [selectedCategory]);
+      }, [selectedCategory, page]);
 
 
       const filterProducts = (formData) => {
@@ -65,16 +72,15 @@ function HomeUser() {
           const productName = product.productName.toLowerCase();
           const keyword = formData.keyword.toLowerCase();
           return (
-            productName.includes(keyword) &&
-            product.category_id.toString().includes(formData.category_id)
+            productName.includes(keyword) 
           );
         });
     
-        setPaginationState({
-          ...paginationState,
-          page: 1,
-          lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage),
-        });
+        // setPaginationState({
+        //   ...paginationState,
+        //   page: 1,
+        //   lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage),
+        // });
         setFilteredProducts(resultFilter);
         setSortedProducts(resultFilter);
       };
@@ -130,8 +136,9 @@ function HomeUser() {
           <Grid item xs={3}>
             <ProductManager
               filterProducts={filterProducts}
-              paginationState={paginationState}
-              setPaginationState={setPaginationState}
+              // paginationState={paginationState}
+              // setPaginationState={setPaginationState}
+              setPage={setPage}
               sortProducts={sortProducts}
               category={category}
               setCategory={setCategory}
@@ -141,7 +148,11 @@ function HomeUser() {
           <Grid item xs={9}>
             <Products 
               products={sortedProducts}
-              paginationState={paginationState}
+              setPage={setPage}
+              page={page}
+              setProductPerPage={setProductPerPage}
+              totalPage={totalPage}
+              // paginationState={paginationState}
             />
           </Grid>
         </Grid>

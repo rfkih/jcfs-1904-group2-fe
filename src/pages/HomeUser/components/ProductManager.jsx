@@ -8,17 +8,21 @@ import useStyles from './styles';
 
 function ProductManager(props) {
     const classes = useStyles();
-    const { paginationState, setPaginationState, category, setSelectedCategory,  } = props;
-    const { page, lastPage } = paginationState;
+    const { 
+      // paginationState, setPaginationState, 
+      
+      category, setSelectedCategory, setPage  } = props;
+    // const { page, lastPage } = paginationState;
     const [formState, setFormState] = useState({
         keyword: "",
-        category_id: ""
+        // category_id: ""
       });
     
       
    
       const handleSelectedCategory = (e) => {
         setSelectedCategory({[e.target.name]: e.target.value});
+        setPage(1)
       }
 
     const handleChange = (e) => {
@@ -33,12 +37,12 @@ function ProductManager(props) {
         props.sortProducts(e.target.value);
       };
 
-    const btnPrevPageHandler = () => {
-        setPaginationState({ ...paginationState, page: page - 1 });
-      };
-    const btnNextPageHandler = () => {
-        setPaginationState({ ...paginationState, page: page + 1 });
-      };
+    // const btnPrevPageHandler = () => {
+    //     setPaginationState({ ...paginationState, page: page - 1 });
+    //   };
+    // const btnNextPageHandler = () => {
+    //     setPaginationState({ ...paginationState, page: page + 1 });
+    //   };
 
      
   return (
@@ -122,7 +126,7 @@ function ProductManager(props) {
           </CardContent>
         </Card>
         {/* Pagination */}
-        <Box sx={{ flexGrow: 1 }}>
+        {/* <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={0}>
             <Grid item xs={4}>
               {page === 1 ? 
@@ -148,7 +152,7 @@ function ProductManager(props) {
               } 
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
       </Paper>
     </Container>
     );

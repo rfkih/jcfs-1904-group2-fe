@@ -21,13 +21,15 @@ function HomeAdmin() {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
-    const [paginationState, setPaginationState] = useState({
-        page: 1,
-        lastPage: 0,
-        itemsPerPage: 4,
-      });
+    // const [paginationState, setPaginationState] = useState({
+    //     page: 1,
+    //     lastPage: 0,
+    //     itemsPerPage: 4,
+    //   });
     const [deletedProducts, setDeletedProducts] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState ({})
+    const [ page, setPage ] = useState(1)
+    const [ productPerPage, setProductPerPage] = useState(4)
 
     
 
@@ -41,10 +43,10 @@ function HomeAdmin() {
           setProducts(data);
           setSortedProducts(data);
           setFilteredProducts(data);
-          setPaginationState({
-              ...paginationState,
-              lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-            });
+          // setPaginationState({
+          //     ...paginationState,
+          //     lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
+          //   });
           }));
           
       } catch (error) {
@@ -60,10 +62,10 @@ function HomeAdmin() {
           setProducts(data);
           setSortedProducts(data);
           setFilteredProducts(data);
-          setPaginationState({
-              ...paginationState,
-              lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
-            });
+          // setPaginationState({
+          //     ...paginationState,
+          //     lastPage: Math.ceil(data.length / paginationState.itemsPerPage),
+          //   });
       } catch (error) {
           console.log(alert(error.message));
       }
@@ -83,16 +85,15 @@ function HomeAdmin() {
           const productName = product.productName.toLowerCase();
           const keyword = formData.keyword.toLowerCase();
           return (
-            productName.includes(keyword) &&
-            product.category_id.toString().includes(formData.category_id)
+            productName.includes(keyword) 
           );
         });
     
-        setPaginationState({
-          ...paginationState,
-          page: 1,
-          lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage),
-        });
+        // setPaginationState({
+        //   ...paginationState,
+        //   page: 1,
+        //   lastPage: Math.ceil(resultFilter.length / paginationState.itemsPerPage),
+        // });
         setFilteredProducts(resultFilter);
         setSortedProducts(resultFilter);
       };
@@ -146,9 +147,9 @@ function HomeAdmin() {
         setDeletedProducts={setDeletedProducts}
         deletedProducts={deletedProducts}
         products={sortedProducts}
-        paginationState={paginationState}
+        // paginationState={paginationState}
         filterProducts={filterProducts}
-        setPaginationState={setPaginationState}
+        // setPaginationState={setPaginationState}
         sortProducts={sortProducts}
         setSelectedCategory={setSelectedCategory}
       />

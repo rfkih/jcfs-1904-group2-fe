@@ -7,13 +7,16 @@ import useStyles from './styles'
 
 function ProductsAdmin(props) {
   const classes = useStyles();
-  const { paginationState, products, deletedProducts } = props;
-  const { page, itemsPerPage } = paginationState;
+  const { 
+    // paginationState, 
+    products, deletedProducts } = props;
+  // const { page, itemsPerPage } = paginationState;
 
   const renderProducts = () => {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const slicedProducts = products.slice(startIndex, endIndex);
+    // const startIndex = (page - 1) * itemsPerPage;
+    // const endIndex = startIndex + itemsPerPage;
+    const slicedProducts = products
+    // .slice(startIndex, endIndex);
 
     return slicedProducts.map((product) => (
       <Grid item key={product.id} xs= {12} sm={6} md={4} lg={3}>
