@@ -98,7 +98,10 @@ function App() {
             <div className={classes.page}>
               <Routes>
                 <Route path="/" element={<HomeUser />} />
-
+                <Route
+                  path={`products/:productId`}
+                  element={<ProductDetail />}
+                />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<Forgotpass />} />
