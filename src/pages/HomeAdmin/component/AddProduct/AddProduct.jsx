@@ -42,7 +42,7 @@ function AddProduct() {
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
       setSelectedFile(uploaded);
-      
+
     }
 
     const onButtonUploadClick = () => {

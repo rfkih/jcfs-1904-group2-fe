@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from '../../utils/axios'
 import { makeStyles } from '@material-ui/core/styles';
 import EditProducts from './component/EditProducts'
-import AddProduct from "./component/AddProduct/AddProduct";
-import SalesReport from "./component/SalesReport/SalesReport";
+import OrderDetail from "./component/PendingOrder/OrderDetail/OrderDetail";
 const useStyles = makeStyles( (theme) => {
 
   return {
@@ -65,6 +64,8 @@ function HomeAdmin() {
   }
   }, [deletedProducts, selectedCategory, page, keyword, sort])
 
+  
+  
   
   return (
     <>

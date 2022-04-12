@@ -5,6 +5,7 @@ import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 import { set } from 'date-fns/esm';
 import { Link } from 'react-router-dom'
+import { ProductManager} from '../../ProductManager'
 
 function OrderDetail() {
     const classes = useStyles();
@@ -13,6 +14,7 @@ function OrderDetail() {
     const [isApproved, setIsApproved] = useState(false)
 
 
+ 
     const isApprovedHandlerClick = () => {
         isApprovedMessage();
     }
@@ -61,12 +63,21 @@ function OrderDetail() {
                         <Typography variant="h6" component="div">Notes</Typography>
                         <Typography variant="body1">{order.notes}</Typography>
                     <CardActions>
-                        <Button>Approved</Button>
-                        <Button onClick={isApprovedHandlerClick}>Rejected</Button>
+                        {isApproved ? <>
+                        <Typography> Select Drugs </Typography>
+                        <Button onClick={() => {setIsApproved(false)}}> Back </Button>
+                        </> : <>
+                        <Button onClick={() => {setIsApproved(true)}}>Approve</Button>
+                        <Button onClick={isApprovedHandlerClick}>Reject</Button>
+                        </>}
                         <Button> Open Image</Button>
                     </CardActions>
-
                 </Card>
+                {isApproved ? 
+                <>
+                
+                </> 
+                : null}
 
 
             </Paper>

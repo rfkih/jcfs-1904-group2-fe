@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Card, CardMedia, CardContent, CardActions, Typography, Button, useTheme} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
@@ -6,6 +6,7 @@ import axios from '../../../../../utils/axios'
 
 
 function ProductAdmin({product, deletedProducts}) {
+  const [stock, setStock] = useState([])
   
 
   const id = {id: product.id}
