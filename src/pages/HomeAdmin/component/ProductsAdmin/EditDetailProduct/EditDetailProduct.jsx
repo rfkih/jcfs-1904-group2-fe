@@ -159,7 +159,7 @@ function EditDetailProduct() {
    
 
     const updateProduct = async () => {
-        // parseInt(isLiquid)
+        
         const updatedProduct = {
           id,
           category_id,

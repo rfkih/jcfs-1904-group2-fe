@@ -26,8 +26,7 @@ function HomeAdmin() {
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
 
-    console.log(keyword);
-
+  
     const fetchProducts = async () => {
      
       try {
@@ -67,10 +66,6 @@ function HomeAdmin() {
   }, [deletedProducts, selectedCategory, page, keyword, sort])
 
   
-
-
-
-
   return (
     <>
     <div className={classes.toolbar}/>

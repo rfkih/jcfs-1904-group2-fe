@@ -2,8 +2,6 @@ import React,{useState} from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import { makeStyles } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import { Grid, Box, Stack } from '@material-ui/core';
-import Navbar from './component/Navbar/Navbar'
 import HomeUser from './pages/HomeUser/HomeUser'
 import HomeAdmin from './pages/HomeAdmin/HomeAdmin';
 import ProductDetail from './pages/HomeUser/components/Products/ProductDetail/ProductDetail';
