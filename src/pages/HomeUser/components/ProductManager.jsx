@@ -8,11 +8,9 @@ import useStyles from './styles';
 
 function ProductManager(props) {
     const classes = useStyles();
-    const { category, setSelectedCategory, setPage  } = props;
+    const { category, setSelectedCategory, setPage, setSort , setKeyword } = props;
     
-    const [formState, setFormState] = useState({
-        keyword: "", 
-      });
+
     
       
    
@@ -22,15 +20,14 @@ function ProductManager(props) {
       }
 
     const handleChange = (e) => {
-        setFormState({ ...formState, [e.target.name]: e.target.value });
+        setKeyword(`and productName like '%${e.target.value}%'`);
+        setPage(1)
       };
 
-    const btnSearchHandler = () => {
-        props.filterProducts(formState);
-      };
+    
 
     const selectSortHandler = (e) => {
-        props.sortProducts(e.target.value);
+        setSort(e.target.value);
       };
 
    
@@ -57,13 +54,11 @@ function ProductManager(props) {
                 />
                 </Grid>
                 <Grid item xs={3}>
-                  <IconButton sx={{ p: '10px' }} onClick={btnSearchHandler}>
+                  <IconButton sx={{ p: '10px' }}>
                     <SearchOutlined />
                   </IconButton>
                 </Grid>
-
               </Grid>
-            
             <br />
             <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="category-select">Category</InputLabel>
@@ -105,10 +100,10 @@ function ProductManager(props) {
                     onChange={selectSortHandler}
                   >
                     <MenuItem value="" > Default </MenuItem>
-                    <MenuItem value="lowPrice" > Lowest Price </MenuItem>
-                    <MenuItem value="highPrice" > Highest Price </MenuItem>
-                    <MenuItem value="az" > A - Z </MenuItem>
-                    <MenuItem value="za" > Z - A</MenuItem>
+                    <MenuItem value="order by price ASC" > Lowest Price </MenuItem>
+                    <MenuItem value="order by price DESC" > Highest Price </MenuItem>
+                    <MenuItem value="order by productName ASC" > A - Z </MenuItem>
+                    <MenuItem value="order by productName DESC" > Z - A</MenuItem>
               </Select>   
             </FormControl>
           </CardContent>

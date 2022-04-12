@@ -26,6 +26,8 @@ function HomeAdmin() {
     const [ page, setPage ] = useState(1)
     const [ productPerPage, setProductPerPage] = useState(4)
     const [totalPage, setTotalPage] = useState(1)
+    const [ sort, setSort ] = useState('')
+    const [ keyword, setKeyword] = useState('')
 
     
 
