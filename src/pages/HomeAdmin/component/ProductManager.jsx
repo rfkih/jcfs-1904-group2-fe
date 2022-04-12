@@ -3,13 +3,10 @@ import axios from '../../../utils/axios'
 import { InputLabel, Select, MenuItem, Button, Grid, Typography, Container, Paper, Card, TextField, FormControl, CardActions, Divider, CardContent, Box} from '@material-ui/core';
 
 function ProductManager(props) {
-    const {deletedProducts, setDeletedProducts, setSelectedCategory, setPage } = props;
+    const {deletedProducts, setDeletedProducts, setSelectedCategory, setPage, setSort, setKeyword } = props;
     const [category, setCategory] = useState([]);
     
 
-    const [formState, setFormState] = useState({
-        keyword: "",
-      });
 
     const deletedProductHandle = () => {
       setDeletedProducts(!deletedProducts);
@@ -38,15 +35,13 @@ function ProductManager(props) {
 
 
     const handleChange = (e) => {
-        setFormState({ ...formState, [e.target.name]: e.target.value });
-      };
+      setKeyword(`and productName like '%${e.target.value}%'`);
+      setPage(1)
+    };
 
-    const btnSearchHandler = () => {
-        props.filterProducts(formState);
-      };
 
     const selectSortHandler = (e) => {
-        props.sortProducts(e.target.value);
+        setSort(e.target.value);
       };
 
 
@@ -91,7 +86,7 @@ function ProductManager(props) {
               </Grid>             
             </CardContent>
             <CardActions>
-              <Button onClick={btnSearchHandler} variant="contained">Search</Button>
+              
             </CardActions>
           </Card>
         </Grid>
@@ -110,11 +105,11 @@ function ProductManager(props) {
                       name="sortBy"
                       onChange={selectSortHandler}
                     >
-                      <MenuItem key={0} value="" > Default </MenuItem>
-                      <MenuItem key={1} value="lowPrice" > Lowest Price </MenuItem>
-                      <MenuItem key={2} value="highPrice" > Highest Price </MenuItem>
-                      <MenuItem key={3} value="az" > A - Z </MenuItem>
-                      <MenuItem key={4} value="za" > Z - A</MenuItem>
+                      <MenuItem value="" > Default </MenuItem>
+                      <MenuItem value="order by price ASC" > Lowest Price </MenuItem>
+                      <MenuItem value="order by price DESC" > Highest Price </MenuItem>
+                      <MenuItem value="order by productName ASC" > A - Z </MenuItem>
+                      <MenuItem value="order by productName DESC" > Z - A</MenuItem>
                     </Select>   
               </FormControl>
             </CardContent>
