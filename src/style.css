@@ -1,0 +1,39 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.register-login-navbar {
+  display: flex;
+  padding: 10px;
+}
+
+.product-navbar {
+  display: flex;
+  padding: 10px;
+}
+
+.pages {
+  max-width: 1200px;
+  width: 100%;
+  margin: 100px auto;
+  box-shadow: 0 0 10px grey;
+  border-radius: 10px;
+  text-align: center;
+}
+
+
+
+.avatar {
+  display: flex;
+  justify-content: center;
+}
+
+.form-control {
+  display: flex;
+  justify-content: center;
+}
+
+.gender {
+  justify-content: center;
+}
