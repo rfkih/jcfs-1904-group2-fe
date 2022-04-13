@@ -118,9 +118,7 @@ function AddProduct() {
       })
       .catch((error) => console.log({ error }));
   };
-  // const Input = styled('input')({
-  //   display: 'none',
-  // });
+  
   
   return (
       <Container>
@@ -147,11 +145,8 @@ function AddProduct() {
                         id="contained-button-file"
                         onChange={fileSelectedHandler}
                       />
-                  <CardActions>
-                    
-                  
-                      <Button variant="contained" component="span"  onClick={onButtonUploadClick} >Upload Image </Button>
-                   
+                  <CardActions>     
+                      <Button variant="contained" component="span"  onClick={onButtonUploadClick} >Upload Image </Button>      
                   </CardActions>
                 </Card>
               </form>          
@@ -195,36 +190,42 @@ function AddProduct() {
                         ))}
                         </Select>
                     </Grid>
-              </Grid>
-                <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
-                  {formState.isLiquid && 
-                  <Grid container spacing={3}>
-                  <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
-                  <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
-                  {formState.isLiquid == 1 ? <>
-                    <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
-                    <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
-                  </> : <>
-                    <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
-                    <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
-                  </>             
-                  }  
-                </Grid>}
-  
-                    
-
-                  <br/>
-              <div >
+                  </Grid>
+                  <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
+                    {formState.isLiquid && 
+                    <Grid container spacing={3}>
+                      <Grid item xs={6}>
+                        <TextField size='small' variant="outlined" name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField size='small' variant="outlined" name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
+                      </Grid>
+                    {formState.isLiquid == 1 ? <>
+                      <Grid item xs={6} >
+                        <TextField size='small' variant="outlined" name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
+                      </Grid>
+                      <Grid item xs={6}>  
+                        <TextField size='small' variant="outlined" name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
+                      </Grid> 
+                    </> : <>
+                      <Grid item xs={6} >
+                        <TextField size='small' variant="outlined"  name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField size='small' variant="outlined"  name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
+                      </Grid>
+                    </>             
+                    }  
+                  </Grid>}
+                    <br/>
+                  <CardActions>
                     <Button  variant="contained" color="primary" onClick={addNewProduct} >Add New Product </Button>
-              </div>
-            </form>  
-            </Container>  
-      </Paper>
-
+                  </CardActions>
+                </form>  
+              </Container>  
+            </Paper>
           </Grid>
-        </Grid>
-        
-    
+        </Grid>  
     </Container>
        
     
