@@ -14,8 +14,7 @@ function UsersTransaction() {
     const [pageUser, setPageUser] = useState(0)
     const [userPerPage, setUserPerPage] = useState(10)
     const [transactionPerPage, setTransactionPerPage] = useState(10)
-    const [status, setStatus] = useState({})
-    const [sortTransaction, setSortTransaction] = useState([])
+    const [status, setStatus] = useState('')
     const [formState, setFormState] = useState({
         keyword: "",
       });
@@ -24,17 +23,17 @@ function UsersTransaction() {
     const [formStateUser, setFormStateUser] = useState({
       keyword: "",
     }); 
-    
-
-
+    const [sortTransactions, setSortTransactions] = useState('')
+    const [keywordTransaction, setKeywordTransaction] = useState('')
+   
 
     const fetchTransaction = async () => {
         try {
         
-            const res = await axios.get("/transaction", {params: (status)});
+            const res = await axios.get("/transaction", {params: {sortTransactions, keywordTransaction, status}});
             const { data } = res;
             setTransaction(data);
-            setSortTransaction(data);
+            
            
         } catch (error) {
             console.log(alert(error.message));
@@ -43,7 +42,7 @@ function UsersTransaction() {
 
     useEffect (() => {
         fetchTransaction();
-    },[status]);
+    },[status, sortTransactions, keywordTransaction]);
 
 
     const fetchUser = async () => {
@@ -61,7 +60,11 @@ function UsersTransaction() {
         fetchUser();
     },[])
 
-    
+
+    const keywordTransactionHandleChange = (e) => {
+      setKeywordTransaction(e.target.value);
+      setPage(0)
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -82,20 +85,15 @@ function UsersTransaction() {
     }
 
     const handleChangeStatus = (e) => {
-        setStatus({[e.target.name]: e.target.value})
+        setStatus(e.target.value)
       };
 
-    const handleChangeKeyword = (e) => {
-        setFormState({ ...formState, [e.target.name]: e.target.value });
-      };
+    
 
       const handleChangeKeywordUser = (e) => {
         setFormStateUser({ ...formStateUser, [e.target.name]: e.target.value });
       };
 
-    const btnSearchHandler = () => {
-        filterInvoice(formState);
-      };
 
       const btnSearchUserHandler = () => {
         filterUser(formStateUser);
@@ -113,7 +111,6 @@ function UsersTransaction() {
           );
         });
         
-        setSortTransaction(resultFilter);
       };
 
       const filterUser = (formData) => {
@@ -145,32 +142,8 @@ function UsersTransaction() {
         { id:'email', label: 'E-Mail', align: 'right', minWidth: 100},
     ]
 
-    const sortingTransaction = (sortValue) => {
-        const rawData = [...transaction];
     
-        switch (sortValue) {
-          case "transactionascending":
-            rawData.sort((a, b) => a.id - b.id);
-            break;
-          case "transactiondescending":
-            rawData.sort((a, b) => b.id - a.id);
-            break;
-          case "useridascending":
-            rawData.sort((a, b) => a.user_id - b.user_id);
-            break;
-          case "useriddescending":
-            rawData.sort((a, b) => b.user_id - a.user_id);
-            break;
-            case "priceascending":
-            rawData.sort((a, b) => a.totalPrice - b.totalPrice);
-            break;
-          case "pricedescending":
-            rawData.sort((a, b) => b.totalPrice - a.totalPrice);
-            break;
-        }
-        setSortTransaction(rawData)
-      };
-    console.log(users);
+    
       const sortingUser = (sortValue) => {
         const rawData = [...users];
     
@@ -231,13 +204,11 @@ function UsersTransaction() {
 
     
 
-    const selectSortHandler = (e) => {
-          
-        sortingTransaction(e.target.value);
+    const selectSortHandler = (e) => {    
+      setSortTransactions(e.target.value);
       };
 
     const selectSortUserHandler = (e) => {
-          
         sortingUser(e.target.value);
       };
 
@@ -263,10 +234,10 @@ function UsersTransaction() {
                                         onChange={handleChangeStatus}
                                     >
                                         <MenuItem key={1} value={""} >Default</MenuItem>
-                                        <MenuItem key={2} value={"paid"} >Paid</MenuItem>
-                                        <MenuItem key={3} value={"failed"} >Failed</MenuItem>
-                                        <MenuItem key={4} value={"sent"} >Sent</MenuItem>
-                                        <MenuItem key={5} value={"complete"}>Complete</MenuItem>
+                                        <MenuItem key={2} value={"where transactionStatus = 'paid'"} >Paid</MenuItem>
+                                        <MenuItem key={3} value={"where transactionStatus = 'failed'"} >Failed</MenuItem>
+                                        <MenuItem key={4} value={"where transactionStatus = 'sent'"} >Sent</MenuItem>
+                                        <MenuItem key={5} value={"where transactionStatus = 'complete'"}>Complete</MenuItem>
                                         </Select>
                             </FormControl>
                         </Grid>
@@ -281,12 +252,12 @@ function UsersTransaction() {
                                         onChange={selectSortHandler}
                                     >
                                         <MenuItem key={1} value={""} >Default</MenuItem>
-                                        <MenuItem key={2} value={"transactionascending"} >Transaction Id (ascending)</MenuItem>
-                                        <MenuItem key={3} value={"transactiondescending"} >Transaction Id (descending)</MenuItem>
-                                        <MenuItem key={4} value={"useridascending"} >User Id (ascending)</MenuItem>
-                                        <MenuItem key={5} value={"useriddescending"}>User Id (descending)</MenuItem>
-                                        <MenuItem key={6} value={"priceascending"} >Price (ascending)</MenuItem>
-                                        <MenuItem key={7} value={"pricedescending"}>Price (descending)</MenuItem>
+                                        <MenuItem key={2} value={"order by id asc"} >Transaction Id (ascending)</MenuItem>
+                                        <MenuItem key={3} value={"order by id desc"} >Transaction Id (descending)</MenuItem>
+                                        <MenuItem key={4} value={"order by user_id desc"} >User Id (descending)</MenuItem>
+                                        <MenuItem key={5} value={"order by user_id asc"}>User Id (asccending)</MenuItem>
+                                        <MenuItem key={6} value={"order by totalPrice desc"} >Price (descending)</MenuItem>
+                                        <MenuItem key={7} value={"order by totalPrice asc"}>Price (ascending)</MenuItem>
                                     </Select>   
                             </FormControl>
                         </Grid>
@@ -295,9 +266,9 @@ function UsersTransaction() {
                                 placeholder="Search Invoice"
                                 name="keyword"
                                 align="center"
-                                onChange={handleChangeKeyword}
+                                onChange={keywordTransactionHandleChange}
                             />
-                            <IconButton  onClick={btnSearchHandler} >
+                            <IconButton  >
                                 <SearchOutlined />
                             </IconButton>
                         </Grid>
@@ -359,7 +330,7 @@ function UsersTransaction() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>   
-                                {sortTransaction.slice(page * transactionPerPage, page * transactionPerPage + transactionPerPage)
+                                {transaction.slice(page * transactionPerPage, page * transactionPerPage + transactionPerPage)
                                 .map((item) => {
                                     return (
                                         <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" tabIndex={-1} key={item.id}>
@@ -379,13 +350,13 @@ function UsersTransaction() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 20, 30]}
-                        component="div"
-                        count={transaction.length}
-                        rowsPerPage={transactionPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeTransactionPerPage}
+                      rowsPerPageOptions={[10, 20, 30]}
+                      component="div"
+                      count={transaction.length}
+                      rowsPerPage={transactionPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeTransactionPerPage}
                     />
                 </Paper>
             </Grid>
