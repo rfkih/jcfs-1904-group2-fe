@@ -373,19 +373,19 @@ let choosenCategory = categories.filter(function (category) {
                             <Grid  xs={5}>
                                 <TextField id="outlined-textarea" name='qtyBoxTotal'  label="Box Total"  placeholder={qtyBoxTotal} onInput={stockHandleChange} />
                             </Grid>
-                        {isLiquid === true ?
+                        {isLiquid === 1 ?
                          <>
                             <Grid xs={5}>
-                                <TextField id="outlined-textarea" name='qtyBottleAvailable'  label="Bottle Available"  placeholder={qtyBottleAvailable} onInput={stockHandleChange} />
+                                <TextField id="outlined-textarea" name='qtyBottleAvailable'  label="Bottle Available"  placeholder={`${qtyBottleAvailable}`} onInput={stockHandleChange} />
                             </Grid>
                             <Grid xs={5}>
-                                <TextField id="outlined-textarea" name='qtyBottleTotal'  label="Bottle Total"  placeholder={qtyBottleTotal} onInput={stockHandleChange} />
+                                <TextField id="outlined-textarea" name='qtyBottleTotal'  label="Bottle Total"  placeholder={`${qtyBottleTotal}`} onInput={stockHandleChange} />
                             </Grid>
                             <Grid xs={5}>
-                                <TextField id="outlined-textarea" name='qtyMlAvailable'  label="Ml Available"  placeholder={qtyMlAvailable} onInput={stockHandleChange} />
+                                <TextField id="outlined-textarea" name='qtyMlAvailable'  label="Ml Available"  placeholder={`${qtyMlAvailable}`} onInput={stockHandleChange} />
                             </Grid>
                             <Grid xs={5}>
-                                <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={qtyMlTotal} onInput={stockHandleChange} />
+                                <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={`${qtyMlTotal}`} onInput={stockHandleChange} />
                             </Grid>
                             <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
                          </> : 
