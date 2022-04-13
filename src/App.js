@@ -21,6 +21,7 @@ import DrawerBar from "./pages/HomeAdmin/component/Sidebar/Sidebar";
 import SalesReport from "./pages/HomeAdmin/component/SalesReport/SalesReport";
 import PendingOrder from "./pages/HomeAdmin/component/PendingOrder/PendingOrder";
 import OrderDetail from "./pages/HomeAdmin/component/PendingOrder/OrderDetail/OrderDetail";
+import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSoldDetail/ItemSoldDetail'
 
 const useStyles = makeStyles({
   page: {
@@ -75,6 +76,7 @@ function App() {
                   element={<EditDetailProduct />}
                 />
                 <Route path={`itemsold`} element={<ItemSold />} />
+                <Route path={`itemsold/product/:productId`} element={<ItemSoldDetail />} />
                 <Route
                   path={`userstransaction`}
                   element={<UsersTransaction />}

@@ -61,7 +61,7 @@ function UsersTransaction() {
         fetchUser();
     },[])
 
-    console.log(users);
+    
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
