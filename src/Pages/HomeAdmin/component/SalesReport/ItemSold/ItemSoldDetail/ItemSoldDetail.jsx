@@ -15,14 +15,15 @@ function ItemSoldDetail() {
     const [productPerPage, setProductPerPage] = useState(10);
     const [detail, setDetail] = useState({})
     const [sort, setSort] = useState(``)
-
-
+    const [stocks, setStocks] = useState([])
+    const [stock, setStock] = useState(0)
+    console.log(productDetail);
 
     const getTransactionByProduct = async () => { 
         try {
             const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { sort , id: params.productId}});
             const  {data} = res
-            setProductDetail(data.result[0]);
+            setProductDetail(data.product[0]);
             setCategory(data.category[0]);
             setProduct(data.result)
             setDetail(data.total[0]);
@@ -30,6 +31,25 @@ function ItemSoldDetail() {
             console.log(alert(error.message));
         }
     };
+    
+    const fetchStocks = async () => {
+        try {
+            const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
+            const { data } = res;
+            console.log(data.result[0].qtyBoxAvailable);
+            setStocks(data.calculatedStock);
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    
+
+    useEffect(() => {
+        fetchStocks();
+    }, [])
+
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
       };
@@ -42,12 +62,22 @@ function ItemSoldDetail() {
     useEffect(() => {
         getTransactionByProduct();
     },[sort])
+    console.log();
+
+    useEffect(()=> {
+
+        if (productDetail.isLiquid) {
+          setStock(stocks.stockLiquid)
+        }else{
+          setStock(stocks.stockNonLiquid)
+        }
+      }, [stocks])
 
     const selectSortHandler = (e) => {
         setSort(e.target.value);
       };
 
-      console.log(sort);
+    
     const columns = [
         { id:'transaction_id', label: 'Transaction id',align: 'right', minWidth: 70},
         { id:'productName', label: 'Product Name',align: 'right', minWidth: 170},
@@ -77,7 +107,7 @@ function ItemSoldDetail() {
                                 <Typography>: {productDetail.id}</Typography>
                                 <Typography>: {productDetail.productName}</Typography>
                                 <Typography>: {category.categoryName}</Typography>
-                                <Typography>: {productDetail.productDescription}</Typography>
+                                <Typography>: {productDetail.productDetails}</Typography>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -85,7 +115,7 @@ function ItemSoldDetail() {
                         <CardMedia
                             component="img"
                             height = "200"
-                            image={productDetail.productImg}
+                            image={productDetail.productIMG}
                         />
                     </Grid>
                 </Grid>
@@ -95,6 +125,7 @@ function ItemSoldDetail() {
                     <Grid item xs={4}>
                         <Typography>Total Bought : {detail.total_bought} pcs</Typography>
                         <Typography>Total Amountt : Rp.{detail.total_amount}</Typography>
+                        <Typography>Outstanding Stocks: {stock} {productDetail.isLiquid === 1 ? <>Bottle</> : <>Strips</>} </Typography>
                     </Grid>
                     <Grid item xs={8}>
                     <FormControl sx={{ m: 3, minWidth: 200 }}>
@@ -111,12 +142,8 @@ function ItemSoldDetail() {
                                 <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
                             </Select>   
                     </FormControl>
-                        
-
                     </Grid>
-
-                </Grid>
-               
+                </Grid>    
             </Paper>
             <Paper>
                 <TableContainer sx={{ maxHeight: 440 }} >

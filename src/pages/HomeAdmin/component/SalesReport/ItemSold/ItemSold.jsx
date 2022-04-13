@@ -20,18 +20,17 @@ function ItemSold() {
     const [page, setPage] = useState(0)
     const [soldItemPerPage, setSoldItemPerPage] = useState(10)
     const [ soldItem, setSoldItem] = useState([])
-    const [ sortedItem, setSortedItem] = useState([])
+    const [ sortedItem, setSortedItem] = useState('')
     const [ soldCategory, setSoldCategory] = useState([])
     const [ pageCategory, setPageCategory] = useState(0)
     const[ categoryPerpage, setCategoryPerPage] = useState(10)
-    const [sortedCategory, setSortedCategory] = useState([])
+    const [sortedCategory, setSortedCategory] = useState('')
     const [categoryName, setCategoryName] = useState([]);
-    const [formState, setFormState] = useState({
-        keyword: "",
-      });
     const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
     const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
     const [ revenue, setRevenue] = useState(0)
+    const [ keyword, setKeyword] = useState('')
+
 
     const handleDateChangeFrom = (date) => {
         setSelectedDateFrom(date)
@@ -42,14 +41,12 @@ function ItemSold() {
 
     
     const handleChange = (e) => {
-        setFormState({ ...formState, [e.target.name]: e.target.value });
+        setKeyword( `and productName like '%${e.target.value}%'`);
+        setPage(0)
       };
 
-      const btnSearchHandler = () => {
-        filterProducts(formState);
-      };
 
-    sortedItem.forEach((item)=>{
+      soldItem.forEach((item)=>{
             categoryName.map((name) => {
                 if (item.productCategory == name.id) {
                     item.category = name.categoryName   
@@ -57,7 +54,7 @@ function ItemSold() {
             })
     });
 
-    sortedCategory.forEach((item)=>{
+    soldCategory.forEach((item)=>{
         categoryName.map((name) => {
             if (item.productCategory == name.id){
                 item.category = name.categoryName
@@ -65,29 +62,13 @@ function ItemSold() {
         })
     });
 
-    
-    const filterProducts = (formData) => {
-        const resultFilter = soldItem.filter((item) => {
-          const productName = item.productName.toLowerCase();
-          const keyword = formData.keyword.toLowerCase();
-          return (
-            productName.includes(keyword)
-          );
-        });
-        
-        setSortedItem(resultFilter);
-      };
 
-
-   
-   
 
     const fetchSoldProducts = async () => {
         try {
-            const res = await axios.get("/products/sold");
+            const res = await axios.get("/products/sold", {params: { sortedItem, keyword }});
             const { data } = res;
             setSoldItem(data);
-            setSortedItem(data)
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -112,10 +93,9 @@ function ItemSold() {
 
     const fetchSoldCategory = async () => {
         try {
-            const res = await axios.get("/transactiondetails/category")
+            const res = await axios.get("/transactiondetails/category", {params: { sortedCategory  }})
             const { data } = res;
             setSoldCategory(data)
-            setSortedCategory(data)
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -136,7 +116,7 @@ function ItemSold() {
      fetchSoldProducts();
      fetchSoldCategory();
      fetchCategories();
-    }, [])
+    }, [sortedItem, keyword, sortedCategory])
 
 
     const handleChangePageCategory = ( newPageCategory) => {
@@ -159,14 +139,14 @@ function ItemSold() {
     }
 
       const selectSortHandler = (e) => {
-        sortItem(e.target.value);
+        setSortedItem(e.target.value);
       };
 
       const selectSortCategoryHandler = (e) => {
-        sortCategory(e.target.value);
+        setSortedCategory(e.target.value);
       };
 
-
+      console.log(sortedCategory);
 
 
     const columns = [
@@ -183,26 +163,6 @@ function ItemSold() {
     ]
 
     
-
-    const sortItem = (sortValue) => {
-        const rawData = [...soldItem];
-    
-        switch (sortValue) {
-          case "leastbought":
-            rawData.sort((a, b) => a.total_bought - b.total_bought);
-            break;
-          case "mostbought":
-            rawData.sort((a, b) => b.total_bought - a.total_bought);
-            break;
-          case "ascending":
-            rawData.sort((a, b) => a.product_id - b.product_id);
-            break;
-          case "descending":
-            rawData.sort((a, b) => b.product_id - a.product_id);
-            break;
-        }
-        setSortedItem(rawData);
-      };
 
       const sortCategory = (sortValue) => {
         const rawData = [...soldCategory];
@@ -302,10 +262,10 @@ function ItemSold() {
                                                 onChange={selectSortHandler}
                                             >
                                                 <MenuItem key={0} value="" > Default </MenuItem>
-                                                <MenuItem key={1} value="leastbought" > Least Bought </MenuItem>
-                                                <MenuItem key={2} value="mostbought" > Most Bought </MenuItem>
-                                                <MenuItem key={3} value="ascending" > Product id (Ascending) </MenuItem>
-                                                <MenuItem key={4} value="descending" > Product id (Descending) </MenuItem>
+                                                <MenuItem key={1} value="order by total_bought asc" > Least Bought </MenuItem>
+                                                <MenuItem key={2} value="order by total_bought desc" > Most Bought </MenuItem>
+                                                <MenuItem key={3} value="order by product_id asc" > Product id (Ascending) </MenuItem>
+                                                <MenuItem key={4} value="order by product_id desc" > Product id (Descending) </MenuItem>
                                             </Select>   
                                     </FormControl>
                                 </CardContent>
@@ -319,7 +279,7 @@ function ItemSold() {
                                 align="center"
                                 onChange={handleChange}
                             />
-                            <IconButton onClick={btnSearchHandler}>
+                            <IconButton>
                                 <SearchOutlined />
                             </IconButton>
                         </Grid>
@@ -343,10 +303,10 @@ function ItemSold() {
                                         onChange={selectSortCategoryHandler}
                                     >
                                         <MenuItem value="" > Default </MenuItem>
-                                        <MenuItem value="leastbought" > Least Bought </MenuItem>
-                                        <MenuItem value="mostbought" > Most Bought </MenuItem>
-                                        <MenuItem value="ascending" > Category Id(Ascending) </MenuItem>
-                                        <MenuItem value="descending" > Category Id(Descending) </MenuItem>
+                                        <MenuItem value="order by total_bought asc" > Least Bought </MenuItem>
+                                        <MenuItem value="order by total_bought desc" > Most Bought </MenuItem>
+                                        <MenuItem value="order by productCategory asc" > Category Id(Ascending) </MenuItem>
+                                        <MenuItem value="order by productCategory desc" > Category Id(Descending) </MenuItem>
                                     </Select>   
                             </FormControl>
                         </CardContent>
@@ -372,10 +332,10 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedItem.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                                {soldItem.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
                                     .map((item) => {
                                     return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={sortedItem.product_id}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={soldItem.product_id}>
                                         {columns.map((column) => {
                                             const value = item[column.id];
                                             return (
@@ -420,7 +380,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedCategory.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
+                                {soldCategory.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
                                     .map((category) => {
                                         return(
                                             <TableRow hover role="checkbox" tabIndex={-1} key={sortedCategory.productCategory}>
