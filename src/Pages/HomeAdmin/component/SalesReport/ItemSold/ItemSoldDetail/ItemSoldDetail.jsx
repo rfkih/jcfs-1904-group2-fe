@@ -14,9 +14,13 @@ function ItemSoldDetail() {
     const [product, setProduct] = useState([])
     const [productPerPage, setProductPerPage] = useState(10);
     const [detail, setDetail] = useState({})
+    const [sort, setSort] = useState(``)
+
+
+
     const getTransactionByProduct = async () => { 
         try {
-            const res = await axios.get(`transactiondetails/product/${params.productId}`, {params: {id: params.productId}});
+            const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { sort , id: params.productId}});
             const  {data} = res
             setProductDetail(data.result[0]);
             setCategory(data.category[0]);
@@ -37,8 +41,13 @@ function ItemSoldDetail() {
     
     useEffect(() => {
         getTransactionByProduct();
-    },[])
+    },[sort])
 
+    const selectSortHandler = (e) => {
+        setSort(e.target.value);
+      };
+
+      console.log(sort);
     const columns = [
         { id:'transaction_id', label: 'Transaction id',align: 'right', minWidth: 70},
         { id:'productName', label: 'Product Name',align: 'right', minWidth: 170},
@@ -50,7 +59,7 @@ function ItemSoldDetail() {
 
 
   
-    console.log(detail);
+    
   return (
     <Container> 
         <Paper className={classes.content} >
@@ -82,8 +91,32 @@ function ItemSoldDetail() {
                 </Grid>
             </Card>
             <Paper>
-                <Typography>Total Bought : {detail.total_bought} pcs</Typography>
-                <Typography>Total Amountt : Rp.{detail.total_amount}</Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                        <Typography>Total Bought : {detail.total_bought} pcs</Typography>
+                        <Typography>Total Amountt : Rp.{detail.total_amount}</Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                    <FormControl sx={{ m: 3, minWidth: 200 }}>
+                        <InputLabel id="sort-by" >Sort By</InputLabel>
+                            <Select
+                                labelId="sort-by"
+                                id="1"
+                                defaultValue=""
+                                name="sortBy"
+                                onChange={selectSortHandler}    
+                            >
+                                <MenuItem key={0} value="" > Default </MenuItem>
+                                <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
+                                <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
+                            </Select>   
+                    </FormControl>
+                        
+
+                    </Grid>
+
+                </Grid>
+               
             </Paper>
             <Paper>
                 <TableContainer sx={{ maxHeight: 440 }} >
