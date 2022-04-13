@@ -7,10 +7,8 @@ import useStyles from './styles'
 
 function ProductsAdmin(props) {
   const classes = useStyles();
-  const { 
-    // paginationState, 
-    products, deletedProducts, page, totalPage, setPage} = props;
-  // const { page, itemsPerPage } = paginationState;
+  const { products, deletedProducts, page, totalPage, setPage} = props;
+  
 
   const renderProducts = () => {
     

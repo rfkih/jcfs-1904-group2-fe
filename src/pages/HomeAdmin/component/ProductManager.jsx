@@ -10,7 +10,7 @@ function ProductManager(props) {
 
     const deletedProductHandle = () => {
       setDeletedProducts(!deletedProducts);
-      
+      setPage(1)
     };
 
     const handleSelectedCategory = (e) => {

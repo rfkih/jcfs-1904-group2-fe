@@ -21,6 +21,7 @@ function EditProducts(props) {
         setPage={setPage}
         setSort={setSort}
         setKeyword={setKeyword}
+        
       />
       <ProductsAdmin
         products={products}

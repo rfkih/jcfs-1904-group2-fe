@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("admin");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const dispatch = useDispatch();
 
