@@ -23,7 +23,8 @@ function SalesReport() {
     const [ graphData, setGraphData ] = useState([])
     const [range, setRange] = useState(12)
     const [year, setYear] = useState(null)
-    
+    const [ sortUser, setSortUser] = useState('')
+    const [keywordUser, setKeywordUser] = useState('')
 
     
 
@@ -63,7 +64,7 @@ function SalesReport() {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("/users");
+            const res = await axios.get("/users", {params: { sortUser, keywordUser }});
             const data  = res.data;
             setCountUser(data.userCount[0].user_count);
         } catch (error) {

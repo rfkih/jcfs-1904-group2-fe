@@ -23,11 +23,9 @@ function UsersTransaction() {
 
     const fetchTransaction = async () => {
         try {
-        
             const res = await axios.get("/transaction", {params: {sortTransactions, keywordTransaction, status}});
             const { data } = res;
-            setTransaction(data);
-            
+            setTransaction(data);   
            
         } catch (error) {
             console.log(alert(error.message));
@@ -89,19 +87,6 @@ function UsersTransaction() {
       };
 
 
-      const filterUser = (formData) => {
-        const resultFilter = users.filter((item) => {
-            
-          const username = item.username.toLowerCase();
-          const keyword = formData.keyword.toLowerCase();
-          return (
-                username.includes(keyword)
-          );
-        });
-        
-        setSortUser(resultFilter);
-      };
-     
 
     const columns = [
         { id:'id', label: 'Transaction Id', align: 'right', minWidth: 80},
