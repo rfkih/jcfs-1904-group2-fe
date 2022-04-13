@@ -15,17 +15,11 @@ function UsersTransaction() {
     const [userPerPage, setUserPerPage] = useState(10)
     const [transactionPerPage, setTransactionPerPage] = useState(10)
     const [status, setStatus] = useState('')
-    const [formState, setFormState] = useState({
-        keyword: "",
-      });
     const [ users, setUsers] = useState([])
-    const [ sortUser, setSortUser] = useState([])
-    const [formStateUser, setFormStateUser] = useState({
-      keyword: "",
-    }); 
+    const [ sortUser, setSortUser] = useState('')
     const [sortTransactions, setSortTransactions] = useState('')
     const [keywordTransaction, setKeywordTransaction] = useState('')
-   
+    const [keywordUser, setKeywordUser] = useState('')
 
     const fetchTransaction = async () => {
         try {
@@ -47,10 +41,10 @@ function UsersTransaction() {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("/users");
+            const res = await axios.get("/users", {params: { sortUser, keywordUser }});
             const {data} = res;
             setUsers(data.result)
-            setSortUser(data.result)
+           
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -58,7 +52,7 @@ function UsersTransaction() {
 
     useEffect(() => {
         fetchUser();
-    },[])
+    },[sortUser, keywordUser])
 
 
     const keywordTransactionHandleChange = (e) => {
@@ -91,27 +85,9 @@ function UsersTransaction() {
     
 
       const handleChangeKeywordUser = (e) => {
-        setFormStateUser({ ...formStateUser, [e.target.name]: e.target.value });
+        setKeywordUser(`and username like '%${e.target.value}%'`);
       };
 
-
-      const btnSearchUserHandler = () => {
-        filterUser(formStateUser);
-      };
-
-
-
-    const filterInvoice = (formData) => {
-        const resultFilter = transaction.filter((item) => {
-            
-          const invoice = item.invoice.toLowerCase();
-          const keyword = formData.keyword.toLowerCase();
-          return (
-                invoice.includes(keyword)
-          );
-        });
-        
-      };
 
       const filterUser = (formData) => {
         const resultFilter = users.filter((item) => {
@@ -142,74 +118,13 @@ function UsersTransaction() {
         { id:'email', label: 'E-Mail', align: 'right', minWidth: 100},
     ]
 
-    
-    
-      const sortingUser = (sortValue) => {
-        const rawData = [...users];
-    
-        switch (sortValue) {
-          case "idascending":
-            rawData.sort((a, b) => a.id - b.id);
-            break;
-          case "iddescending":
-            rawData.sort((a, b) => b.id - a.id);
-            break;
-          case "usernameascending":
-            rawData.sort((a, b) => {
-                if (a.username < b.username) {
-                  return -1;
-                } else if (a.username > b.username) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              });
-              break;
-          case "usernamedescending":
-            rawData.sort((a, b) => {
-                if (a.username > b.username) {
-                  return -1;
-                } else if (a.username < b.username) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              });
-              break;
-          case "nameascending":
-                rawData.sort((a, b) => {
-                    if (a.name < b.name) {
-                      return -1;
-                    } else if (a.name > b.name) {
-                      return 1;
-                    } else {
-                      return 0;
-                    }
-                  });
-                  break;
-          case "namedescending":
-            rawData.sort((a, b) => {
-                if (a.name < b.name) {
-                  return 1;
-                } else if (a.name > b.name) {
-                  return -1;
-                } else {
-                  return 0;
-                }
-              });
-              break;
-        }
-        setSortUser(rawData)
-      };
-
-    
 
     const selectSortHandler = (e) => {    
       setSortTransactions(e.target.value);
       };
 
     const selectSortUserHandler = (e) => {
-        sortingUser(e.target.value);
+        setSortUser(e.target.value);
       };
 
      
@@ -289,12 +204,12 @@ function UsersTransaction() {
                                         onChange={selectSortUserHandler}
                                     >
                                         <MenuItem key={1} value={""} >Default</MenuItem>
-                                        <MenuItem key={2} value={"idascending"} >User Id (ascending)</MenuItem>
-                                        <MenuItem key={3} value={"iddescending"} >User Id (descending)</MenuItem>
-                                        <MenuItem key={4} value={"usernameascending"} >Username(ascending)</MenuItem>
-                                        <MenuItem key={5} value={"usernamedescending"}>Username (descending)</MenuItem>
-                                        <MenuItem key={6} value={"nameascending"} >Name (ascending)</MenuItem>
-                                        <MenuItem key={7} value={"namedescending"}>Name (descending)</MenuItem>
+                                        <MenuItem key={2} value={"order by id asc"} >User Id (ascending)</MenuItem>
+                                        <MenuItem key={3} value={"order by id desc"} >User Id (descending)</MenuItem>
+                                        <MenuItem key={4} value={"order by username asc"} >Username(ascending)</MenuItem>
+                                        <MenuItem key={5} value={"order by username desc"}>Username (descending)</MenuItem>
+                                        <MenuItem key={6} value={" order by name asc"} >Name (ascending)</MenuItem>
+                                        <MenuItem key={7} value={" order by name desc"}>Name (descending)</MenuItem>
                                     </Select>   
                       </FormControl>
                   </Grid>
@@ -305,7 +220,7 @@ function UsersTransaction() {
                         align="center"
                         onChange={handleChangeKeywordUser}
                     />
-                    <IconButton onClick={btnSearchUserHandler} >
+                    <IconButton >
                          <SearchOutlined />
                     </IconButton>
                   </Grid>
@@ -378,7 +293,7 @@ function UsersTransaction() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { sortUser.slice(pageUser * userPerPage, pageUser * userPerPage + userPerPage)
+                                { users.slice(pageUser * userPerPage, pageUser * userPerPage + userPerPage)
                                     .map((user) => {
                                         return (
                                             <TableRow component={Link} to={`/usertransaction/${user.id}`} hover role="checkbox" key={user.id}>
