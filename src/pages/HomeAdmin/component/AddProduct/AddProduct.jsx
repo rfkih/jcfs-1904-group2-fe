@@ -42,13 +42,13 @@ function AddProduct() {
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
       setSelectedFile(uploaded);
-
     }
 
     const onButtonUploadClick = () => {
       fileUploadHandler();
     }
 
+ 
 
     const fileUploadHandler = () => {
       if(!selectedFile){
@@ -65,6 +65,13 @@ function AddProduct() {
         .catch((error) => console.log({ error }));
       } 
     }
+ console.log(selectedFile);
+    useEffect(() => {
+      if (selectedFile) {
+        fileUploadHandler();
+      }
+    },[selectedFile])
+  
     
     
     const fetchCategories = async () => {
@@ -87,7 +94,6 @@ function AddProduct() {
         const { category_id, productName, productDetails, productIMG, isLiquid, isDeleted, price } =
           formState;
         const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyStripsavailable, qtyStripsTotal} = stockFormState
-        // parseInt(isLiquid)
         
         const newProduct = {
           category_id,
@@ -135,18 +141,20 @@ function AddProduct() {
                     alt="..."
                   />
                   <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                      <Typography gutterBottom variant="h5" component="div">
                           Product Image
-                  </Typography>
+                      </Typography>
                       
                   </CardContent>
-                  <Input
-                        type="file"
-                        id="contained-button-file"
-                        onChange={fileSelectedHandler}
-                      />
+                  
                   <CardActions>     
-                      <Button variant="contained" component="span"  onClick={onButtonUploadClick} >Upload Image </Button>      
+                      <Button variant="contained" component="span" >
+                      <Input
+                        type="file"
+                        onChange={fileSelectedHandler}
+                        visibility="hidden"
+                      />
+                       </Button>      
                   </CardActions>
                 </Card>
               </form>          
@@ -190,7 +198,7 @@ function AddProduct() {
                         ))}
                         </Select>
                     </Grid>
-                  </Grid>
+                </Grid>
                   <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
                     {formState.isLiquid && 
                     <Grid container spacing={3}>
