@@ -5,7 +5,7 @@ import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconBut
 import {Link} from 'react-router-dom'
 import {SearchOutlined} from '@material-ui/icons'
 import useStyles from './style'
- 
+import moment from 'moment' 
 
 function UsersTransaction() {
   const classes = useStyles();
@@ -87,20 +87,21 @@ function UsersTransaction() {
       };
 
 
-
+    
     const columns = [
-        { id:'id', label: 'Transaction Id', align: 'right', minWidth: 80},
-        { id:'invoice', label: 'Invoice', align: 'right', minWidth: 110},
-        { id:'user_id', label: 'User Id',align: 'right', minWidth: 90},
-        { id:'transactionStatus', label: 'Transaction Status', align: 'right', minWidth: 110},
-        { id:'totalPrice', label: 'Total Price' ,align: 'right', minWidth: 90},
+        { id:'id', label: 'Id', align: 'center', minWidth: 10},
+        { id:'invoice', label: 'Invoice', align: 'center', minWidth: 50},
+        // { id:'user_id', label: 'User Id',align: 'center', minWidth: 20},
+        { id:'transactionStatus', label: 'Status', align: 'center', minWidth: 50},
+        { id:'totalPrice', label: 'Total Price' ,align: 'center', minWidth: 50},
+        { id:'created_at', label: 'Date' ,align: 'center', minWidth: 50},
     ]
 
     const columnsUser = [
-        { id:'id', label: 'User Id', align: 'right', minWidht: 80},
-        { id:'username', label: 'Username', align: 'right', minWidth: 100},
+        { id:'id', label: 'Id', align: 'right', minWidht: 10},
+        { id:'username', label: 'Username', align: 'right', minWidth: 50},
         { id:'name', label: 'Name', align: 'right', minWidth: 100},
-        { id:'email', label: 'E-Mail', align: 'right', minWidth: 100},
+        { id:'email', label: 'E-Mail', align: 'right', minWidth: 70},
     ]
 
 
@@ -151,13 +152,13 @@ function UsersTransaction() {
                                         name="sortBy"
                                         onChange={selectSortHandler}
                                     >
-                                        <MenuItem key={1} value={""} >Default</MenuItem>
-                                        <MenuItem key={2} value={"order by id asc"} >Transaction Id (ascending)</MenuItem>
-                                        <MenuItem key={3} value={"order by id desc"} >Transaction Id (descending)</MenuItem>
-                                        <MenuItem key={4} value={"order by user_id desc"} >User Id (descending)</MenuItem>
-                                        <MenuItem key={5} value={"order by user_id asc"}>User Id (asccending)</MenuItem>
-                                        <MenuItem key={6} value={"order by totalPrice desc"} >Price (descending)</MenuItem>
-                                        <MenuItem key={7} value={"order by totalPrice asc"}>Price (ascending)</MenuItem>
+                                        <MenuItem key={1} value={``} >Default</MenuItem>
+                                        <MenuItem key={2} value={`order by id asc`} >Transaction Id (ascending)</MenuItem>
+                                        <MenuItem key={3} value={`order by id desc`} >Transaction Id (descending)</MenuItem>
+                                        <MenuItem key={4} value={`order by created_at desc`} >Latest</MenuItem>
+                                        <MenuItem key={5} value={`order by created_at asc`}>Oldest</MenuItem>
+                                        <MenuItem key={6} value={`order by totalPrice desc`} >Price (descending)</MenuItem>
+                                        <MenuItem key={7} value={`order by totalPrice asc`}>Price (ascending)</MenuItem>
                                     </Select>   
                             </FormControl>
                         </Grid>
@@ -214,6 +215,14 @@ function UsersTransaction() {
             </Grid>
             <Grid item xs={7}>
                 <Paper>
+
+                </Paper>
+            </Grid>
+            <Grid item xs={5}>
+
+            </Grid>
+            <Grid item xs={7}>
+                <Paper>
                     <TableContainer sx={{ maxHeight: 440 }} >
                         <Table stickyHeader aria-label="styicky table">
                             <TableHead>
@@ -235,12 +244,26 @@ function UsersTransaction() {
                                     return (
                                         <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" tabIndex={-1} key={item.id}>
                                             {columns.map((column) => {
-                                                const value = item[column.id];
-                                                return (
-                                                    <TableCell key={column.id} align={column.align}>
+                                                const value = item[column.id];               
+                                                if (column.id === "created_at" ) {
+                                                    const date =  moment(value).utc().format('DD/MM/YYYY')
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align}>
+                                                            {date}
+                                                        </TableCell>     
+                                                    )  
+                                                } else {
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align}>
                                                         {value}
                                                     </TableCell>
-                                                )
+                                                    
+                                                        
+                                                    )
+
+                                                }
+                                                
+                                             
                                             })}
                                         </TableRow>
                                     )
