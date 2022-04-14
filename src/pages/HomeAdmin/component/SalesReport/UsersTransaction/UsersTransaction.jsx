@@ -26,7 +26,7 @@ function UsersTransaction() {
     const [keywordUser, setKeywordUser] = useState('')
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
-    
+    const [ totalPageTransaction, setTotalPageTransaction] = useState(1)
 
 
 

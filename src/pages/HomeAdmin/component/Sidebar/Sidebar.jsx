@@ -35,6 +35,12 @@ function DrawerBar() {
             icon: <EmailSharp color="primary"/>,
             path: '/orders'
         },
+        {
+            text: 'Products Stock',
+            icon: <AddCircleOutlineOutlined color="primary"/>,
+            path: '/stocks'
+
+        }
     ]
   return (
     <div className={classes.root}>

@@ -22,6 +22,7 @@ import SalesReport from "./pages/HomeAdmin/component/SalesReport/SalesReport";
 import PendingOrder from "./pages/HomeAdmin/component/PendingOrder/PendingOrder";
 import OrderDetail from "./pages/HomeAdmin/component/PendingOrder/OrderDetail/OrderDetail";
 import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSoldDetail/ItemSoldDetail'
+import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 
 const useStyles = makeStyles({
   page: {
@@ -64,6 +65,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomeUser />} />
                 <Route path="homeadmin" element={<HomeAdmin />} />
+                <Route path="stocks" element={<Stocks />} />
                 <Route path="financial" element={<SalesReport />} />
                 <Route path="orders" element={<PendingOrder />} />
                 <Route path={`orders/:orderId`} element={<OrderDetail />} />
