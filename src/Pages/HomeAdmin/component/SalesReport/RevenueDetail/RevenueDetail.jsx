@@ -10,8 +10,12 @@ import moment from 'moment'
 function RevenueDetail() {
     const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
     const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
+    const [selectedYearFrom, setSelectedYearFrom] = useState( ("2021"))
+    const [selectedYearTo, setSelectedYearTo] = useState( ("2021-10-12"))
     const [ revenue, setRevenue] = useState(0)
     const [ month, setMonth] = useState([])
+    const [ revenueYear, setRevenueYear] = useState(0)
+    const [ year, setYear] = useState([])
     const monthName = [
         { id: 1, Name:"January"},
         { id: 2, Name:"February"},
@@ -37,7 +41,13 @@ function RevenueDetail() {
         })
     });
 
-    console.log(month);
+    const handleYearChangeFrom = (date) => {
+        setSelectedYearFrom(date)
+    }
+
+    const handleYearChangeTo = (date) => {
+        setSelectedYearTo(date)
+    }
 
 
     const handleDateChangeFrom = (date) => {
@@ -52,32 +62,65 @@ function RevenueDetail() {
         getTransactionByDate();
     }
 
+    const getTransactionYearHandler = () => {
+        getTransactionByYear();
+    }
+
+    
+
+   
 
     const getTransactionByDate = async () => {
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
         const date = `where created_at between '${setDateFrom}' and '${setDateTo}'`
         try {
-            const res = await axios.get("transaction/date", {params: { date, setDateFrom, setDateTo }});
+            const res = await axios.get("transaction/date", {params: { date }});
             const { data } = res;
             setMonth(data.month);
             setRevenue(data.result[0].total_revenue);
         } catch (error) {
             console.log(alert(error.message));
         }
+    }
+
+    
+
+
+    const getTransactionByYear = async () => {
+        const setYearFrom = moment(selectedYearFrom).utc().format('YYYY')
+        const setYearTo = moment(selectedYearTo).utc().format('YYYY')
+        const year = `where year(created_at) between '${setYearFrom}' and '${setYearTo}'`
+        try {
+            const res = await axios.get("transaction/year", {params: { year }});
+            const { data } = res;
+            setRevenueYear(data.total[0].total_revenue)
+            setYear(data.result)
+        } catch (error) {
+            console.log(alert(error.message));
+        }
     };
+
     const columns = [
         { id:'year', label: 'Year', align: 'right', minWidth: 100},
         { id:'monthName', label: 'Month', align: 'right', minWidth: 100},
         { id:'total_revenue', label: 'Revenue', align: 'right', minWidth: 100},
     ]
+    const columnsYear = [
+        { id:'year', label: 'Year', align: 'right', minWidth: 100},
+        { id:'total_revenue', label: 'Revenue', align: 'right', minWidth: 100},
+    ]
 
+    console.log(year);
 
   return (
-    <Container>
+    <Container >
         <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
                 <Typography>Detailed Revenue By Month</Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography>Detailed Revenue By Year</Typography>
             </Grid>
                 <Grid item xs={6}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -115,6 +158,41 @@ function RevenueDetail() {
 
                 </Grid>
                 <Grid item xs={6}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='Select From'
+                                    views={['year']}
+                                    value={selectedYearFrom}
+                                    onChange={handleYearChangeFrom}
+                                />   
+                            </Grid>                      
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='To'
+                                    views={['year']}
+                                    value={selectedYearTo}
+                                    onChange={handleYearChangeTo}
+                                /> 
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button onClick={getTransactionYearHandler}> Search </Button>
+                            </Grid>
+                        </Grid>
+                        
+                    </MuiPickersUtilsProvider>
+
                     
                 </Grid>
             <Grid item xs={6}>
@@ -129,7 +207,7 @@ function RevenueDetail() {
                 <Card>
                     <CardContent>
                         <Typography variant="h6" color="primary" >Revenue Year :</Typography>
-                        <Typography variant="body1">Rp.{revenue}</Typography>
+                        <Typography variant="body1">Rp. {revenueYear}</Typography>
                     </CardContent>
                 </Card>
             </Grid>
@@ -170,6 +248,45 @@ function RevenueDetail() {
                         </Table>
                     </TableContainer>
                 </Paper>
+            </Grid>
+            <Grid item xs={6}>
+            <Paper>
+                    <TableContainer>
+                        <Table stickyHeader aria-label="sticky table" >
+                            <TableHead>
+                                <TableRow>
+                                    {columnsYear.map((column) => (
+                                        <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{minWidth: column.minWidth}}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                   {year.map((item) => {
+                                       return (
+                                           <TableRow hover role="checkbox" key={item.id} >
+                                               {columnsYear.map((column) => {
+                                                   const value = item[column.id]
+                                                   return(
+                                                       <TableCell key = {column.id} align={column.align}>
+                                                           {value}
+                                                       </TableCell>
+                                                   )
+                                               })}
+                                           </TableRow>
+                                       )
+                                   })}
+
+                            </TableBody>   
+                        </Table>
+                    </TableContainer>
+                </Paper>
+
             </Grid>
         </Grid>
     </Container>
