@@ -24,14 +24,22 @@ function UsersTransaction() {
     const [sortTransactions, setSortTransactions] = useState('')
     const [keywordTransaction, setKeywordTransaction] = useState('')
     const [keywordUser, setKeywordUser] = useState('')
-    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2022-04-04`))
-    const [selectedDateTo, setSelectedDateTo] = useState( (`2022-04-04`))
+    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
+    const [selectedDateTo, setSelectedDateTo] = useState( new Date())
     const [ date, setDate] = useState(``)
-    
+
+
+
+    const searchBtnHandler = () => {
+        fetchTransaction();
+    }
     
     const fetchTransaction = async () => {
+        const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
+        const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
+        const date = `where created_at between '${setDateFrom}' and '${setDateTo}'`
         try {
-            const res = await axios.get("/transaction", {params: {sortTransactions, keywordTransaction, status}});
+            const res = await axios.get("/transaction", {params: { date, sortTransactions, keywordTransaction, status}});
             const { data } = res;
             setTransaction(data);   
            
@@ -62,7 +70,7 @@ function UsersTransaction() {
 
 
     const keywordTransactionHandleChange = (e) => {
-      setKeywordTransaction(e.target.value);
+      setKeywordTransaction(`and invoice like '%${e.target.value}%'`);
       setPage(0)
     };
 
@@ -151,10 +159,10 @@ function UsersTransaction() {
                                         onChange={handleChangeStatus}
                                     >
                                         <MenuItem key={1} value={""} >Default</MenuItem>
-                                        <MenuItem key={2} value={"where transactionStatus = 'paid'"} >Paid</MenuItem>
-                                        <MenuItem key={3} value={"where transactionStatus = 'failed'"} >Failed</MenuItem>
-                                        <MenuItem key={4} value={"where transactionStatus = 'sent'"} >Sent</MenuItem>
-                                        <MenuItem key={5} value={"where transactionStatus = 'complete'"}>Complete</MenuItem>
+                                        <MenuItem key={2} value={"and transactionStatus = 'paid'"} >Paid</MenuItem>
+                                        <MenuItem key={3} value={"and transactionStatus = 'failed'"} >Failed</MenuItem>
+                                        <MenuItem key={4} value={"and transactionStatus = 'sent'"} >Sent</MenuItem>
+                                        <MenuItem key={5} value={"and transactionStatus = 'complete'"}>Complete</MenuItem>
                                         </Select>
                             </FormControl>
                         </Grid>
@@ -259,10 +267,9 @@ function UsersTransaction() {
                                 /> 
                             </Grid>
                             <Grid item xs={2}>
-                                <Button > Search </Button>
+                                <Button onClick={searchBtnHandler} > Search </Button>
                             </Grid>
-                        </Grid>
-                        
+                        </Grid>                     
                     </MuiPickersUtilsProvider>
 
                 </Paper>
