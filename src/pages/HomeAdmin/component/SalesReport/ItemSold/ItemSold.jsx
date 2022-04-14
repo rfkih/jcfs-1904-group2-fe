@@ -45,7 +45,7 @@ function ItemSold() {
         setPage(0)
       };
 
-
+      
       soldItem.forEach((item)=>{
             categoryName.map((name) => {
                 if (item.productCategory == name.id) {
@@ -146,7 +146,7 @@ function ItemSold() {
         setSortedCategory(e.target.value);
       };
 
-      console.log(sortedCategory);
+      
 
 
     const columns = [
@@ -193,55 +193,7 @@ function ItemSold() {
     <Container>
         <div className={classes.toolbar}/>
         <Grid container spacing={2}>
-        <Grid item xs={12}>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography>Total Revenue by Interval</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
-                            <Grid item xs={5}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant='inline'
-                                    format='yyyy/MM/dd'
-                                    margin='normal'
-                                    id='date-picker'
-                                    label='Select From'
-                                    value={selectedDateFrom}
-                                    onChange={handleDateChangeFrom}
-                                />   
-                            </Grid>                      
-                            <Grid item xs={5}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant='inline'
-                                    format='yyyy/MM/dd'
-                                    margin='normal'
-                                    id='date-picker'
-                                    label='To'
-                                    value={selectedDateTo}
-                                    onChange={handleDateChangeTo}
-                                /> 
-                            </Grid>
-                            <Grid item xs={2}>
-                                <Button onClick={getTransactionHandler}> Search </Button>
-                            </Grid>
-                        </Grid>
-                        
-                    </MuiPickersUtilsProvider>
-
-                </Grid>
-                <Grid item xs={6}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" color="primary" >Revenue :</Typography>
-                            <Typography variant="body1">Rp.{revenue}</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+            <Grid item xs={12}>
             </Grid>
             <Grid item xs={8}>        
                 <Paper>

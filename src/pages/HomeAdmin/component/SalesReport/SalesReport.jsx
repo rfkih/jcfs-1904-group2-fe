@@ -1,10 +1,14 @@
-import { Typography,Container, Grid, Card, CardContent, CardActions, Button } from '@material-ui/core'
+import { Typography,Container, Grid, Paper, Card, CardContent, CardActions, Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import Chart from './Chart/Chart'
+import RevenueDetail from './RevenueDetail/RevenueDetail'
 import axios from '../../../../utils/axios'
 import { Link } from 'react-router-dom'
 import useStyles from './style'
-// import {UserData} from './Data'
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
+import moment from 'moment'
 
 
 
@@ -25,12 +29,19 @@ function SalesReport() {
     const [year, setYear] = useState(null)
     const [ sortUser, setSortUser] = useState('')
     const [keywordUser, setKeywordUser] = useState('')
+    const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
+    const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
+ 
+
+
+ 
 
     
-
     const revenueDetailHandler = () => {
         setRevenueDetail(!revenueDetail)
     }
+
+
 
     
     const getCompletedTransaction = async () => {
@@ -154,6 +165,9 @@ function SalesReport() {
             </Grid>
         </Grid>
         <Chart graphData={graphData} setRange={setRange} setYear={setYear} />
+        <Paper>
+            <RevenueDetail/>
+        </Paper>
     </Container>
   )
 }
