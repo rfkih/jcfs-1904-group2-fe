@@ -5,7 +5,11 @@ import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconBut
 import {Link} from 'react-router-dom'
 import {SearchOutlined} from '@material-ui/icons'
 import useStyles from './style'
-import moment from 'moment' 
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
+import moment from 'moment'
+
 
 function UsersTransaction() {
   const classes = useStyles();
@@ -20,7 +24,11 @@ function UsersTransaction() {
     const [sortTransactions, setSortTransactions] = useState('')
     const [keywordTransaction, setKeywordTransaction] = useState('')
     const [keywordUser, setKeywordUser] = useState('')
-
+    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2022-04-04`))
+    const [selectedDateTo, setSelectedDateTo] = useState( (`2022-04-04`))
+    const [ date, setDate] = useState(``)
+    
+    
     const fetchTransaction = async () => {
         try {
             const res = await axios.get("/transaction", {params: {sortTransactions, keywordTransaction, status}});
@@ -79,6 +87,14 @@ function UsersTransaction() {
     const handleChangeStatus = (e) => {
         setStatus(e.target.value)
       };
+
+      const handleDateChangeFrom = (date) => {
+        setSelectedDateFrom(date)
+    }
+
+    const handleDateChangeTo = (date) => {
+        setSelectedDateTo(date)
+    }
 
     
 
@@ -215,6 +231,39 @@ function UsersTransaction() {
             </Grid>
             <Grid item xs={7}>
                 <Paper>
+                    Test
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='Select From'
+                                    value={selectedDateFrom}
+                                    onChange={handleDateChangeFrom}
+                                />   
+                            </Grid>                      
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='To'
+                                    value={selectedDateTo}
+                                    onChange={handleDateChangeTo}
+                                /> 
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button > Search </Button>
+                            </Grid>
+                        </Grid>
+                        
+                    </MuiPickersUtilsProvider>
 
                 </Paper>
             </Grid>

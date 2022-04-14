@@ -29,8 +29,7 @@ function SalesReport() {
     const [year, setYear] = useState(null)
     const [ sortUser, setSortUser] = useState('')
     const [keywordUser, setKeywordUser] = useState('')
-    const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
-    const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
+  
  
 
 
