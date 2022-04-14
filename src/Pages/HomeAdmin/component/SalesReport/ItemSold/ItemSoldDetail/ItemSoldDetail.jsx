@@ -3,7 +3,10 @@ import { Typography,Container, Grid, Card, CardMedia, CardContent,InputBase, Tex
 import axios from '../../../../../../utils/axios'
 import useStyles from './style'
 import { useParams } from "react-router-dom";
-
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
+import moment from 'moment'
 
 function ItemSoldDetail() {
     const classes = useStyles();
@@ -17,11 +20,19 @@ function ItemSoldDetail() {
     const [sort, setSort] = useState(``)
     const [stocks, setStocks] = useState([])
     const [stock, setStock] = useState(0)
-    console.log(productDetail);
+    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
+    const [selectedDateTo, setSelectedDateTo] = useState( new Date())
+
+
+    console.log(selectedDateTo);
+    
 
     const getTransactionByProduct = async () => { 
+        const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
+        const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
+        const date = `and created_at between '${setDateFrom}' and '${setDateTo}'`
         try {
-            const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { sort , id: params.productId}});
+            const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { date, sort , id: params.productId}});
             const  {data} = res
             setProductDetail(data.product[0]);
             setCategory(data.category[0]);
@@ -49,6 +60,17 @@ function ItemSoldDetail() {
         fetchStocks();
     }, [])
 
+    const onClickSearch = () => {
+        getTransactionByProduct();
+    }
+
+    const handleDateChangeFrom = (date) => {
+        setSelectedDateFrom(date)
+    }
+    const handleDateChangeTo = (date) => {
+        setSelectedDateTo(date)
+    }
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -62,7 +84,7 @@ function ItemSoldDetail() {
     useEffect(() => {
         getTransactionByProduct();
     },[sort])
-    console.log();
+    
 
     useEffect(()=> {
 
@@ -143,6 +165,42 @@ function ItemSoldDetail() {
                             </Select>   
                     </FormControl>
                     </Grid>
+                    <Grid item xs={6}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='Select From'
+                                    value={selectedDateFrom}
+                                    onChange={handleDateChangeFrom}
+                                />   
+                            </Grid>                      
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='To'
+                                    value={selectedDateTo}
+                                    onChange={handleDateChangeTo}
+                                /> 
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button onClick={onClickSearch}> Search </Button>
+                            </Grid>
+                        </Grid>
+                        
+                    </MuiPickersUtilsProvider>
+                        
+
+                    </Grid>
                 </Grid>    
             </Paper>
             <Paper>
@@ -168,11 +226,24 @@ function ItemSoldDetail() {
                                             <TableRow hover role ="checkbox" key={item.id}>
                                                 {columns.map((column) => {
                                                     const value = item[column.id];
-                                                    return (
-                                                        <TableCell key={column.id} align={column.align}>
+                                                    if (column.id === "created_at" ) {
+                                                        const date =  moment(value).utc().format('DD/MM/YYYY')
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
+                                                                {date}
+                                                            </TableCell>     
+                                                        )  
+                                                    } else {
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
                                                             {value}
                                                         </TableCell>
-                                                    )
+                                                        
+                                                            
+                                                        )
+    
+                                                    }
+                                                    
                                                 })}
                                             </TableRow>
                                         )

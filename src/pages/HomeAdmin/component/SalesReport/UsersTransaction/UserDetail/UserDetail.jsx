@@ -28,7 +28,7 @@ function UserDetail() {
 
     const fetchUserDetail = async () => {
         try {
-            const res = await axios.get(`/users/${params.userId}`, {params: {id: params.userId}});
+            const res = await axios.get(`/users/admin/${params.userId}`, {params: {id: params.userId}});
             const  {data} = res
             setUserDetail(data.result[0]);
             setTransaction(data.transaction);

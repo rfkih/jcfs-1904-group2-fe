@@ -49,7 +49,6 @@ function RevenueDetail() {
         setSelectedYearTo(date)
     }
 
-
     const handleDateChangeFrom = (date) => {
         setSelectedDateFrom(date)
     }

@@ -26,7 +26,7 @@ function UsersTransaction() {
     const [keywordUser, setKeywordUser] = useState('')
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
-    const [ date, setDate] = useState(``)
+    
 
 
 
@@ -55,7 +55,7 @@ function UsersTransaction() {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("/users", {params: { sortUser, keywordUser }});
+            const res = await axios.get("/users/admin", {params: { sortUser, keywordUser }});
             const {data} = res;
             setUsers(data.result)
            
