@@ -22,9 +22,9 @@ function ItemSold() {
     const [ keyword, setKeyword] = useState('')
     const [ soldItemTotalPage, setSoldItemTotalPage] = useState(1)
     const [ soldItemPerPage, setSoldItemPerPage] = useState(10)
-    
+    const [ categoryCount, setCategoryCount ] = useState(1)
    
-  
+  console.log(categoryCount);
 
     
     const handleChange = (e) => {
@@ -70,9 +70,11 @@ function ItemSold() {
 
     const fetchSoldCategory = async () => {
         try {
-            const res = await axios.get("/transactiondetails/category", {params: { sortedCategory  }})
+            const res = await axios.get("/transactiondetails/category", {params: { pages:(`limit ${categoryPerpage} offset ${(pageCategory) * categoryPerpage}`), sortedCategory  }})
             const { data } = res;
-            setSoldCategory(data)
+            console.log(data.categoryDetail);
+            setSoldCategory(data.categoryDetail)
+            setCategoryCount(data.count.length);
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -93,10 +95,10 @@ function ItemSold() {
      fetchSoldProducts();
      fetchSoldCategory();
      fetchCategories();
-    }, [sortedItem, keyword, sortedCategory, page, soldItemPerPage])
+    }, [sortedItem, keyword, sortedCategory, page, soldItemPerPage, categoryPerpage, pageCategory])
 
 
-    const handleChangePageCategory = ( newPageCategory) => {
+    const handleChangePageCategory = (event, newPageCategory) => {
         setPageCategory(newPageCategory)
     }
 
@@ -309,7 +311,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {soldCategory.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
+                                {soldCategory
                                     .map((category) => {
                                         return(
                                             <TableRow hover role="checkbox" tabIndex={-1} key={sortedCategory.productCategory}>
@@ -332,9 +334,9 @@ function ItemSold() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 20, 30]}
+                        rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        count={soldCategory.length}
+                        count={categoryCount}
                         rowsPerPage={categoryPerpage}
                         page={pageCategory}
                         onPageChange={handleChangePageCategory}
