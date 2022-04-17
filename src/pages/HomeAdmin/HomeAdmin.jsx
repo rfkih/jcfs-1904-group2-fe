@@ -21,18 +21,15 @@ function HomeAdmin() {
     const [selectedCategory, setSelectedCategory] = useState ({})
     const [ page, setPage ] = useState(1)
     const [ productPerPage, setProductPerPage] = useState(4)
-    const [ test, setTest] = useState(`limit ${productPerPage} offset ${(page - 1)*productPerPage}`)
     const [totalPage, setTotalPage] = useState(1)
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
 
   
 
-    const fetchProducts = async () => {
-      
-       
+    const fetchProducts = async () => {     
       try {
-          const res = await axios.get("/products", {params: { pages:(`limit ${productPerPage} offset ${(page - 1)*productPerPage}`), keyword, sort, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
+          const res = await axios.get("/products", {params: { pages:(`limit ${productPerPage} offset ${(page - 1)*productPerPage}`), keyword, sort, category: selectedCategory.category_id}})
           .then((res=>{
             const { data } = res;
             setProducts(data.result);

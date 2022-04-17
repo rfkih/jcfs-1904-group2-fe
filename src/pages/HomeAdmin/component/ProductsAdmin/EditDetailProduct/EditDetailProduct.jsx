@@ -320,7 +320,6 @@ let choosenCategory = categories.filter(function (category) {
                                 </Card> 
                             }   
                         </Paper>
-
                     </Grid>
                     <Grid item xs={6}>
                         <Paper className={classes.paper} >

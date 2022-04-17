@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import {HomeRounded, ReportOutlined, MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
-import { AppBar, Drawer, ListItem, Toolbar, List, ListItemText, Typography,Avatar, ListItemIcon} from '@material-ui/core';
+import { AppBar, Drawer, ListItem, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
 import {format} from 'date-fns'
 
 
@@ -37,7 +37,7 @@ function DrawerBar() {
         },
         {
             text: 'Products Stock',
-            icon: <AddCircleOutlineOutlined color="primary"/>,
+            icon: <ReportOutlined color="primary"/>,
             path: '/stocks'
 
         }
