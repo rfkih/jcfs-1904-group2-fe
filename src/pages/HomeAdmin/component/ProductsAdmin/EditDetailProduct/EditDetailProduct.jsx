@@ -82,9 +82,27 @@ function EditDetailProduct() {
         }
         setIsEditProductDetail(!isEditProductDetail)
     }
+    const productDetailCancelHandle = () => {
+        if (isEditProductDetail) {
+            setProduct({ ...product, productDetails: onCancelData.productDetails})
+            setIsEditProductDetail(false)
+        }
+        setIsEditProductDetail(!isEditProductDetail)
+
+    }
+
     const productPriceHandleChange = () => {
         if (isEditProductPrice) {
             updateProduct();
+            
+        }
+        setIsEditProductPrice(!isEditProductPrice)
+    }
+
+    const productPriceCancelHandle = () => {
+        if (isEditProductPrice) {
+            setProduct({ ...product, price: onCancelData.price})
+            setIsEditProductPrice(false) 
         }
         setIsEditProductPrice(!isEditProductPrice)
     }
@@ -313,7 +331,7 @@ let choosenCategory = categories.filter(function (category) {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <Button size="small" onClick={productDetailHandleChange} >Save</Button>
-                                            <Button size="small"> Cancel </Button>
+                                            <Button size="small" onClick={productDetailCancelHandle}> Cancel </Button>
                                         </Grid>
                                     </Grid>
                                 }
@@ -332,7 +350,7 @@ let choosenCategory = categories.filter(function (category) {
                                         </Grid>
                                         <Grid item xs={4}>
                                             <Button size="small" onClick={productPriceHandleChange}>Save</Button>
-                                            <Button size="small"> Cancel </Button>
+                                            <Button size="small" onClick={productPriceCancelHandle}> Cancel </Button>
                                         </Grid>
                                     </Grid>
                                 }
