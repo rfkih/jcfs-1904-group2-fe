@@ -27,8 +27,8 @@ function UsersTransaction() {
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
     const [ totalTransaction, setTotalTransaction] = useState(1)
-
-    console.log(transaction);
+    const [ totalUser, setTotalUser ] = useState(1)
+   
 
     const searchBtnHandler = () => {
         fetchTransaction();
@@ -56,9 +56,10 @@ function UsersTransaction() {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("/users/admin", {params: { sortUser, keywordUser }});
+            const res = await axios.get("/users/admin", {params: { pages:(`limit ${userPerPage} offset ${(pageUser) * userPerPage}`), sortUser, keywordUser }});
             const {data} = res;
             setUsers(data.result)
+            setTotalUser(data.userCount[0].user_count)
            
         } catch (error) {
             console.log(alert(error.message));
@@ -67,7 +68,7 @@ function UsersTransaction() {
 
     useEffect(() => {
         fetchUser();
-    },[sortUser, keywordUser])
+    },[sortUser, keywordUser, pageUser, userPerPage])
 
 
     const keywordTransactionHandleChange = (e) => {
@@ -87,6 +88,7 @@ function UsersTransaction() {
         setTransactionPerPage(+event.target.value);
         setPage(0);
       };
+
 
     const handleChangeUserPerPage = (event) => {
         setUserPerPage(+event.target.value);
@@ -358,7 +360,7 @@ function UsersTransaction() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { users.slice(pageUser * userPerPage, pageUser * userPerPage + userPerPage)
+                                { users
                                     .map((user) => {
                                         return (
                                             <TableRow component={Link} to={`/usertransaction/${user.id}`} hover role="checkbox" key={user.id}>
@@ -379,7 +381,7 @@ function UsersTransaction() {
                     <TablePagination
                         rowsPerPageOptions={[10, 20, 30]}
                         component="div"
-                        count={users.length}
+                        count={totalUser}
                         rowsPerPage={userPerPage}
                         page={pageUser}
                         onPageChange={handleChangePageUser}
