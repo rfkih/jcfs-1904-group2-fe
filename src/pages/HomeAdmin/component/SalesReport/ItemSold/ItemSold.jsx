@@ -57,7 +57,6 @@ function ItemSold() {
             const { data } = res;
             
             setSoldItem(data.result);
-            console.log(data.result);
             setSoldItemTotalPage(data.count.length)
 
         } catch (error) {

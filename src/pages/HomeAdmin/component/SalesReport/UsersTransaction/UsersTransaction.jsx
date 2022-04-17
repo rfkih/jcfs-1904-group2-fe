@@ -26,9 +26,9 @@ function UsersTransaction() {
     const [keywordUser, setKeywordUser] = useState('')
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
-    const [ totalPageTransaction, setTotalPageTransaction] = useState(1)
+    const [ totalTransaction, setTotalTransaction] = useState(1)
 
-
+    console.log(transaction);
 
     const searchBtnHandler = () => {
         fetchTransaction();
@@ -39,9 +39,10 @@ function UsersTransaction() {
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
         const date = `where created_at between '${setDateFrom}' and '${setDateTo}'`
         try {
-            const res = await axios.get("/transaction", {params: { date, sortTransactions, keywordTransaction, status}});
+            const res = await axios.get("/transaction", {params: { pages:(`limit ${transactionPerPage} offset ${(page) * transactionPerPage}`), date, sortTransactions, keywordTransaction, status}});
             const { data } = res;
-            setTransaction(data);   
+            setTransaction(data.result);  
+            setTotalTransaction(data.count[0].count)
            
         } catch (error) {
             console.log(alert(error.message));
@@ -50,7 +51,7 @@ function UsersTransaction() {
 
     useEffect (() => {
         fetchTransaction();
-    },[status, sortTransactions, keywordTransaction]);
+    },[status, sortTransactions, keywordTransaction, page, transactionPerPage]);
 
 
     const fetchUser = async () => {
@@ -115,7 +116,6 @@ function UsersTransaction() {
     const columns = [
         { id:'id', label: 'Id', align: 'center', minWidth: 10},
         { id:'invoice', label: 'Invoice', align: 'center', minWidth: 50},
-        // { id:'user_id', label: 'User Id',align: 'center', minWidth: 20},
         { id:'transactionStatus', label: 'Status', align: 'center', minWidth: 50},
         { id:'totalPrice', label: 'Total Price' ,align: 'center', minWidth: 50},
         { id:'created_at', label: 'Date' ,align: 'center', minWidth: 50},
@@ -295,7 +295,7 @@ function UsersTransaction() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>   
-                                {transaction.slice(page * transactionPerPage, page * transactionPerPage + transactionPerPage)
+                                {transaction
                                 .map((item) => {
                                     return (
                                         <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" tabIndex={-1} key={item.id}>
@@ -332,7 +332,7 @@ function UsersTransaction() {
                     <TablePagination
                       rowsPerPageOptions={[10, 20, 30]}
                       component="div"
-                      count={transaction.length}
+                      count={totalTransaction}
                       rowsPerPage={transactionPerPage}
                       page={page}
                       onPageChange={handleChangePage}
