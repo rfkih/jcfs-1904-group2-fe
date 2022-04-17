@@ -3,12 +3,6 @@ import axios from '../../../../../utils/axios'
 import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
-import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
-import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import moment from 'moment'
 import useStyles from './style'
  
@@ -17,29 +11,20 @@ import useStyles from './style'
 
 function ItemSold() {
     const classes = useStyles();
-    const [page, setPage] = useState(0)
-   
+    const [ page, setPage] = useState(0)
     const [ soldItem, setSoldItem] = useState([])
     const [ sortedItem, setSortedItem] = useState('')
     const [ soldCategory, setSoldCategory] = useState([])
     const [ pageCategory, setPageCategory] = useState(0)
-    const[ categoryPerpage, setCategoryPerPage] = useState(10)
-    const [sortedCategory, setSortedCategory] = useState('')
-    const [categoryName, setCategoryName] = useState([]);
-    const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
-    const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
-    const [ revenue, setRevenue] = useState(0)
+    const [ categoryPerpage, setCategoryPerPage] = useState(10)
+    const [ sortedCategory, setSortedCategory] = useState('')
+    const [ categoryName, setCategoryName] = useState([]);
     const [ keyword, setKeyword] = useState('')
-
     const [ soldItemTotalPage, setSoldItemTotalPage] = useState(1)
-    const [soldItemPerPage, setSoldItemPerPage] = useState(10)
-
-    const handleDateChangeFrom = (date) => {
-        setSelectedDateFrom(date)
-    }
-    const handleDateChangeTo = (date) => {
-        setSelectedDateTo(date)
-    }
+    const [ soldItemPerPage, setSoldItemPerPage] = useState(10)
+    
+   
+  
 
     
     const handleChange = (e) => {
@@ -70,28 +55,19 @@ function ItemSold() {
         try {
             const res = await axios.get("/products/sold", {params: { pages:(`limit ${soldItemPerPage} offset ${(page)*soldItemPerPage}`), sortedItem, keyword }});
             const { data } = res;
-            setSoldItem(data);
+            
+            setSoldItem(data.result);
+            console.log(data.result);
+            setSoldItemTotalPage(data.count.length)
+
         } catch (error) {
             console.log(alert(error.message));
         }
     };
 
 
-    const getTransactionByDate = async () => {
-        const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
-        const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
-        try {
-            const res = await axios.get("transaction/date", {params: { setDateFrom, setDateTo }});
-            const { data } = res;
-            setRevenue(data[0].total_revenue);
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
 
-    const getTransactionHandler = () => {
-        getTransactionByDate();
-    }
+   
 
     const fetchSoldCategory = async () => {
         try {
@@ -118,7 +94,7 @@ function ItemSold() {
      fetchSoldProducts();
      fetchSoldCategory();
      fetchCategories();
-    }, [sortedItem, keyword, sortedCategory])
+    }, [sortedItem, keyword, sortedCategory, page])
 
 
     const handleChangePageCategory = ( newPageCategory) => {
@@ -286,7 +262,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {soldItem.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                                {soldItem
                                     .map((item) => {
                                     return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={soldItem.product_id}>
@@ -309,7 +285,7 @@ function ItemSold() {
                     <TablePagination
                         rowsPerPageOptions={[10, 20, 30]}
                         component="div"
-                        count={soldItem.length}
+                        count={soldItemTotalPage}
                         rowsPerPage={soldItemPerPage}
                         page={page}
                         onPageChange={handleChangePage}
