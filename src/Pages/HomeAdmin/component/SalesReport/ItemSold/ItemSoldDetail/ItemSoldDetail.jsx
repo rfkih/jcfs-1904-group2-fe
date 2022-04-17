@@ -15,29 +15,29 @@ function ItemSoldDetail() {
     const [category, setCategory] = useState([])
     const [page, setPage] = useState(0);
     const [product, setProduct] = useState([])
-    const [productPerPage, setProductPerPage] = useState(10);
+    const [productPerPage, setProductPerPage] = useState(1);
     const [detail, setDetail] = useState({})
     const [sort, setSort] = useState(``)
     const [stocks, setStocks] = useState([])
     const [stock, setStock] = useState(0)
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
+    const [productCount, setProductCount] = useState(1)
 
-
-    console.log(selectedDateTo);
-    
+   
 
     const getTransactionByProduct = async () => { 
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
         const date = `and created_at between '${setDateFrom}' and '${setDateTo}'`
         try {
-            const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { date, sort , id: params.productId}});
+            const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { pages:(`limit ${productPerPage} offset ${(page) * productPerPage}`), date, sort , id: params.productId}});
             const  {data} = res
             setProductDetail(data.product[0]);
             setCategory(data.category[0]);
             setProduct(data.result)
             setDetail(data.total[0]);
+            setProductCount(data.count[0].count);
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -47,7 +47,7 @@ function ItemSoldDetail() {
         try {
             const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
             const { data } = res;
-            console.log(data.result[0].qtyBoxAvailable);
+            
             setStocks(data.calculatedStock);
         } catch (error) {
             console.log(alert(error.message));
@@ -83,7 +83,7 @@ function ItemSoldDetail() {
     
     useEffect(() => {
         getTransactionByProduct();
-    },[sort])
+    },[sort, page, productPerPage])
     
 
     useEffect(()=> {
@@ -195,11 +195,8 @@ function ItemSoldDetail() {
                             <Grid item xs={2}>
                                 <Button onClick={onClickSearch}> Search </Button>
                             </Grid>
-                        </Grid>
-                        
-                    </MuiPickersUtilsProvider>
-                        
-
+                        </Grid>                 
+                    </MuiPickersUtilsProvider>                      
                     </Grid>
                 </Grid>    
             </Paper>
@@ -220,7 +217,7 @@ function ItemSoldDetail() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {product.slice(page * productPerPage, page * productPerPage + productPerPage)
+                                {product
                                     .map((item) => {
                                         return (
                                             <TableRow hover role ="checkbox" key={item.id}>
@@ -252,9 +249,9 @@ function ItemSoldDetail() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
+                        rowsPerPageOptions={[1, 10, 15]}
                         component="div"
-                        count={product.length}
+                        count={productCount}
                         rowsPerPage={productPerPage}
                         page={page}
                         onPageChange={handleChangePage}
