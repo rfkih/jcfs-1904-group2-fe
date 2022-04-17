@@ -33,7 +33,7 @@ function EditDetailProduct() {
         qtyMgAvailable: null,
         qtyMgTotal: null
     })
-
+    const [onCancelData, setOnCancelData] = useState([])
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
 
@@ -61,6 +61,14 @@ function EditDetailProduct() {
         setIsEditProductName(!isEditProductName)
         
     }
+    const productNameCancelHandle = () => {
+        if(isEditProductName) {
+            setProduct({ ...product, productName: onCancelData.productName})
+            setIsEditProductName(false)
+        }
+        setIsEditProductName(!isEditProductName)
+    }
+
     const buttonHandleChange = () =>{
         if (isEditStock === true) {
             setIsEditStock(false)
@@ -88,11 +96,14 @@ function EditDetailProduct() {
         setIsEditStock(!isEditStock)
     }
 
+    console.log(onCancelData);
+
     useEffect(() => {
         axios
           .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
           .then((res) => {
             setProduct(res.data[0]);
+            setOnCancelData(res.data[0])
           })
           .catch((err) => {
             console.log({ err });
@@ -280,8 +291,9 @@ let choosenCategory = categories.filter(function (category) {
                                         <Grid item xs={8}>
                                             <TextField  fullWidth  placeholder={productName} name='productName' label='New Product Name' onInput={handleChange}  />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <Button onClick={productNameHandleChange} size="small">Save</Button>
+                                            <Button onClick={productNameCancelHandle} size="small"> Cancel </Button>
                                         </Grid>
                                     </Grid>
                                 }
@@ -290,16 +302,18 @@ let choosenCategory = categories.filter(function (category) {
                                         <Grid item xs={8}>
                                             <Typography>Product Detail: {productDetails}</Typography>
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <Button size="small" onClick={productDetailHandleChange}>Edit</Button>
+                                            
                                         </Grid>
                                     </Grid> : 
                                     <Grid container spacing={2} >
                                         <Grid item xs={8}>
                                             <TextField  fullWidth multiline name='productDetails' label='New Product Detail' onInput={handleChange}  />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <Button size="small" onClick={productDetailHandleChange} >Save</Button>
+                                            <Button size="small"> Cancel </Button>
                                         </Grid>
                                     </Grid>
                                 }
@@ -316,8 +330,9 @@ let choosenCategory = categories.filter(function (category) {
                                         <Grid item xs={8}>
                                             <TextField  fullWidth name='price' placeholder={price} label='New Product Price' onInput={handleChange}  />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <Button size="small" onClick={productPriceHandleChange}>Save</Button>
+                                            <Button size="small"> Cancel </Button>
                                         </Grid>
                                     </Grid>
                                 }
