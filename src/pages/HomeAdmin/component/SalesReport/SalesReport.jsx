@@ -74,7 +74,7 @@ function SalesReport() {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("/users/admin", {params: { sortUser, keywordUser }});
+            const res = await axios.get("/users/admin", {params: { pages:(``), sortUser, keywordUser }});
             const data  = res.data;
             setCountUser(data.userCount[0].user_count);
         } catch (error) {
