@@ -25,10 +25,10 @@ function SalesReport() {
     const [ countUser, setCountUser ] = useState(0)
     const [ totalSold, setTotalSold] = useState(0)
     const [ graphData, setGraphData ] = useState([])
-    const [range, setRange] = useState(12)
-    const [year, setYear] = useState(null)
+    const [ range, setRange] = useState(12)
+    const [ year, setYear] = useState(null)
     const [ sortUser, setSortUser] = useState('')
-    const [keywordUser, setKeywordUser] = useState('')
+    const [ keywordUser, setKeywordUser] = useState('')
   
  
 

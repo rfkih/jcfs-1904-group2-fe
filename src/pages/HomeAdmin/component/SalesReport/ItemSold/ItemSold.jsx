@@ -18,7 +18,7 @@ import useStyles from './style'
 function ItemSold() {
     const classes = useStyles();
     const [page, setPage] = useState(0)
-    const [soldItemPerPage, setSoldItemPerPage] = useState(10)
+   
     const [ soldItem, setSoldItem] = useState([])
     const [ sortedItem, setSortedItem] = useState('')
     const [ soldCategory, setSoldCategory] = useState([])
@@ -31,6 +31,8 @@ function ItemSold() {
     const [ revenue, setRevenue] = useState(0)
     const [ keyword, setKeyword] = useState('')
 
+    const [ soldItemTotalPage, setSoldItemTotalPage] = useState(1)
+    const [soldItemPerPage, setSoldItemPerPage] = useState(10)
 
     const handleDateChangeFrom = (date) => {
         setSelectedDateFrom(date)
@@ -66,7 +68,7 @@ function ItemSold() {
 
     const fetchSoldProducts = async () => {
         try {
-            const res = await axios.get("/products/sold", {params: { sortedItem, keyword }});
+            const res = await axios.get("/products/sold", {params: { pages:(`limit ${soldItemPerPage} offset ${(page)*soldItemPerPage}`), sortedItem, keyword }});
             const { data } = res;
             setSoldItem(data);
         } catch (error) {
@@ -303,6 +305,7 @@ function ItemSold() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    {/* <Grid></Grid> */}
                     <TablePagination
                         rowsPerPageOptions={[10, 20, 30]}
                         component="div"
