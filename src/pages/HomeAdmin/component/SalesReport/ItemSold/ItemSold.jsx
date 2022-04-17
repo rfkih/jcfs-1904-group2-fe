@@ -94,7 +94,7 @@ function ItemSold() {
      fetchSoldProducts();
      fetchSoldCategory();
      fetchCategories();
-    }, [sortedItem, keyword, sortedCategory, page])
+    }, [sortedItem, keyword, sortedCategory, page, soldItemPerPage])
 
 
     const handleChangePageCategory = ( newPageCategory) => {
@@ -281,7 +281,6 @@ function ItemSold() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/* <Grid></Grid> */}
                     <TablePagination
                         rowsPerPageOptions={[10, 20, 30]}
                         component="div"
