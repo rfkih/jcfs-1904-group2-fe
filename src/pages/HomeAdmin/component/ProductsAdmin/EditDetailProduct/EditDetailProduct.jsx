@@ -34,8 +34,10 @@ function EditDetailProduct() {
         qtyMgTotal: null
     })
     const [onCancelData, setOnCancelData] = useState([])
+    const [onCancelStock, setOnCancelStock] = useState([])
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
+    console.log(onCancelStock);
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -48,8 +50,6 @@ function EditDetailProduct() {
         setStocks({ ...stocks, [e.target.name]: e.target.value });
         
     };
-
-
 
     const imageHandleChange = () => {
         setIsEditImage(!isEditImage)
@@ -114,7 +114,26 @@ function EditDetailProduct() {
         setIsEditStock(!isEditStock)
     }
 
-    console.log(onCancelData);
+    const editStockCancelHandle = () => {
+        if (isEditStock) {
+            setStocks({ ...stocks, 
+                qtyBoxAvailable: onCancelStock.qtyBoxAvailable,
+                qtyBoxTotal: onCancelStock.qtyBoxTotal,
+                qtyBottleAvailable: onCancelStock.qtyBottleAvailable,
+                qtyBottleTotal: onCancelStock.qtyBottleTotal,
+                qtyStripsavailable: onCancelStock.qtyStripsavailable,
+                qtyStripsTotal: onCancelStock.qtyStripsTotal,
+                qtyMgAvailable: onCancelStock.qtyMgAvailable,
+                qtyMgTotal: onCancelStock.qtyMgTotal,
+                qtyMlAvailable: onCancelStock.qtyMlAvailable,
+                qtyMlTotal: onCancelStock.qtyMlTotal  });
+            setIsEditStock(false)
+        }  
+        setIsEditStock(!isEditStock)
+    }
+
+
+    console.log(stocks);
 
     useEffect(() => {
         axios
@@ -134,6 +153,12 @@ function EditDetailProduct() {
         setSelectedFile(uploaded)
       }
 
+      useEffect(() => {
+        if (selectedFile) {
+          fileUploadHandler();
+        }
+      },[selectedFile])
+
       const fileUploadHandler = () => {
         if(!selectedFile){
           alert("upload image first")
@@ -147,13 +172,12 @@ function EditDetailProduct() {
             const productIMG = res.data.image  
             setProduct({ ...product, productIMG })
             setIsSave(false)
+            alert("image uploaded")
             })
           .catch((error) => console.log({ error }));
         } 
       };
 
-
-      
 
       const fetchCategories = async () => {
         try {
@@ -176,6 +200,7 @@ function EditDetailProduct() {
             const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
             const { data } = res;
             setStocks(data.result[0]);
+            setOnCancelStock(data.result[0])
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -219,7 +244,8 @@ function EditDetailProduct() {
   .put(`/stocks/${params.productId}`, {updatedStocks, params: { id: params.productId } } )
   .then((res) => {
    alert(res.data.message);
-   console.log( res.data ); 
+   fetchStocks();
+   console.log(res.data); 
   })
   .catch((error) => console.log({ error }));
 };
@@ -275,20 +301,24 @@ let choosenCategory = categories.filter(function (category) {
                                             <Typography variant="body2" >
                                                 {productName}
                                             </Typography>
-                                            <Input
-                                                type="file"
-                                                onChange={fileSelectedHandler}       
-                                            />
+                                            
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                        <Button onClick={fileUploadHandler} size="small" color="primary">
-                                            Upload
-                                        </Button>
-                                    </CardActions>
-                                    
+                                        <Input
+                                            className={classes.input}
+                                            id="upload-file"
+                                            type="file"
+                                            onChange={fileSelectedHandler} 
+                                        /> 
+                                        <label htmlFor='upload-file'>
+                                            <Button variant="contained" component="span" >                  
+                                                Upload Image
+                                            </Button>  
+                                        </label>                                        
+                                    </CardActions>                                    
                                 </Card> 
-                            }   {}
+                            }   
                         </Paper>
 
                     </Grid>
@@ -420,7 +450,10 @@ let choosenCategory = categories.filter(function (category) {
                             <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={`${qtyMlTotal}`} onInput={stockHandleChange} />
                             </Grid>
-                            <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                            <Grid xs={2}d>
+                                <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                                <Button onClick={editStockCancelHandle} size="medium" color="secondary"> Cancel </Button>
+                            </Grid>
                          </> : 
                          <>
                             <Grid xs={5}>
@@ -435,7 +468,12 @@ let choosenCategory = categories.filter(function (category) {
                             <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
                             </Grid>
-                            <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                            <Grid xs={2}d>
+                                <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
+                                <Button onClick={editStockCancelHandle} size="medium" color="secondary"> Cancel </Button>
+                            </Grid>
+                            
+                            
                             </>
                             }  
                             </Grid>   
@@ -444,8 +482,6 @@ let choosenCategory = categories.filter(function (category) {
                     </Grid>
                 </Grid>     
             </Container>
-        
-
     </>
   )
 }

@@ -6,8 +6,6 @@ import axios from '../../../../../utils/axios'
 
 
 function ProductAdmin({product, deletedProducts}) {
-  const [stock, setStock] = useState([])
-  
 
   const id = {id: product.id}
  
@@ -45,10 +43,10 @@ function ProductAdmin({product, deletedProducts}) {
             </Typography>
         </CardContent>
         <CardActions >
-          <Button component={Link} to={`/editproducts/${product.id}`} size="small">Edit</Button>
+          <Button component={Link} to={`/editproducts/${product.id}`} variant='contained' color='primary' size="small">Edit</Button>
             {deletedProducts === false ? 
-          <Button onClick={deleteProduct} size="small">Delete</Button> :
-          <Button onClick={undeleteProduct} size="small">Un-Delete</Button> }
+          <Button onClick={deleteProduct} size="small" variant='contained' color="secondary">Delete</Button> :
+          <Button onClick={undeleteProduct} size="small" variant='outlined' color="primary">Un-Delete</Button> }
         </CardActions>
     </Card>
   )
