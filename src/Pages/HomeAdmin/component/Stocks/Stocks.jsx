@@ -2,6 +2,8 @@ import React,{useState, useEffect} from 'react'
 import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import useStyles from './style'
 import axios from '../../../../utils/axios'
+import {SearchOutlined} from '@material-ui/icons'
+
 
 function Stocks() {
 const classes = useStyles();
@@ -16,6 +18,16 @@ const [productsCount, setProductsCount] = useState(1)
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage)
+};
+
+const handleChange = (e) => {
+  setKeyword( `and productName like '%${e.target.value}%'`);
+  setPage(0)
+};
+
+
+const selectSortHandler = (e) => {
+  setSort(e.target.value);
 };
 
 
@@ -62,7 +74,7 @@ const fetchCategories = async () => {
 useEffect(() => {
   fetchProducts();
   fetchCategories();
-},[page, productsPerPage])
+},[page, productsPerPage, sort, keyword])
 
 const columns = [
   { id:'id', label: 'Product Id', align: 'right', minWidth: 20},
@@ -77,7 +89,49 @@ const columns = [
         <div className={classes.toolbar}/>
         <Grid container spacing={2}>
             <Grid item xs={8}>
-              Select Products
+              <Grid container spacing={2}>
+                <Grid item xs={6}>            
+                            <Card sx={{ minWidth: 275 }}>
+                                <CardContent>
+                                    <Typography variant="h5" component="div" >
+                                        Sort Item
+                                    </Typography>
+                                    <FormControl sx={{ m: 3, minWidth: 200 }}>
+                                        <InputLabel id="sort-by" >Sort By</InputLabel>
+                                            <Select
+                                                labelId="sort-by"
+                                                id="1"
+                                                defaultValue=""
+                                                name="sortBy"
+                                                onChange={selectSortHandler}
+                                            >
+                                                <MenuItem key={0} value="" > Default </MenuItem>
+                                                <MenuItem key={3} value="order by id asc" > Product id (Ascending) </MenuItem>
+                                                <MenuItem key={4} value="order by id desc" > Product id (Descending) </MenuItem>
+                                                <MenuItem key={1} value="order by productName asc" > Product Name (Ascending) </MenuItem>
+                                                <MenuItem key={2} value="order by productName desc" > Product Name (Descending) </MenuItem>
+                                                <MenuItem key={5} value="order by price asc" > Price (Acending) </MenuItem>
+                                                <MenuItem key={6} value="order by price desc" > Price (Descending) </MenuItem>
+                                            </Select>   
+                                    </FormControl>
+                                </CardContent>
+                            </Card>
+                  </Grid>
+                  <Grid item xs={6}>
+                 
+                            <Input
+                                sx={{ ml: 1, flex: 1 }}
+                                placeholder="Search Products"
+                                name="keyword"
+                                align="center"
+                                onChange={handleChange}
+                            />
+                            <IconButton>
+                                <SearchOutlined />
+                            </IconButton>
+                        
+                  </Grid>
+              </Grid>
             </Grid>
             <Grid item xs ={8}>
               <Paper>

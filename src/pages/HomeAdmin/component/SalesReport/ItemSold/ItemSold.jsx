@@ -143,26 +143,6 @@ function ItemSold() {
 
     
 
-      const sortCategory = (sortValue) => {
-        const rawData = [...soldCategory];
-    
-        switch (sortValue) {
-          case "leastbought":
-            rawData.sort((a, b) => a.total_bought - b.total_bought);
-            break;
-          case "mostbought":
-            rawData.sort((a, b) => b.total_bought - a.total_bought);
-            break;
-          case "ascending":
-            rawData.sort((a, b) => a.productCategory - b.productCategory);
-            break;
-          case "descending":
-            rawData.sort((a, b) => b.productCategory - a.productCategory);
-            break;
-        }
-        setSortedCategory(rawData);
-      };
-
      
     
     
