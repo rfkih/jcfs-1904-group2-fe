@@ -7,9 +7,9 @@ import useStyles from './styles'
 function Products(props) {
   const classes = useStyles();
   const { 
-    // paginationState, 
+   
     products, page, setPage, totalPage } = props;
-  // const { page, itemsPerPage } = paginationState;
+ 
 
 
   const renderProducts = () => {

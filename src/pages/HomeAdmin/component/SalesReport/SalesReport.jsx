@@ -1,10 +1,14 @@
-import { Typography,Container, Grid, Card, CardContent, CardActions, Button } from '@material-ui/core'
+import { Typography,Container, Grid, Paper, Card, CardContent, CardActions, Button } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import Chart from './Chart/Chart'
+import RevenueDetail from './RevenueDetail/RevenueDetail'
 import axios from '../../../../utils/axios'
 import { Link } from 'react-router-dom'
 import useStyles from './style'
-// import {UserData} from './Data'
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
+
 
 
 
@@ -21,15 +25,22 @@ function SalesReport() {
     const [ countUser, setCountUser ] = useState(0)
     const [ totalSold, setTotalSold] = useState(0)
     const [ graphData, setGraphData ] = useState([])
-    const [range, setRange] = useState(12)
-    const [year, setYear] = useState(null)
-    
+    const [ range, setRange] = useState(12)
+    const [ year, setYear] = useState(null)
+    const [ sortUser, setSortUser] = useState('')
+    const [ keywordUser, setKeywordUser] = useState('')
+  
+ 
+
+
+ 
 
     
-
     const revenueDetailHandler = () => {
         setRevenueDetail(!revenueDetail)
     }
+
+
 
     
     const getCompletedTransaction = async () => {
@@ -63,7 +74,7 @@ function SalesReport() {
 
     const fetchUser = async () => {
         try {
-            const res = await axios.get("/users");
+            const res = await axios.get("/users/admin", {params: { pages:(``), sortUser, keywordUser }});
             const data  = res.data;
             setCountUser(data.userCount[0].user_count);
         } catch (error) {
@@ -153,6 +164,9 @@ function SalesReport() {
             </Grid>
         </Grid>
         <Chart graphData={graphData} setRange={setRange} setYear={setYear} />
+        <Paper>
+            <RevenueDetail/>
+        </Paper>
     </Container>
   )
 }

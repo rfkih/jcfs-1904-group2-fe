@@ -28,10 +28,10 @@ function HomeUser() {
     fetchCategories();
   }, []);
   
-  console.log(keyword);
+
     const fetchProducts = async () => {
         try {
-            const res = await axios.get("/products", {params: { keyword, sort, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
+            const res = await axios.get("/products", {params: { pages:(`limit ${productPerPage} offset ${(page - 1)*productPerPage}`), keyword, sort, category: selectedCategory.category_id}})
             .then((res=>{
               const { data } = res;
             setProducts(data.result);

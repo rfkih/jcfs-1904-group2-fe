@@ -3,12 +3,6 @@ import axios from '../../../../../utils/axios'
 import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
-import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
-import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import moment from 'moment'
 import useStyles from './style'
  
@@ -17,39 +11,29 @@ import useStyles from './style'
 
 function ItemSold() {
     const classes = useStyles();
-    const [page, setPage] = useState(0)
-    const [soldItemPerPage, setSoldItemPerPage] = useState(10)
+    const [ page, setPage] = useState(0)
     const [ soldItem, setSoldItem] = useState([])
-    const [ sortedItem, setSortedItem] = useState([])
+    const [ sortedItem, setSortedItem] = useState('')
     const [ soldCategory, setSoldCategory] = useState([])
     const [ pageCategory, setPageCategory] = useState(0)
-    const[ categoryPerpage, setCategoryPerPage] = useState(10)
-    const [sortedCategory, setSortedCategory] = useState([])
-    const [categoryName, setCategoryName] = useState([]);
-    const [formState, setFormState] = useState({
-        keyword: "",
-      });
-    const [selectedDateFrom, setSelectedDateFrom] = useState( ("2021-09-12"))
-    const [selectedDateTo, setSelectedDateTo] = useState( ("2021-10-12"))
-    const [ revenue, setRevenue] = useState(0)
-
-    const handleDateChangeFrom = (date) => {
-        setSelectedDateFrom(date)
-    }
-    const handleDateChangeTo = (date) => {
-        setSelectedDateTo(date)
-    }
+    const [ categoryPerpage, setCategoryPerPage] = useState(10)
+    const [ sortedCategory, setSortedCategory] = useState('')
+    const [ categoryName, setCategoryName] = useState([]);
+    const [ keyword, setKeyword] = useState('')
+    const [ soldItemTotalPage, setSoldItemTotalPage] = useState(1)
+    const [ soldItemPerPage, setSoldItemPerPage] = useState(10)
+    const [ categoryCount, setCategoryCount ] = useState(1)
+   
+  console.log(categoryCount);
 
     
     const handleChange = (e) => {
-        setFormState({ ...formState, [e.target.name]: e.target.value });
+        setKeyword( `and productName like '%${e.target.value}%'`);
+        setPage(0)
       };
 
-      const btnSearchHandler = () => {
-        filterProducts(formState);
-      };
-
-    sortedItem.forEach((item)=>{
+      
+      soldItem.forEach((item)=>{
             categoryName.map((name) => {
                 if (item.productCategory == name.id) {
                     item.category = name.categoryName   
@@ -57,7 +41,7 @@ function ItemSold() {
             })
     });
 
-    sortedCategory.forEach((item)=>{
+    soldCategory.forEach((item)=>{
         categoryName.map((name) => {
             if (item.productCategory == name.id){
                 item.category = name.categoryName
@@ -65,57 +49,32 @@ function ItemSold() {
         })
     });
 
-    
-    const filterProducts = (formData) => {
-        const resultFilter = soldItem.filter((item) => {
-          const productName = item.productName.toLowerCase();
-          const keyword = formData.keyword.toLowerCase();
-          return (
-            productName.includes(keyword)
-          );
-        });
-        
-        setSortedItem(resultFilter);
-      };
 
-
-   
-   
 
     const fetchSoldProducts = async () => {
         try {
-            const res = await axios.get("/products/sold");
+            const res = await axios.get("/products/sold", {params: { pages:(`limit ${soldItemPerPage} offset ${(page)*soldItemPerPage}`), sortedItem, keyword }});
             const { data } = res;
-            setSoldItem(data);
-            setSortedItem(data)
+            
+            setSoldItem(data.result);
+            setSoldItemTotalPage(data.count.length)
+
         } catch (error) {
             console.log(alert(error.message));
         }
     };
 
 
-    const getTransactionByDate = async () => {
-        const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
-        const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
-        try {
-            const res = await axios.get("transaction/date", {params: { setDateFrom, setDateTo }});
-            const { data } = res;
-            setRevenue(data[0].total_revenue);
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
 
-    const getTransactionHandler = () => {
-        getTransactionByDate();
-    }
+   
 
     const fetchSoldCategory = async () => {
         try {
-            const res = await axios.get("/transactiondetails/category")
+            const res = await axios.get("/transactiondetails/category", {params: { pages:(`limit ${categoryPerpage} offset ${(pageCategory) * categoryPerpage}`), sortedCategory  }})
             const { data } = res;
-            setSoldCategory(data)
-            setSortedCategory(data)
+            console.log(data.categoryDetail);
+            setSoldCategory(data.categoryDetail)
+            setCategoryCount(data.count.length);
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -136,10 +95,10 @@ function ItemSold() {
      fetchSoldProducts();
      fetchSoldCategory();
      fetchCategories();
-    }, [])
+    }, [sortedItem, keyword, sortedCategory, page, soldItemPerPage, categoryPerpage, pageCategory])
 
 
-    const handleChangePageCategory = ( newPageCategory) => {
+    const handleChangePageCategory = (event, newPageCategory) => {
         setPageCategory(newPageCategory)
     }
 
@@ -159,14 +118,14 @@ function ItemSold() {
     }
 
       const selectSortHandler = (e) => {
-        sortItem(e.target.value);
+        setSortedItem(e.target.value);
       };
 
       const selectSortCategoryHandler = (e) => {
-        sortCategory(e.target.value);
+        setSortedCategory(e.target.value);
       };
 
-
+      
 
 
     const columns = [
@@ -183,26 +142,6 @@ function ItemSold() {
     ]
 
     
-
-    const sortItem = (sortValue) => {
-        const rawData = [...soldItem];
-    
-        switch (sortValue) {
-          case "leastbought":
-            rawData.sort((a, b) => a.total_bought - b.total_bought);
-            break;
-          case "mostbought":
-            rawData.sort((a, b) => b.total_bought - a.total_bought);
-            break;
-          case "ascending":
-            rawData.sort((a, b) => a.product_id - b.product_id);
-            break;
-          case "descending":
-            rawData.sort((a, b) => b.product_id - a.product_id);
-            break;
-        }
-        setSortedItem(rawData);
-      };
 
       const sortCategory = (sortValue) => {
         const rawData = [...soldCategory];
@@ -233,55 +172,7 @@ function ItemSold() {
     <Container>
         <div className={classes.toolbar}/>
         <Grid container spacing={2}>
-        <Grid item xs={12}>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography>Total Revenue by Interval</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
-                            <Grid item xs={5}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant='inline'
-                                    format='yyyy/MM/dd'
-                                    margin='normal'
-                                    id='date-picker'
-                                    label='Select From'
-                                    value={selectedDateFrom}
-                                    onChange={handleDateChangeFrom}
-                                />   
-                            </Grid>                      
-                            <Grid item xs={5}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant='inline'
-                                    format='yyyy/MM/dd'
-                                    margin='normal'
-                                    id='date-picker'
-                                    label='To'
-                                    value={selectedDateTo}
-                                    onChange={handleDateChangeTo}
-                                /> 
-                            </Grid>
-                            <Grid item xs={2}>
-                                <Button onClick={getTransactionHandler}> Search </Button>
-                            </Grid>
-                        </Grid>
-                        
-                    </MuiPickersUtilsProvider>
-
-                </Grid>
-                <Grid item xs={6}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" color="primary" >Revenue :</Typography>
-                            <Typography variant="body1">Rp.{revenue}</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+            <Grid item xs={12}>
             </Grid>
             <Grid item xs={8}>        
                 <Paper>
@@ -302,10 +193,10 @@ function ItemSold() {
                                                 onChange={selectSortHandler}
                                             >
                                                 <MenuItem key={0} value="" > Default </MenuItem>
-                                                <MenuItem key={1} value="leastbought" > Least Bought </MenuItem>
-                                                <MenuItem key={2} value="mostbought" > Most Bought </MenuItem>
-                                                <MenuItem key={3} value="ascending" > Product id (Ascending) </MenuItem>
-                                                <MenuItem key={4} value="descending" > Product id (Descending) </MenuItem>
+                                                <MenuItem key={1} value="order by total_bought asc" > Least Bought </MenuItem>
+                                                <MenuItem key={2} value="order by total_bought desc" > Most Bought </MenuItem>
+                                                <MenuItem key={3} value="order by product_id asc" > Product id (Ascending) </MenuItem>
+                                                <MenuItem key={4} value="order by product_id desc" > Product id (Descending) </MenuItem>
                                             </Select>   
                                     </FormControl>
                                 </CardContent>
@@ -319,7 +210,7 @@ function ItemSold() {
                                 align="center"
                                 onChange={handleChange}
                             />
-                            <IconButton onClick={btnSearchHandler}>
+                            <IconButton>
                                 <SearchOutlined />
                             </IconButton>
                         </Grid>
@@ -343,10 +234,10 @@ function ItemSold() {
                                         onChange={selectSortCategoryHandler}
                                     >
                                         <MenuItem value="" > Default </MenuItem>
-                                        <MenuItem value="leastbought" > Least Bought </MenuItem>
-                                        <MenuItem value="mostbought" > Most Bought </MenuItem>
-                                        <MenuItem value="ascending" > Category Id(Ascending) </MenuItem>
-                                        <MenuItem value="descending" > Category Id(Descending) </MenuItem>
+                                        <MenuItem value="order by total_bought asc" > Least Bought </MenuItem>
+                                        <MenuItem value="order by total_bought desc" > Most Bought </MenuItem>
+                                        <MenuItem value="order by productCategory asc" > Category Id(Ascending) </MenuItem>
+                                        <MenuItem value="order by productCategory desc" > Category Id(Descending) </MenuItem>
                                     </Select>   
                             </FormControl>
                         </CardContent>
@@ -372,14 +263,14 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedItem.slice(page * soldItemPerPage, page * soldItemPerPage + soldItemPerPage)
+                                {soldItem
                                     .map((item) => {
                                     return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={sortedItem.product_id}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={soldItem.product_id}>
                                         {columns.map((column) => {
                                             const value = item[column.id];
                                             return (
-                                            <TableCell key={column.id} align={column.align}>
+                                            <TableCell component={Link} to={`/itemsold/product/${item.product_id}`}  key={column.id} align={column.align}>
                                                     {value}
                                             </TableCell>
                                             )
@@ -394,7 +285,7 @@ function ItemSold() {
                     <TablePagination
                         rowsPerPageOptions={[10, 20, 30]}
                         component="div"
-                        count={soldItem.length}
+                        count={soldItemTotalPage}
                         rowsPerPage={soldItemPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -420,7 +311,7 @@ function ItemSold() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {sortedCategory.slice(pageCategory * categoryPerpage, pageCategory * categoryPerpage + categoryPerpage)
+                                {soldCategory
                                     .map((category) => {
                                         return(
                                             <TableRow hover role="checkbox" tabIndex={-1} key={sortedCategory.productCategory}>
@@ -443,9 +334,9 @@ function ItemSold() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[10, 20, 30]}
+                        rowsPerPageOptions={[5, 10, 15]}
                         component="div"
-                        count={soldCategory.length}
+                        count={categoryCount}
                         rowsPerPage={categoryPerpage}
                         page={pageCategory}
                         onPageChange={handleChangePageCategory}

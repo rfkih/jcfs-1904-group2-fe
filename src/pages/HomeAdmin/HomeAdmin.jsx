@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from '../../utils/axios'
 import { makeStyles } from '@material-ui/core/styles';
 import EditProducts from './component/EditProducts'
-import AddProduct from "./component/AddProduct/AddProduct";
-import SalesReport from "./component/SalesReport/SalesReport";
+import OrderDetail from "./component/PendingOrder/OrderDetail/OrderDetail";
 const useStyles = makeStyles( (theme) => {
 
   return {
@@ -27,10 +26,10 @@ function HomeAdmin() {
     const [ keyword, setKeyword] = useState('')
 
   
-    const fetchProducts = async () => {
-     
+
+    const fetchProducts = async () => {     
       try {
-          const res = await axios.get("/products", {params: { keyword, sort, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
+          const res = await axios.get("/products", {params: { pages:(`limit ${productPerPage} offset ${(page - 1)*productPerPage}`), keyword, sort, category: selectedCategory.category_id}})
           .then((res=>{
             const { data } = res;
             setProducts(data.result);
@@ -46,7 +45,7 @@ function HomeAdmin() {
 
     const fetchDeletedProducts = async () => {
       try {
-          const res = await axios.get("/products/deleted", {params: { keyword, sort, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}});
+          const res = await axios.get("/products/deleted", {params: { pages:(`limit ${productPerPage} offset ${(page - 1)*productPerPage}`), keyword, sort, category: selectedCategory.category_id}});
           const { data } = res;
           setProducts(data.result);
           setTotalPage(Math.ceil(data.count[0].count / productPerPage ));
@@ -65,6 +64,8 @@ function HomeAdmin() {
   }
   }, [deletedProducts, selectedCategory, page, keyword, sort])
 
+  
+  
   
   return (
     <>

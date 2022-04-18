@@ -11,8 +11,16 @@ function OrderDetail() {
     const [order, setOrder] = useState({})
     const params = useParams();
     const [isApproved, setIsApproved] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState ({})
+    const [ page, setPage ] = useState(1)
+    const [ productPerPage, setProductPerPage] = useState(20)
+    const [totalPage, setTotalPage] = useState(1)
+    const [ sort, setSort ] = useState('')
+    const [ keyword, setKeyword] = useState('')
+    const [products, setProducts] = useState([]);
 
 
+ 
     const isApprovedHandlerClick = () => {
         isApprovedMessage();
     }
@@ -38,7 +46,23 @@ function OrderDetail() {
        alert(res);
       })
       .catch((error) => console.log({ error }));
-    }
+    };
+
+    const fetchProducts = async () => {
+     
+        try {
+            const res = await axios.get("/products", {params: { keyword, sort, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
+            .then((res=>{
+              const { data } = res;
+              setProducts(data.result);
+              setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
+              
+            }));
+            
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
 
 
     useEffect(() => {
@@ -61,12 +85,21 @@ function OrderDetail() {
                         <Typography variant="h6" component="div">Notes</Typography>
                         <Typography variant="body1">{order.notes}</Typography>
                     <CardActions>
-                        <Button>Approved</Button>
-                        <Button onClick={isApprovedHandlerClick}>Rejected</Button>
+                        {isApproved ? <>
+                        <Typography> Select Drugs </Typography>
+                        <Button onClick={() => {setIsApproved(false)}}> Back </Button>
+                        </> : <>
+                        <Button onClick={() => {setIsApproved(true)}}>Approve</Button>
+                        <Button onClick={isApprovedHandlerClick}>Reject</Button>
+                        </>}
                         <Button> Open Image</Button>
                     </CardActions>
-
                 </Card>
+                {isApproved ? 
+                <>
+                
+                </> 
+                : null}
 
 
             </Paper>

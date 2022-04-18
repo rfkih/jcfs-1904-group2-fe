@@ -2,9 +2,17 @@ import React, {useState, useEffect} from 'react'
 import { TextField, Paper, InputLabel, Select, MenuItem, Button, styled,  Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container} from '@material-ui/core'
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles({
+  
+  input: {
+    display: 'none'
+  }
+});
 
 
 function AddProduct() {
+    const classes = useStyles();
     
     
     const [image, setImage] = useState("https://fakeimg.pl/350x200/");
@@ -42,11 +50,6 @@ function AddProduct() {
       let uploaded = e.target.files[0]
       setImage(URL.createObjectURL(uploaded))
       setSelectedFile(uploaded);
-      
-    }
-
-    const onButtonUploadClick = () => {
-      fileUploadHandler();
     }
 
 
@@ -65,6 +68,13 @@ function AddProduct() {
         .catch((error) => console.log({ error }));
       } 
     }
+ console.log(selectedFile);
+    useEffect(() => {
+      if (selectedFile) {
+        fileUploadHandler();
+      }
+    },[selectedFile])
+  
     
     
     const fetchCategories = async () => {
@@ -87,7 +97,6 @@ function AddProduct() {
         const { category_id, productName, productDetails, productIMG, isLiquid, isDeleted, price } =
           formState;
         const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyStripsavailable, qtyStripsTotal} = stockFormState
-        // parseInt(isLiquid)
         
         const newProduct = {
           category_id,
@@ -118,9 +127,7 @@ function AddProduct() {
       })
       .catch((error) => console.log({ error }));
   };
-  // const Input = styled('input')({
-  //   display: 'none',
-  // });
+  
   
   return (
       <Container>
@@ -137,21 +144,25 @@ function AddProduct() {
                     alt="..."
                   />
                   <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                      <Typography gutterBottom variant="h5" component="div">
                           Product Image
-                  </Typography>
+                      </Typography>
                       
                   </CardContent>
-                  <Input
-                        type="file"
-                        id="contained-button-file"
-                        onChange={fileSelectedHandler}
-                      />
-                  <CardActions>
-                    
                   
-                      <Button variant="contained" component="span"  onClick={onButtonUploadClick} >Upload Image </Button>
-                   
+                  <CardActions>   
+                      <Input
+                        className={classes.input}
+                        id="upload-file"
+                        type="file"
+                        onChange={fileSelectedHandler} 
+                      /> 
+                      <label htmlFor='upload-file'>
+                        <Button variant="contained" component="span" >                  
+                          Upload Image
+                       </Button>  
+                      </label> 
+                          
                   </CardActions>
                 </Card>
               </form>          
@@ -195,36 +206,42 @@ function AddProduct() {
                         ))}
                         </Select>
                     </Grid>
-              </Grid>
-                <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
-                  {formState.isLiquid && 
-                  <Grid container spacing={3}>
-                  <TextField type='number' fullWidth name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
-                  <TextField type='number' fullWidth name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
-                  {formState.isLiquid == 1 ? <>
-                    <TextField type='number' fullWidth name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
-                    <TextField type='number' fullWidth name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
-                  </> : <>
-                    <TextField type='number' fullWidth name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
-                    <TextField type='number' fullWidth name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
-                  </>             
-                  }  
-                </Grid>}
-  
-                    
-
-                  <br/>
-              <div >
+                </Grid>
+                  <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
+                    {formState.isLiquid && 
+                    <Grid container spacing={3}>
+                      <Grid item xs={6}>
+                        <TextField size='small' variant="outlined" name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField size='small' variant="outlined" name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
+                      </Grid>
+                    {formState.isLiquid == 1 ? <>
+                      <Grid item xs={6} >
+                        <TextField size='small' variant="outlined" name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
+                      </Grid>
+                      <Grid item xs={6}>  
+                        <TextField size='small' variant="outlined" name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
+                      </Grid> 
+                    </> : <>
+                      <Grid item xs={6} >
+                        <TextField size='small' variant="outlined"  name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField size='small' variant="outlined"  name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
+                      </Grid>
+                    </>             
+                    }  
+                  </Grid>}
+                    <br/>
+                  <CardActions>
                     <Button  variant="contained" color="primary" onClick={addNewProduct} >Add New Product </Button>
-              </div>
-            </form>  
-            </Container>  
-      </Paper>
-
+                  </CardActions>
+                </form>  
+              </Container>  
+            </Paper>
           </Grid>
-        </Grid>
-        
-    
+        </Grid>  
     </Container>
        
     

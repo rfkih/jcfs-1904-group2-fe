@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Card, CardMedia, CardContent, CardActions, Typography, Button, useTheme} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
@@ -6,7 +6,6 @@ import axios from '../../../../../utils/axios'
 
 
 function ProductAdmin({product, deletedProducts}) {
-  
 
   const id = {id: product.id}
  
@@ -44,10 +43,10 @@ function ProductAdmin({product, deletedProducts}) {
             </Typography>
         </CardContent>
         <CardActions >
-          <Button component={Link} to={`/editproducts/${product.id}`} size="small">Edit</Button>
+          <Button component={Link} to={`/editproducts/${product.id}`} variant='contained' color='primary' size="small">Edit</Button>
             {deletedProducts === false ? 
-          <Button onClick={deleteProduct} size="small">Delete</Button> :
-          <Button onClick={undeleteProduct} size="small">Un-Delete</Button> }
+          <Button onClick={deleteProduct} size="small" variant='contained' color="secondary">Delete</Button> :
+          <Button onClick={undeleteProduct} size="small" variant='outlined' color="primary">Un-Delete</Button> }
         </CardActions>
     </Card>
   )

@@ -13,7 +13,7 @@ function UserDetail() {
     const [ transaction, setTransaction ] = useState([]);
     const [page, setPage] = useState(0);
     const [transactionPerPage, setTransactionPerPage] = useState(10);
-
+    const [ totalTransaction, setTotalTransaction ] = useState(1)
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
@@ -28,10 +28,11 @@ function UserDetail() {
 
     const fetchUserDetail = async () => {
         try {
-            const res = await axios.get(`/users/${params.userId}`, {params: {id: params.userId}});
+            const res = await axios.get(`/users/admin/${params.userId}`, {params: {pages:(`limit ${transactionPerPage} offset ${(page) * transactionPerPage}`), id: params.userId}});
             const  {data} = res
             setUserDetail(data.result[0]);
             setTransaction(data.transaction);
+            setTotalTransaction(data.count[0].count);
             
         } catch (error) {
             console.log(alert(error.message));
@@ -51,7 +52,7 @@ function UserDetail() {
     
     useEffect(() => {
         fetchUserDetail();
-    }, [])
+    }, [page, transactionPerPage])
 
   return (
    <Container>
@@ -89,7 +90,7 @@ function UserDetail() {
                            </TableRow>
                        </TableHead>
                        <TableBody>
-                            {transaction.slice(page * transactionPerPage, page * transactionPerPage + transactionPerPage)
+                            {transaction
                                 .map((item) => {
                                     return(
                                         <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" key={item.id}>
@@ -109,9 +110,9 @@ function UserDetail() {
                    </Table>
                </TableContainer>
                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[5, 10, 15]}
                     component="div"
-                    count={transaction.length}
+                    count={totalTransaction}
                     rowsPerPage={transactionPerPage}
                     page={page}
                     onPageChange={handleChangePage}
