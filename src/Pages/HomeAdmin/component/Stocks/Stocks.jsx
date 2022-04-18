@@ -83,7 +83,7 @@ const columns = [
   { id:'price', label: 'Price', align: 'right', minWidth: 70},
 ]
 
-  console.log(products);
+  
   return (
     <Container>
         <div className={classes.toolbar}/>
