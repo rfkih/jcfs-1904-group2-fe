@@ -24,7 +24,7 @@ function ProductDetail() {
       .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
       .then((res) => {
 
-        setProduct(res.data[0]);
+        setProduct(res.data.result[0]);
       })
       .catch((err) => {
         console.log({ err });
@@ -35,7 +35,6 @@ function ProductDetail() {
     try {
         const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
         const { data } = res;
-        console.log(data.result[0].qtyBoxAvailable);
         setStocks(data.calculatedStock);
     } catch (error) {
         console.log(alert(error.message));

@@ -158,8 +158,8 @@ function EditDetailProduct() {
         try {
             const res = await axios.get(`/products/${params.productId}`,{ params: { id: params.productId } } )
             const {data} = res
-            setProduct(data[0]);
-            setOnCancelData(data[0])
+            setProduct(data.result[0]);
+            setOnCancelData(data.result[0])
             
         } catch (err) {
         console.log({ err });
