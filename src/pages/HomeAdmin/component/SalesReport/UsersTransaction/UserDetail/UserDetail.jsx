@@ -11,8 +11,8 @@ function UserDetail() {
     const params = useParams();
     const [ userDetail, setUserDetail] = useState ({});
     const [ transaction, setTransaction ] = useState([]);
-    const [page, setPage] = useState(0);
-    const [transactionPerPage, setTransactionPerPage] = useState(10);
+    const [ page, setPage] = useState(0);
+    const [ transactionPerPage, setTransactionPerPage] = useState(10);
     const [ totalTransaction, setTotalTransaction ] = useState(1)
 
     const handleChangePage = (event, newPage) => {

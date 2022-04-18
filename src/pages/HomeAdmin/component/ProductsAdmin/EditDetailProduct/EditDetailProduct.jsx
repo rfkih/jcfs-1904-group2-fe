@@ -35,9 +35,10 @@ function EditDetailProduct() {
     })
     const [onCancelData, setOnCancelData] = useState([])
     const [onCancelStock, setOnCancelStock] = useState([])
+    const [calculatedStock, setCalculatedStock] = useState({})
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
-    console.log(onCancelStock);
+   console.log(calculatedStock);
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -133,7 +134,7 @@ function EditDetailProduct() {
     }
 
 
-    console.log(stocks);
+  
 
     useEffect(() => {
         axios
@@ -200,6 +201,7 @@ function EditDetailProduct() {
             const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
             const { data } = res;
             setStocks(data.result[0]);
+            setCalculatedStock(data.calculatedStock);
             setOnCancelStock(data.result[0])
         } catch (error) {
             console.log(alert(error.message));
@@ -239,9 +241,12 @@ function EditDetailProduct() {
         qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
     };
 
-    console.log(updatedStocks);
+    const stockLiquidNew = parseInt(qtyBottleAvailable)  + parseInt(qtyBoxAvailable * 10)
+    const stockNonLiquidNew = parseInt(qtyStripsavailable) + parseInt(qtyBoxAvailable * 10)
+
+    const newCalculatedStock = {stockLiquidNew , stockNonLiquidNew}
   await axios
-  .put(`/stocks/${params.productId}`, {updatedStocks, params: { id: params.productId } } )
+  .put(`/stocks/${params.productId}`, {updatedStocks, isLiquid, newCalculatedStock,  prevStock: calculatedStock, params: { id: params.productId } } )
   .then((res) => {
    alert(res.data.message);
    fetchStocks();

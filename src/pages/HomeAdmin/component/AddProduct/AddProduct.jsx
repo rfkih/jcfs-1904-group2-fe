@@ -68,7 +68,7 @@ function AddProduct() {
         .catch((error) => console.log({ error }));
       } 
     }
- console.log(selectedFile);
+
     useEffect(() => {
       if (selectedFile) {
         fileUploadHandler();
