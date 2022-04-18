@@ -44,6 +44,9 @@ function EditDetailProduct() {
         setProduct({ ...product, [e.target.name]: e.target.value });
         if ([e.target.name] == "isLiquid" || [e.target.name] == "category_id") {
             setIsSave(false)
+            if ([e.target.name] == "isLiquid") {
+                setIsEditStock(false)
+            }          
         }
     };
 
