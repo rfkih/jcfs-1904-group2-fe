@@ -171,17 +171,7 @@ function EditDetailProduct() {
         fetchProducts();
     },[])
 
-    // useEffect(() => {
-    //     axios
-    //       .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
-    //       .then((res) => {
-    //         setProduct(res.data[0]);
-    //         setOnCancelData(res.data[0])
-    //       })
-    //       .catch((err) => {
-    //         console.log({ err });
-    //       });
-    //   }, []);
+
 
       const fileSelectedHandler = (e) => {
         let uploaded = e.target.files[0]
