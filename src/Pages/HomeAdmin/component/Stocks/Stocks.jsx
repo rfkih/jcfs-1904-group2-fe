@@ -3,7 +3,7 @@ import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box
 import useStyles from './style'
 import axios from '../../../../utils/axios'
 import {SearchOutlined} from '@material-ui/icons'
-
+import {Link} from 'react-router-dom'
 
 function Stocks() {
 const classes = useStyles();
@@ -157,7 +157,7 @@ const columns = [
                             {columns.map((column) => {
                               const value = product[column.id];
                               return (
-                                <TableCell key={column.id} align={column.align}>
+                                <TableCell component={Link} to={`/stocks/${product.id}`} key={column.id} align={column.align}>
                                     {value}
                                 </TableCell>
                               )
