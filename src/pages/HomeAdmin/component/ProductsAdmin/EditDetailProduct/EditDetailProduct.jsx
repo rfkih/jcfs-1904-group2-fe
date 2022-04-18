@@ -38,7 +38,7 @@ function EditDetailProduct() {
     const [calculatedStock, setCalculatedStock] = useState({})
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
-   console.log(calculatedStock);
+
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -133,20 +133,52 @@ function EditDetailProduct() {
         setIsEditStock(!isEditStock)
     }
 
+    const fetchCategories = async () => {
+        try {
+            const res = await axios.get("/categories");
+            const  categories = res
+            const category = categories.data
+            setCategories(category)
+            
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
 
-  
+    useState(() => {
+        fetchCategories();
+    },[]);
+
+
+    const fetchProducts = async () => {
+
+        try {
+            const res = await axios.get(`/products/${params.productId}`,{ params: { id: params.productId } } )
+            const {data} = res
+            setProduct(data[0]);
+            setOnCancelData(data[0])
+            
+        } catch (err) {
+        console.log({ err });
+            
+        }
+    }
 
     useEffect(() => {
-        axios
-          .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
-          .then((res) => {
-            setProduct(res.data[0]);
-            setOnCancelData(res.data[0])
-          })
-          .catch((err) => {
-            console.log({ err });
-          });
-      }, []);
+        fetchProducts();
+    },[])
+
+    // useEffect(() => {
+    //     axios
+    //       .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
+    //       .then((res) => {
+    //         setProduct(res.data[0]);
+    //         setOnCancelData(res.data[0])
+    //       })
+    //       .catch((err) => {
+    //         console.log({ err });
+    //       });
+    //   }, []);
 
       const fileSelectedHandler = (e) => {
         let uploaded = e.target.files[0]
@@ -180,21 +212,7 @@ function EditDetailProduct() {
       };
 
 
-      const fetchCategories = async () => {
-        try {
-            const res = await axios.get("/categories");
-            const  categories = res
-            const category = categories.data
-            setCategories(category)
-            
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
-
-    useState(() => {
-        fetchCategories();
-    },[]);
+    
 
     const fetchStocks = async () => {
         try {
@@ -230,7 +248,8 @@ function EditDetailProduct() {
       await axios
       .put(`/products/${params.productId}`, {updatedProduct, params: { id: params.productId } } )
       .then((res) => {
-       alert(res.data.message);
+        fetchProducts();
+        alert(res.data.message);
       })
       .catch((error) => console.log({ error }));
   };
