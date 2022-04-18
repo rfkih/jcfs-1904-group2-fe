@@ -4,6 +4,9 @@ import { Typography,Container, Grid, Card, CardMedia, CardContent,InputBase, Tex
 import { useParams } from "react-router-dom";
 import axios from '../../../../../utils/axios'
 import moment from 'moment'
+import 'date-fns'
+import DateFnsUtils from '@date-io/date-fns'
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
 
 function StocksDetail() {
     const classes = useStyles();
@@ -13,11 +16,30 @@ function StocksDetail() {
     const [stocks, setStocks] = useState([])
     const [detailedStocks, setDetailedStocks] = useState([])
     const [log, setLog] = useState([])
+    const [sort, setSort] = useState('')
+    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
+    const [selectedDateTo, setSelectedDateTo] = useState( new Date())
+
+
+    const selectSortHandler = (e) => {
+        setSort(e.target.value);
+      };
+
+    const handleDateChangeFrom = (date) => {
+        setSelectedDateFrom(date)
+    }
+    const handleDateChangeTo = (date) => {
+        setSelectedDateTo(date)
+    }
+
+    const onClickSearch = () => {
+        
+    }
 
    
     const fetchProducts = async () => {
         try {
-            const res = await axios.get(`/products/${params.productId}`,{ params: { id: params.productId } } )
+            const res = await axios.get(`/products/${params.productId}`,{ params: {  id: params.productId } } )
             const {data} = res
             setCategory(data.category[0].categoryName);
             setProduct(data.result[0]);
@@ -28,8 +50,11 @@ function StocksDetail() {
     }
 
     const fetchStocks = async () => {
+        const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
+        const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
+        const date = `and created_at between '${setDateFrom}' and '${setDateTo}'`
         try {
-            const res = await axios.get(`/stocks/detail/${params.productId}`,{ params: { id: params.productId } } );
+            const res = await axios.get(`/stocks/detail/${params.productId}`,{ params: { date, sort, id: params.productId } } );
             const { data } = res;
             setLog(data.data);
             setDetailedStocks(data.result[0]);
@@ -42,7 +67,7 @@ function StocksDetail() {
     useEffect(() => {
         fetchProducts();
         fetchStocks();
-    },[])
+    },[sort])
 
 
     const columns = [
@@ -86,7 +111,7 @@ function StocksDetail() {
             </Card>
             <Paper>
                 <Grid container spacing={2}>
-                    <Grid item xs={5}>
+                    <Grid item xs={4}>
                         <Card>
                             { product.isLiquid === 0 ? 
                                  <CardContent>
@@ -121,6 +146,60 @@ function StocksDetail() {
                         }
                            
                         </Card>  
+                    </Grid>
+                    <Grid 
+                        container direction="row"
+                        justifyContent="flex-start"
+                        alignItems="flex-end" item xs={8}>
+                        <MuiPickersUtilsProvider   MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='Select From'
+                                    value={selectedDateFrom}
+                                    onChange={handleDateChangeFrom}
+                                />   
+                            </Grid>                      
+                            <Grid item xs={5}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant='inline'
+                                    format='yyyy/MM/dd'
+                                    margin='normal'
+                                    id='date-picker'
+                                    label='To'
+                                    value={selectedDateTo}
+                                    onChange={handleDateChangeTo}
+                                /> 
+                            </Grid>
+                            
+                            <Grid item xs={2}>
+                                <Button onClick={onClickSearch}> Search </Button>
+                            </Grid>
+                        </MuiPickersUtilsProvider>
+
+                    </Grid>
+                    
+                    <Grid item xs={5}>
+                        <FormControl sx={{ m: 3, minWidth: 200 }}>
+                            <InputLabel id="sort-by" >Sort By</InputLabel>
+                                <Select
+                                    labelId="sort-by"
+                                    id="1"
+                                    defaultValue=""
+                                    name="sortBy"
+                                    onChange={selectSortHandler}    
+                                >
+                                    <MenuItem key={0} value="" > Default </MenuItem>
+                                    <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
+                                    <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
+                                </Select>   
+                        </FormControl>
+
                     </Grid>
                     <Grid item xs={8}>
                         <TableContainer>
