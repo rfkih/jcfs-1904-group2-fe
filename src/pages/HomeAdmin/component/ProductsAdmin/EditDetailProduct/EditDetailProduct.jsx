@@ -259,9 +259,21 @@ function EditDetailProduct() {
 
   const updateStocks = async () => {
     
-    const updatedStocks = {
+    let updatedStocks = {
         qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
     };
+
+    if (isLiquid) {
+        updatedStocks = {
+            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable: null, qtyStripsTotal: null, qtyMgAvailable: null, qtyMgTotal: null
+        };
+        
+    } else {
+        updatedStocks = {
+            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable: null, qtyBottleTotal: null, qtyMlAvailable: null, qtyMlTotal: null, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
+        };
+        
+    }
 
     const stockLiquidNew = parseInt(qtyBottleAvailable)  + parseInt(qtyBoxAvailable * 10)
     const stockNonLiquidNew = parseInt(qtyStripsavailable) + parseInt(qtyBoxAvailable * 10)
