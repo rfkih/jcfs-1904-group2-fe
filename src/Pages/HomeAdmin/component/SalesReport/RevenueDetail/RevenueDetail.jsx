@@ -110,7 +110,6 @@ function RevenueDetail() {
         { id:'total_revenue', label: 'Revenue', align: 'right', minWidth: 100},
     ]
 
-    console.log(year);
 
   return (
     <Container >

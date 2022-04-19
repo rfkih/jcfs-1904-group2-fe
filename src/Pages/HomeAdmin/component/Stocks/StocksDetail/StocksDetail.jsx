@@ -17,16 +17,19 @@ function StocksDetail() {
     const [detailedStocks, setDetailedStocks] = useState([])
     const [log, setLog] = useState([])
     const [sort, setSort] = useState('')
-    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
+    const [selectedDateFrom, setSelectedDateFrom] = useState( (`2021-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
-    const [detailedData, setDetailedData] = useState([])
-    
+    const [detailedData, setDetailedData] = useState([{total_stock_in: 0, total_stock_out:0 }, {total_bought: 0}])
+    const [filter, setFilter] = useState('')
 
-    console.log(detailedData);
+ 
 
     const selectSortHandler = (e) => {
         setSort(e.target.value);
       };
+    const selectFilterHandler = (e) => {
+        setFilter(e.target.value)
+    }
 
     const handleDateChangeFrom = (date) => {
         setSelectedDateFrom(date)
@@ -57,9 +60,11 @@ function StocksDetail() {
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
         const date = `and created_at between '${setDateFrom}' and '${setDateTo} 23:59:59'`
         try {
-            const res = await axios.get(`/stocks/detail/${params.productId}`,{ params: { date, sort, id: params.productId } } );
+            const res = await axios.get(`/stocks/detail/${params.productId}`,{ params: { date, filter, sort, id: params.productId } } );
             const { data } = res;
-            setDetailedData([data.detail[0], data.bought[0]]);
+            if (data.detail[0]) {
+                setDetailedData([data.detail[0]])
+            }
             setLog(data.data);
             setDetailedStocks(data.result[0]);
             setStocks(data.calculatedStock);
@@ -71,7 +76,7 @@ function StocksDetail() {
     useEffect(() => {
         fetchProducts();
         fetchStocks();
-    },[sort])
+    },[sort, filter])
 
 
     const columns = [
@@ -149,15 +154,11 @@ function StocksDetail() {
                         <Card>
                             <CardContent>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                     Total Stock In : {detailedData[0].total_stock_in}
+                                     Total Stock In :  {detailedData[0].total_stock_in}
                                 </Typography>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Total Stock Out : {detailedData[0].total_stock_out}
                                 </Typography>
-                                <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                     Total Bought : {detailedData[1].total_bought}
-                                </Typography>
-
                             </CardContent>
                         </Card>
                     </Grid>
@@ -200,7 +201,7 @@ function StocksDetail() {
                        
                     </Grid>
                    
-                    <Grid item xs={5}>
+                    <Grid item xs={1}>
                         <FormControl sx={{ m: 3, minWidth: 200 }}>
                             <InputLabel id="sort-by" >Sort By</InputLabel>
                                 <Select
@@ -216,8 +217,25 @@ function StocksDetail() {
                                     <MenuItem key={3} value="order by stock_in desc" > Stock In </MenuItem>
                                     <MenuItem key={4} value="order by stock_in asc" > Stock Out</MenuItem>
                                 </Select>   
-                        </FormControl>
-
+                        </FormControl>   
+                    </Grid>
+                    <Grid item xs={1}>
+                        <FormControl sx={{ m: 3, minWidth: 200 }}>
+                            <InputLabel id="filter-by" >Filter By</InputLabel>
+                                <Select
+                                    labelId="filter-by"
+                                    id="1"
+                                    defaultValue=""
+                                    name="filterBy"
+                                    onChange={selectFilterHandler}    
+                                >
+                                    <MenuItem key={0} value="" > Default </MenuItem>
+                                    <MenuItem key={1} value="and status = 'edit'" > Edit </MenuItem>
+                                    <MenuItem key={2} value="and status = 'bought'" > Bought </MenuItem>
+                                    <MenuItem key={3} value="and status = 'add'" > Add </MenuItem>
+                                   
+                                </Select>   
+                        </FormControl>  
                     </Grid>
                     <Grid item xs={8}>
                         <TableContainer>
