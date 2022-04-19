@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import {HomeRounded, ReportOutlined, MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
-import { AppBar, Drawer, ListItem, Button, Paper, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
+import { AppBar, Drawer, ListItem, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
 import {format} from 'date-fns'
-import {useSelector} from 'react-redux'
+
 
 
 import useStyles from './style'
 
 function DrawerBar() {
-    const adminId = useSelector(state => state.auth.username)
     const classes = useStyles();
     const navigate = useNavigate();
     const location = useLocation();
@@ -54,7 +54,7 @@ function DrawerBar() {
                     Today is the {format(new Date(), 'do MMM Y')}
                 </Typography>
                 <Typography>
-                   Hi {adminId}
+                   Hi. Admin
                 </Typography>
                 <Avatar className={classes.avatar}/>
             </Toolbar>
@@ -85,10 +85,7 @@ function DrawerBar() {
                     <ListItemText primary={item.text}></ListItemText>
                    </ListItem> 
                 ))}
-            </List>
-            <Paper>
-                <Button>Log Out</Button>
-            </Paper>      
+            </List>      
         </Drawer>
     </div>
   )
