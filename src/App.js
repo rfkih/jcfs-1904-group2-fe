@@ -22,7 +22,7 @@ import DrawerBar from "./pages/HomeAdmin/component/Sidebar/Sidebar";
 import SalesReport from "./pages/HomeAdmin/component/SalesReport/SalesReport";
 import PendingOrder from "./pages/HomeAdmin/component/PendingOrder/PendingOrder";
 import OrderDetail from "./pages/HomeAdmin/component/PendingOrder/OrderDetail/OrderDetail";
-import ItemSoldDetail from "./pages/HomeAdmin/component/SalesReport/ItemSold/ItemSoldDetail/ItemSoldDetail";
+import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSoldDetail/ItemSoldDetail'
 import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/StocksDetail";
 
@@ -38,9 +38,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-
-  const [role, setRole] = useState("users");
-
+  const [role, setRole] = useState("");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const dispatch = useDispatch();
 
@@ -50,7 +48,7 @@ function App() {
       const userData = JSON.parse(userLocalStorage);
 
       const { id, username, role, tokens } = userData;
-      setRole(role);
+      setRole(role)
       dispatch(keepLoginAction({ id, username, role, tokens }));
     }
 
@@ -69,9 +67,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomeUser />} />
                 <Route path="homeadmin" element={<HomeAdmin />} />
-
                 <Route path="stocks" element={<Stocks />} />
-
                 <Route path="financial" element={<SalesReport />} />
                 <Route path="orders" element={<PendingOrder />} />
                 <Route path="stocks/:productId" element={<StocksDetail />} />
@@ -85,6 +81,7 @@ function App() {
                   element={<EditDetailProduct />}
                 />
                 <Route path={`itemsold`} element={<ItemSold />} />
+                <Route path={`itemsold/product/:productId`} element={<ItemSoldDetail />} />
                 <Route
                   path={`itemsold/product/:productId`}
                   element={<ItemSoldDetail />}
@@ -116,7 +113,10 @@ function App() {
             <div className={classes.page}>
               <Routes>
                 <Route path="/" element={<HomeUser />} />
-
+                <Route
+                  path={`products/:productId`}
+                  element={<ProductDetail />}
+                />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<Forgotpass />} />
@@ -136,4 +136,4 @@ function App() {
   }
 }
 
-export default App;
+export default App
