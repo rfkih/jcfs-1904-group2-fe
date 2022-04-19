@@ -23,8 +23,7 @@ function ProductDetail() {
     axios
       .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
       .then((res) => {
-
-        setProduct(res.data[0]);
+        setProduct(res.data.result[0]);
       })
       .catch((err) => {
         console.log({ err });
