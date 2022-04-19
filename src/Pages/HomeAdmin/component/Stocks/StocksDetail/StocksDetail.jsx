@@ -19,7 +19,10 @@ function StocksDetail() {
     const [sort, setSort] = useState('')
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
+    const [detailedData, setDetailedData] = useState([])
+    
 
+    console.log(detailedData);
 
     const selectSortHandler = (e) => {
         setSort(e.target.value);
@@ -33,7 +36,7 @@ function StocksDetail() {
     }
 
     const onClickSearch = () => {
-        
+        fetchStocks();
     }
 
    
@@ -52,10 +55,11 @@ function StocksDetail() {
     const fetchStocks = async () => {
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
-        const date = `and created_at between '${setDateFrom}' and '${setDateTo}'`
+        const date = `and created_at between '${setDateFrom}' and '${setDateTo} 23:59:59'`
         try {
             const res = await axios.get(`/stocks/detail/${params.productId}`,{ params: { date, sort, id: params.productId } } );
             const { data } = res;
+            setDetailedData([data.detail[0], data.bought[0]]);
             setLog(data.data);
             setDetailedStocks(data.result[0]);
             setStocks(data.calculatedStock);
@@ -115,31 +119,25 @@ function StocksDetail() {
                         <Card>
                             { product.isLiquid === 0 ? 
                                  <CardContent>
-                                     <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
-                                     isLiquid? : {product.isLiquid}
-                                    </Typography>
-                                 <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
+                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Box Available : {detailedStocks.qtyBoxAvailable}
                                  </Typography>
-                                 <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
+                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Strips Available : {detailedStocks.qtyStripsavailable}
                                  </Typography>
-                                 <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
+                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Total Strips Available : {stocks.stockNonLiquid}
                                  </Typography>
                                 </CardContent>   
                                 :
                                  <CardContent>
-                                    <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
-                                     isLiquid? : {product.isLiquid}
-                                    </Typography>
-                                    <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
+                                    <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Box Available : {detailedStocks.qtyBoxAvailable}
                                     </Typography>
-                                    <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
+                                    <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Bottle Available : {detailedStocks.qtyBottleAvailable}
                                     </Typography>
-                                    <Typography sx={{ fontSize: 15 }} color="text.secondary" gutterBottom>
+                                    <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                      Total Bottle Available : {stocks.stockLiquid}
                                     </Typography>
                                 </CardContent> 
@@ -147,10 +145,28 @@ function StocksDetail() {
                            
                         </Card>  
                     </Grid>
+                    <Grid item xs={8}>
+                        <Card>
+                            <CardContent>
+                                <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
+                                     Total Stock In : {detailedData[0].total_stock_in}
+                                </Typography>
+                                <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
+                                     Total Stock Out : {detailedData[0].total_stock_out}
+                                </Typography>
+                                <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
+                                     Total Bought : {detailedData[1].total_bought}
+                                </Typography>
+
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                   
                     <Grid 
                         container direction="row"
                         justifyContent="flex-start"
-                        alignItems="flex-end" item xs={8}>
+                        alignItems="flex-end" item xs={6}>
+                   
                         <MuiPickersUtilsProvider   MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid item xs={5}>
                                 <KeyboardDatePicker
@@ -181,9 +197,9 @@ function StocksDetail() {
                                 <Button onClick={onClickSearch}> Search </Button>
                             </Grid>
                         </MuiPickersUtilsProvider>
-
+                       
                     </Grid>
-                    
+                   
                     <Grid item xs={5}>
                         <FormControl sx={{ m: 3, minWidth: 200 }}>
                             <InputLabel id="sort-by" >Sort By</InputLabel>
@@ -197,6 +213,8 @@ function StocksDetail() {
                                     <MenuItem key={0} value="" > Default </MenuItem>
                                     <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
                                     <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
+                                    <MenuItem key={3} value="order by stock_in desc" > Stock In </MenuItem>
+                                    <MenuItem key={4} value="order by stock_in asc" > Stock Out</MenuItem>
                                 </Select>   
                         </FormControl>
 

@@ -37,7 +37,7 @@ function UsersTransaction() {
     const fetchTransaction = async () => {
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
-        const date = `where created_at between '${setDateFrom}' and '${setDateTo}'`
+        const date = `where created_at between '${setDateFrom}' and '${setDateTo} 23:59:59'`
         try {
             const res = await axios.get("/transaction", {params: { pages:(`limit ${transactionPerPage} offset ${(page) * transactionPerPage}`), date, sortTransactions, keywordTransaction, status}});
             const { data } = res;

@@ -29,7 +29,7 @@ function ItemSoldDetail() {
     const getTransactionByProduct = async () => { 
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
-        const date = `and created_at between '${setDateFrom}' and '${setDateTo}'`
+        const date = `and created_at between '${setDateFrom}' and '${setDateTo} 23:59:59'`
         try {
             const res = await axios.get(`transactiondetails/product/${params.productId}`, { params: { pages:(`limit ${productPerPage} offset ${(page) * productPerPage}`), date, sort , id: params.productId}});
             const  {data} = res
@@ -162,10 +162,11 @@ function ItemSoldDetail() {
                                 <MenuItem key={0} value="" > Default </MenuItem>
                                 <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
                                 <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
+                                <MenuItem key={2} value="order by created_at asc" > Stock In (Descending) </MenuItem>
                             </Select>   
                     </FormControl>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={5}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
                             <Grid item xs={5}>

@@ -72,7 +72,7 @@ function RevenueDetail() {
     const getTransactionByDate = async () => {
         const setDateFrom = moment(selectedDateFrom).utc().format('YYYY-MM-DD')
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
-        const date = `where created_at between '${setDateFrom}' and '${setDateTo}'`
+        const date = `where created_at between '${setDateFrom}' and '${setDateTo} 23:59:59'`
         try {
             const res = await axios.get("transaction/date", {params: { date }});
             const { data } = res;
