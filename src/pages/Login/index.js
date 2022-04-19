@@ -54,6 +54,7 @@ function LoginPage() {
   };
 
   if (username) {
+
     return <Navigate to="/" replace />;
   }
 

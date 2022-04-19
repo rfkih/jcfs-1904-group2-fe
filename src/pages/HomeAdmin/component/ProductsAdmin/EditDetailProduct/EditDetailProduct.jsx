@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import {Card, Paper, CardMedia, Button,CardActionArea, Grid, Box, Input, Container, CardContent, CardActions, Typography, TextField, Select, MenuItem} from '@material-ui/core';
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
-
+import {useSelector} from 'react-redux'
 
 import useStyles from './styles';
 
 function EditDetailProduct() {
+    const data = useSelector((state) => {
+        return state.auth;
+      });
+
+    
     const classes = useStyles();
     const params = useParams();
     const [product, setProduct] = useState({});
@@ -271,7 +276,7 @@ function EditDetailProduct() {
 
     const newCalculatedStock = {stockLiquidNew , stockNonLiquidNew}
   await axios
-  .put(`/stocks/${params.productId}`, {updatedStocks, isLiquid, newCalculatedStock,  prevStock: calculatedStock, params: { id: params.productId } } )
+  .put(`/stocks/${params.productId}`, {updatedStocks, isLiquid, newCalculatedStock, userId: data.id,  prevStock: calculatedStock, params: { id: params.productId } } )
   .then((res) => {
    alert(res.data.message);
    fetchStocks();

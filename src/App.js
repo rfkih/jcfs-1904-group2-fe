@@ -41,7 +41,7 @@ function App() {
   const [role, setRole] = useState("");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const dispatch = useDispatch();
-  console.log(role);
+  
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
     if (userLocalStorage) {
@@ -49,11 +49,16 @@ function App() {
 
       const { id, username, role, tokens, photo } = userData;
       setRole(role)
+      
       dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
 
     setIsLocalStorageChecked(true);
   }, []);
+
+ 
+
+  
 
   if (isLocalStorageChecked) {
     return (

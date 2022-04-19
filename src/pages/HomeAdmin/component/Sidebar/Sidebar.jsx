@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate, Navigate} from 'react-router-dom';
 import {HomeRounded, ReportOutlined, MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
 import { AppBar, Drawer, ListItem, Button, Paper, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
 import {format} from 'date-fns'
@@ -9,7 +9,6 @@ import useStyles from './style'
 import { WindowSharp } from '@mui/icons-material';
 
 function DrawerBar() {
-    const adminId = "tst"
     const { username, photo } = useSelector((state) => {
         return state.auth;
       });
@@ -18,13 +17,17 @@ function DrawerBar() {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-     console.log(username);
-    console.log(photo);
+
 
     const onLogoutClick = () => {
+        
         dispatch(logoutAction());
-        window.location.reload(); 
+         
+        
       };
+
+
+  
 
     const menuItems =[
         {
@@ -99,7 +102,7 @@ function DrawerBar() {
                 ))}
             </List>
             <Paper>
-                <Button onClick={onLogoutClick}>Log Out</Button>
+                <Button component={Link} to={`/`} onClick={onLogoutClick}>Log Out</Button>
             </Paper>      
         </Drawer>
     </div>
