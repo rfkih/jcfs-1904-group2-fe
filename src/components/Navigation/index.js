@@ -43,6 +43,8 @@ function Navigation() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 3 }}
+            component="a"
+            href="/"
           >
             <Logo fontSize="large" sx={{ mr: 1 }} />
             PHARMACY
@@ -73,6 +75,9 @@ function Navigation() {
                   "aria-labelledby": "basic-button",
                 }}
               >
+                <MenuItem>
+                  <Link to="/edit-profile-picture"> Profile Picture </Link>
+                </MenuItem>
                 <MenuItem>
                   <Link to="/edit-profile">Edit Profile</Link>
                 </MenuItem>
