@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation/index";
 import Register from "./pages/Register";
 import Forgotpass from "./pages/Login/forgotpass";
 import EditProfile from "./pages/EditProfile";
+import ProfilePicture from "./pages/ProfilePicture"
 
 import { makeStyles } from "@material-ui/core/styles";
 import HomeUser from "./pages/HomeUser/HomeUser";
@@ -82,6 +83,10 @@ function App() {
                 <Route path={`itemsold`} element={<ItemSold />} />
                 <Route path={`itemsold/product/:productId`} element={<ItemSoldDetail />} />
                 <Route
+                  path={`itemsold/product/:productId`}
+                  element={<ItemSoldDetail />}
+                />
+                <Route
                   path={`userstransaction`}
                   element={<UsersTransaction />}
                 />
@@ -111,6 +116,10 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<Forgotpass />} />
+                <Route
+                  path="/edit-profile-picture"
+                  element={<ProfilePicture />}
+                />
                 <Route path="/edit-profile" element={<EditProfile />} />
               </Routes>
             </div>

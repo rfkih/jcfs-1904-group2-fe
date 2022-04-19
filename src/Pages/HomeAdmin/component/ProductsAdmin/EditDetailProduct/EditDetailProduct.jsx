@@ -35,19 +35,14 @@ function EditDetailProduct() {
     })
     const [onCancelData, setOnCancelData] = useState([])
     const [onCancelStock, setOnCancelStock] = useState([])
-    const [calculatedStock, setCalculatedStock] = useState({})
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
     console.log(onCancelStock);
-
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
         if ([e.target.name] == "isLiquid" || [e.target.name] == "category_id") {
             setIsSave(false)
-            if ([e.target.name] == "isLiquid") {
-                setIsEditStock(false)
-            }          
         }
     };
 
@@ -137,42 +132,20 @@ function EditDetailProduct() {
         setIsEditStock(!isEditStock)
     }
 
-    const fetchCategories = async () => {
-        try {
-            const res = await axios.get("/categories");
-            const  categories = res
-            const category = categories.data
-            setCategories(category)
-            
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
 
-    useState(() => {
-        fetchCategories();
-    },[]);
-
-
-    const fetchProducts = async () => {
-
-        try {
-            const res = await axios.get(`/products/${params.productId}`,{ params: { id: params.productId } } )
-            const {data} = res
-            setProduct(data.result[0]);
-            setOnCancelData(data.result[0])
-            
-        } catch (err) {
-        console.log({ err });
-            
-        }
-    }
+    console.log(stocks);
 
     useEffect(() => {
-        fetchProducts();
-    },[])
-
-
+        axios
+          .get(`/products/${params.productId}`,{ params: { id: params.productId } } )
+          .then((res) => {
+            setProduct(res.data[0]);
+            setOnCancelData(res.data[0])
+          })
+          .catch((err) => {
+            console.log({ err });
+          });
+      }, []);
 
       const fileSelectedHandler = (e) => {
         let uploaded = e.target.files[0]
@@ -206,14 +179,27 @@ function EditDetailProduct() {
       };
 
 
-    
+      const fetchCategories = async () => {
+        try {
+            const res = await axios.get("/categories");
+            const  categories = res
+            const category = categories.data
+            setCategories(category)
+            
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    useState(() => {
+        fetchCategories();
+    },[]);
 
     const fetchStocks = async () => {
         try {
             const res = await axios.get(`/stocks/${params.productId}`,{ params: { id: params.productId } } );
             const { data } = res;
             setStocks(data.result[0]);
-            setCalculatedStock(data.calculatedStock);
             setOnCancelStock(data.result[0])
         } catch (error) {
             console.log(alert(error.message));
@@ -242,36 +228,20 @@ function EditDetailProduct() {
       await axios
       .put(`/products/${params.productId}`, {updatedProduct, params: { id: params.productId } } )
       .then((res) => {
-        fetchProducts();
-        alert(res.data.message);
+       alert(res.data.message);
       })
       .catch((error) => console.log({ error }));
   };
 
   const updateStocks = async () => {
     
-    let updatedStocks = {
+    const updatedStocks = {
         qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
     };
 
-    if (isLiquid) {
-        updatedStocks = {
-            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable: null, qtyStripsTotal: null, qtyMgAvailable: null, qtyMgTotal: null
-        };
-        
-    } else {
-        updatedStocks = {
-            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable: null, qtyBottleTotal: null, qtyMlAvailable: null, qtyMlTotal: null, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
-        };
-        
-    }
-
-    const stockLiquidNew = parseInt(qtyBottleAvailable)  + parseInt(qtyBoxAvailable * 10)
-    const stockNonLiquidNew = parseInt(qtyStripsavailable) + parseInt(qtyBoxAvailable * 10)
-
-    const newCalculatedStock = {stockLiquidNew , stockNonLiquidNew}
+    console.log(updatedStocks);
   await axios
-  .put(`/stocks/${params.productId}`, {updatedStocks, isLiquid, newCalculatedStock,  prevStock: calculatedStock, params: { id: params.productId } } )
+  .put(`/stocks/${params.productId}`, {updatedStocks, params: { id: params.productId } } )
   .then((res) => {
    alert(res.data.message);
    fetchStocks();
