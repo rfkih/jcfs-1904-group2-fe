@@ -24,7 +24,7 @@ function ItemSold() {
     const [ soldItemPerPage, setSoldItemPerPage] = useState(10)
     const [ categoryCount, setCategoryCount ] = useState(1)
    
-  console.log(categoryCount);
+
 
     
     const handleChange = (e) => {
@@ -72,7 +72,7 @@ function ItemSold() {
         try {
             const res = await axios.get("/transactiondetails/category", {params: { pages:(`limit ${categoryPerpage} offset ${(pageCategory) * categoryPerpage}`), sortedCategory  }})
             const { data } = res;
-            console.log(data.categoryDetail);
+         
             setSoldCategory(data.categoryDetail)
             setCategoryCount(data.count.length);
         } catch (error) {

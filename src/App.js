@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const [role, setRole] = useState("admin");
+  const [role, setRole] = useState("");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ function App() {
       const userData = JSON.parse(userLocalStorage);
 
       const { id, username, role, tokens } = userData;
-
+      setRole(role)
       dispatch(keepLoginAction({ id, username, role, tokens }));
     }
 

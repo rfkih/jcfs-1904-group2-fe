@@ -13,6 +13,8 @@ function ProfilePicture() {
 
   const { id } = JSON.parse(localStorage.getItem("userData"));
   console.log("Avatar", image);
+  
+
   const getUserById = async () => {
     try {
       const response = await axios.get(`/users/${id}`);
