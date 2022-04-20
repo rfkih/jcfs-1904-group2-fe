@@ -276,7 +276,7 @@ function EditDetailProduct() {
 
     const newCalculatedStock = {stockLiquidNew , stockNonLiquidNew}
   await axios
-  .put(`/stocks/${params.productId}`, {updatedStocks, isLiquid, newCalculatedStock, userId: data.id,  prevStock: calculatedStock, params: { id: params.productId } } )
+  .put(`/stocks/${params.productId}`, {updatedStocks, isLiquid, newCalculatedStock, userId: data.id, username: data.username,  prevStock: calculatedStock, params: { id: params.productId } } )
   .then((res) => {
    alert(res.data.message);
    fetchStocks();

@@ -12,6 +12,10 @@ export default makeStyles( (theme) => {
             backgroundColor: theme.palette.background.default,
             padding: theme.spacing(1),
           },  
+          paper: {
+            marginTop: theme.spacing(1),
+            padding: theme.spacing(1),
+          },
     }
 
     

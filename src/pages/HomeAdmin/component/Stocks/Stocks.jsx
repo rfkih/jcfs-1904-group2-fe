@@ -4,8 +4,10 @@ import useStyles from './style'
 import axios from '../../../../utils/axios'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 function Stocks() {
+const params = useParams();
 const classes = useStyles();
 const [ sort, setSort ] = useState('')
 const [ keyword, setKeyword] = useState('')
@@ -15,7 +17,8 @@ const [categoryName, setCategoryName] = useState([])
 const [page, setPage] = useState(0)
 const [productsPerPage, setProductsPerPage] = useState(10)
 const [productsCount, setProductsCount] = useState(1)
-
+const [ dataLog, setDataLog] = useState([])
+const [dataLogCount, setDataLogCount] = useState([])
 const handleChangePage = (event, newPage) => {
   setPage(newPage)
 };
@@ -59,6 +62,23 @@ const fetchProducts = async () => {
   }
 };
 
+
+const fetchDataLog = async () => {
+  try {
+      const res = await axios.get(`/datalog`, { params: {  pages: 9 } } )
+      const {data} = res
+      setDataLog(data.result);
+      setDataLogCount(data.count[0].count);
+  
+  } catch (err) {
+  console.log({ err });       
+  }
+}
+
+useEffect(() => {
+  fetchDataLog();
+},[])
+
 const fetchCategories = async () => {
   try {
       const res = await axios.get("/categories");
@@ -88,7 +108,7 @@ const columns = [
     <Container>
         <div className={classes.toolbar}/>
         <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>            
                             <Card sx={{ minWidth: 275 }}>
@@ -118,6 +138,7 @@ const columns = [
                             </Card>
                   </Grid>
                   <Grid item xs={6}>
+                    <Paper>
                  
                             <Input
                                 sx={{ ml: 1, flex: 1 }}
@@ -129,11 +150,14 @@ const columns = [
                             <IconButton>
                                 <SearchOutlined />
                             </IconButton>
-                        
+                    </Paper>
                   </Grid>
               </Grid>
             </Grid>
-            <Grid item xs ={8}>
+            <Grid item xs={5}>
+                <Typography>Custom Order Usage</Typography>
+            </Grid>
+            <Grid item xs ={7}>
               <Paper>
                 <TableContainer>
                   <Table stickyHeader >

@@ -121,7 +121,7 @@ function AddProduct() {
           qtyStripsTotal
         }
       await axios
-      .post("/products", { data: data.id , newProduct, newStock} )
+      .post("/products", { userId: data.id , username: data.username, newProduct, newStock} )
       .then((res) => {
        alert(res.data);
        window.location.reload(); 

@@ -84,7 +84,7 @@ function StocksDetail() {
         { id:'status', label: 'Status',align: 'right', minWidth: 70},
         { id:'stock_in', label: 'Stock In', align: 'right', minWidth: 70},
         { id:'stock_out', label: 'Stock Out', align: 'right', minWidth: 70},
-        { id:'user_id', label: 'User Id', align: 'right', minWidth: 70},
+        { id:'username', label: 'Username', align: 'right', minWidth: 70},
         { id:'created_at', label: 'Date', align: 'right', minWidth: 100},
     ]
 
@@ -152,14 +152,25 @@ function StocksDetail() {
                     </Grid>
                     <Grid item xs={8}>
                         <Card>
+                            { product.isLiquid === 0 ? 
                             <CardContent>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                     Total Stock In :  {detailedData[0].total_stock_in}
+                                 Total Stock In :  {detailedData[0].total_stock_in} Strips
                                 </Typography>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                     Total Stock Out : {detailedData[0].total_stock_out}
+                                 Total Stock Out (Strips) : {detailedData[0].total_stock_out ? detailedData[0].total_stock_out : 0 } Strips
                                 </Typography>
                             </CardContent>
+                            : 
+                            <CardContent>
+                                <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
+                                 Total Stock In : {detailedData[0].total_stock_in} Bottle
+                                </Typography>
+                                <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
+                                 Total Stock Out : {detailedData[0].total_stock_out ? detailedData[0].total_stock_out : 0 } Bottle
+                                </Typography>
+                            </CardContent> }
+                            
                         </Card>
                     </Grid>
                    
@@ -229,11 +240,11 @@ function StocksDetail() {
                                     name="filterBy"
                                     onChange={selectFilterHandler}    
                                 >
-                                    <MenuItem key={0} value="" > Default </MenuItem>
+                                    <MenuItem key={0} value="" > All </MenuItem>
                                     <MenuItem key={1} value="and status = 'edit'" > Edit </MenuItem>
                                     <MenuItem key={2} value="and status = 'bought'" > Bought </MenuItem>
                                     <MenuItem key={3} value="and status = 'add'" > Add </MenuItem>
-                                   
+                                    <MenuItem key={4} value="and status = 'custom'" > Custom </MenuItem>
                                 </Select>   
                         </FormControl>  
                     </Grid>

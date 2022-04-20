@@ -68,21 +68,13 @@ function App() {
 //     } 
 //   }
 //  }
-   
-
-
-
- 
-
-
-
   if (isLocalStorageChecked) {
 
    
     
     return (
       <div className={classes.root}>
-        {role == "admin" ? (
+        {role === "admin" ? (
           <Router>
             <div>
               <DrawerBar />
