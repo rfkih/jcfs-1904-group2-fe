@@ -3,6 +3,7 @@ import axios from '../../utils/axios'
 import { Grid, Box, Container, Typography } from "@material-ui/core";
 import Products from './components/Products/Products'
 import ProductManager from './components/ProductManager'
+import Spinner from './Spinner'
 
 function HomeUser() {
     const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ function HomeUser() {
     const [totalPage, setTotalPage] = useState(1)
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
+    const [loading, setLoading] = useState(false);
     const fetchCategories = async () => {
       try {
           const res = await axios.get("/categories");
@@ -23,6 +25,8 @@ function HomeUser() {
           console.log(alert(error.message));
       }
   };
+
+  console.log(loading);
 
   useEffect(() => {
     fetchCategories();
@@ -37,7 +41,7 @@ function HomeUser() {
             setProducts(data.result);
             setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
             }));
-            
+            setLoading(false)
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -45,12 +49,13 @@ function HomeUser() {
 
 
     useEffect(() => {
+      
         fetchProducts();
       }, [selectedCategory, page, sort, keyword]);
 
-      
+  if(loading) return <Spinner message="We are adding products!"/>   
+  
   return (
-
     <Container>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={0}>
