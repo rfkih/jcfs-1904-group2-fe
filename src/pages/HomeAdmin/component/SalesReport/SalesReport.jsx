@@ -164,7 +164,7 @@ function SalesReport() {
             </Grid>
         </Grid>
         <Chart graphData={graphData} setRange={setRange} setYear={setYear} />
-        <Paper>
+        <Paper className={classes.paper}>
             <RevenueDetail/>
         </Paper>
     </Container>

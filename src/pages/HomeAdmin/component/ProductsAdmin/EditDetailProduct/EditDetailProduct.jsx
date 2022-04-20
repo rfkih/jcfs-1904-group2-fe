@@ -43,7 +43,7 @@ function EditDetailProduct() {
     const [calculatedStock, setCalculatedStock] = useState({})
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
-  
+    console.log(calculatedStock);
 
 
     const handleChange = (e) => {
@@ -422,10 +422,10 @@ let choosenCategory = categories.filter(function (category) {
                     <Paper className={classes.paper} >
                         <Grid container spacing={2} >
                             <Grid item xs={8}>
-                                <Typography>isLiquid ? : {isLiquid}  </Typography>   
+                                {isLiquid ? <Typography> Type : Liquid</Typography> : <Typography>Type: Non-Liquid</Typography> }     
                             </Grid>
                             <Grid item xs={2}>
-                            <Select defaultValue="" name='isLiquid' onChange={handleChange} >
+                            <Select   defaultValue="" name='isLiquid' onChange={handleChange} >
                                 <MenuItem value='1'>Yes</MenuItem>
                                 <MenuItem value='0'>No</MenuItem>
                             </Select>
@@ -451,17 +451,25 @@ let choosenCategory = categories.filter(function (category) {
                             </Grid>  
                         </Grid>
                     {isSave === false ?
-                    <Button onClick={buttonHandleChange} size="small" color="primary">
-                        Save
-                    </Button> : 
-                    <Button onClick={buttonHandleChange} size="small" color="primary">
-                        Saved
-                    </Button> }
-                    
+                        <Button onClick={buttonHandleChange} size="small" color="primary">
+                            Save
+                        </Button> : 
+                        <Button onClick={buttonHandleChange} size="small" color="primary">
+                            Saved
+                        </Button> }         
                     </Paper>  
                 </Box>
                     {isEditStock === false ? 
-                        <Button onClick={editStockHandleChange} size="medium" color="primary"> Edit Stock </Button>
+                        <Grid container spacing={2}>
+                            <Grid item xs={3}>
+                                <Button onClick={editStockHandleChange} size="medium" color="primary"> Edit Stock </Button>
+                            </Grid>
+                            <Grid item xs={8}>
+                                {isLiquid ? <Typography>Current Quantity: {calculatedStock.stockLiquid} Bottle </Typography> : <Typography>Current Quantity: {calculatedStock.stockNonLiquid} Strips</Typography>}
+                            </Grid>
+                            
+                        </Grid>
+                        
                         :
                         <Grid container spacing={2}>
                             <Grid  xs={5}>

@@ -13,8 +13,10 @@ export default makeStyles( (theme) => {
             padding: theme.spacing(1),
           },  
           paper: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.default,
             marginTop: theme.spacing(1),
-            padding: theme.spacing(1),
+            padding: theme.spacing(2),
           },
     }
 

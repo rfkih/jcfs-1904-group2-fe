@@ -196,7 +196,7 @@ function RevenueDetail() {
             <Grid item xs={6}>
                 <Card>
                     <CardContent>
-                        <Typography variant="h6" color="primary" >Revenue by Month :</Typography>
+                        <Typography variant="h6" color="primary" > Total Revenue by Month :</Typography>
                         <Typography variant="body1">Rp.{revenue}</Typography>
                     </CardContent>
                 </Card>
@@ -204,7 +204,7 @@ function RevenueDetail() {
             <Grid item xs={6}>
                 <Card>
                     <CardContent>
-                        <Typography variant="h6" color="primary" >Revenue by Year :</Typography>
+                        <Typography variant="h6" color="primary" > Total Revenue by Year :</Typography>
                         <Typography variant="body1">Rp. {revenueYear}</Typography>
                     </CardContent>
                 </Card>
