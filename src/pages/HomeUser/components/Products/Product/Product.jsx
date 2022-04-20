@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom'
 import useStyles from './styles'
 
 function Product({product}) {
+    const alternateimage = "https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png"
     
     const classes = useStyles();
 
 
   return (
     <Card sx={{ maxWidth: 300 }}>
-        <CardMedia component="img"  height="140" image={product.productIMG} alt="product Image"/>
+        <CardMedia component="img"  height="140" image={product.productIMG} alt={alternateimage}/>
         <CardContent>
                 <Typography variant="body2">
                        Rp.{product.price}

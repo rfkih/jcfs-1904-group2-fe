@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Grid, Box, Container, CircularProgress} from '@material-ui/core';
 import { useDispatch } from "react-redux";
 import { keepLoginAction } from "./store/actions";
 import {useSelector} from 'react-redux'
@@ -146,7 +147,9 @@ console.log(role);
       </div>
     );
   } else {
-    return <h1> Loading .. </h1>;
+    return  <Container>
+              <CircularProgress color="success" />;
+            </Container> 
   }
 }
 
