@@ -20,9 +20,12 @@ const [productsPerPage, setProductsPerPage] = useState(10)
 const [productsCount, setProductsCount] = useState(1)
 const [productName, setProductName] = useState([])
 const [ dataLog, setDataLog] = useState([])
-const [dataLogCount, setDataLogCount] = useState([])
+const [ dataLogCount, setDataLogCount] = useState([])
+const [ sortData, setSortData] = useState('')
+const [ filterData, setFilterData] = useState('')
 
 
+console.log(products);
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage)
@@ -34,9 +37,24 @@ const handleChange = (e) => {
 };
 
 
+
 const selectSortHandler = (e) => {
   setSort(e.target.value);
 };
+
+const selectSortData = (e) => {
+  setSortData(e.target.value)
+}
+
+const selectFilterData = (e) => {
+  setFilterData(e.target.value)
+}
+
+const handleSelectedCategory = (e) => {
+  setSelectedCategory({[e.target.name]: e.target.value});
+  setPage(0)
+};
+
 
 
 const handleChangeItemPerPage = (event) => {   
@@ -68,11 +86,12 @@ const fetchProducts = async () => {
 };
 
 
+console.log(selectedCategory);
 
 
 const fetchDataLog = async () => {
   try {
-      const res = await axios.get(`/datalog`, { params: {  pages: 9 } } )
+      const res = await axios.get(`/datalog`, { params: { filterData, sortData, } } )
       const {data} = res
       setDataLog(data.result);
       setDataLogCount(data.count[0].count);
@@ -84,7 +103,7 @@ const fetchDataLog = async () => {
 
 useEffect(() => {
   fetchDataLog();
-},[])
+},[sortData, filterData])
 
 const fetchCategories = async () => {
   try {
@@ -101,7 +120,7 @@ const fetchCategories = async () => {
 useEffect(() => {
   fetchProducts();
   fetchCategories();
-},[page, productsPerPage, sort, keyword])
+},[page, productsPerPage, sort, keyword, selectedCategory])
 
 const columns = [
   { id:'id', label: 'Product Id', align: 'right', minWidth: 20},
@@ -113,13 +132,13 @@ const columns = [
 const datalogs = [
   { id:'productName', label: 'Product', align: 'right', minWidth: 30},
   { id:'status', label: 'Status', align: 'right', minWidth: 30},
-  { id:'stock_in', label: 'Stock In', align: 'right', minWidth: 30},
-  { id:'stock_out', label: 'Stock Out', align: 'right', minWidth: 30},
+  { id:'stock_in', label: 'In', align: 'right', minWidth: 40},
+  { id:'stock_out', label: 'Out', align: 'right', minWidth: 40},
   { id:'username', label: 'Username',align: 'right', minWidth: 50},
   { id:'created_at', label: 'Date', align: 'right', minWidth: 70},
 ]
 
-console.log(dataLog);
+
   
   return (
     <Container>
@@ -129,11 +148,11 @@ console.log(dataLog);
               <Grid container spacing={2}>
                 <Grid item xs={6}>            
                             <Card sx={{ minWidth: 275 }}>
+                            
                                 <CardContent>
-                                    <Typography variant="h5" component="div" >
-                                        Sort Item
-                                    </Typography>
-                                    <FormControl sx={{ m: 3, minWidth: 200 }}>
+                                  <Grid container spacing={2}>
+                                    <Grid Grid xs={7}>
+                                      <FormControl sx={{ m: 3, minWidth: 200 }}>
                                         <InputLabel id="sort-by" >Sort By</InputLabel>
                                             <Select
                                                 labelId="sort-by"
@@ -150,14 +169,42 @@ console.log(dataLog);
                                                 <MenuItem key={5} value="order by price asc" > Price (Acending) </MenuItem>
                                                 <MenuItem key={6} value="order by price desc" > Price (Descending) </MenuItem>
                                             </Select>   
-                                    </FormControl>
+                                      </FormControl>
+                                    </Grid>
+                                    <Grid xs={3}>
+                                      <FormControl sx={{ m: 1, minWidth: 120 }}>
+                                        <InputLabel id="category-select">Category</InputLabel>
+                                          <Select
+                                            labelId="category-select"
+                                            id="1"
+                                            defaultValue=""
+                                            name="category_id"
+                                            label="Category"
+                                            onChange={handleSelectedCategory}
+                                        >
+                                          <MenuItem key={1} value="">
+                                            <Typography>Default</Typography>
+                                          </MenuItem>
+                                          {categoryName.map((category) => (
+                                          <MenuItem key={category.id}  value={category.id}>
+                                          {category.categoryName}
+                                        </MenuItem>
+                                        ))}
+                                      </Select>
+                                  </FormControl>
+
+                                    </Grid>
+
+                                  </Grid>
+
+                                    
+                                    
                                 </CardContent>
                             </Card>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Paper>
-                 
-                            <Input
+                    </Grid>
+                  <Grid item xs={5}>       
+                        <Paper className={classes.paper} >
+                          <Input
                                 sx={{ ml: 1, flex: 1 }}
                                 placeholder="Search Products"
                                 name="keyword"
@@ -167,12 +214,56 @@ console.log(dataLog);
                             <IconButton>
                                 <SearchOutlined />
                             </IconButton>
-                    </Paper>
+                        </Paper>                                     
                   </Grid>
               </Grid>
             </Grid>
             <Grid item xs={5}>
-                <Typography>Custom Order Usage</Typography>
+                <Card>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <FormControl sx={{ m: 3, minWidth: 200 }}>
+                          <InputLabel id="sort-by" >Sort By</InputLabel>
+                            <Select
+                                  labelId="sort-by"
+                                id="1"
+                                defaultValue=""
+                                name="sortBy"
+                                onChange={selectSortData}
+                            >
+                                <MenuItem key={0} value="" > Default </MenuItem>
+                                <MenuItem key={3} value="order by created_at desc" > Latest </MenuItem>
+                                <MenuItem key={4} value="order by created_at asc" > Oldest </MenuItem>
+                                <MenuItem key={1} value="order by stock_out asc" > Stock In </MenuItem>
+                                <MenuItem key={2} value="order by stock_in asc" > Stock Out </MenuItem>
+                            </Select>   
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <FormControl sx={{ m: 3, minWidth: 200 }}>
+                          <InputLabel id="filter" >Filter By</InputLabel>
+                            <Select
+                                  labelId="filter"
+                                id="1"
+                                defaultValue=""
+                                name="filter"
+                                onChange={selectFilterData}
+                            >
+                                <MenuItem key={0} value="" > All </MenuItem>
+                                <MenuItem key={3} value="where status = 'edit'" > Edit </MenuItem>
+                                <MenuItem key={4} value="where status = 'add'" > Add </MenuItem>
+                                <MenuItem key={1} value="where status = 'bought'" > Bought </MenuItem>
+                                <MenuItem key={2} value="where status = 'custom'" > Custom </MenuItem>
+                            </Select>   
+                        </FormControl>
+                      </Grid>
+
+                    </Grid>
+                    
+                    
+                  </CardContent>
+                </Card>
             </Grid>
             <Grid item xs ={6}>
               <Paper>
