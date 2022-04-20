@@ -18,17 +18,20 @@ const [categoryName, setCategoryName] = useState([])
 const [page, setPage] = useState(0)
 const [productsPerPage, setProductsPerPage] = useState(10)
 const [productsCount, setProductsCount] = useState(1)
-const [productName, setProductName] = useState([])
 const [ dataLog, setDataLog] = useState([])
 const [ dataLogCount, setDataLogCount] = useState([])
 const [ sortData, setSortData] = useState('')
 const [ filterData, setFilterData] = useState('')
-
-
+const [ pageData, setPageData] = useState(0)
+const [ dataPerPage, setDataPerPage] = useState(10)
 console.log(products);
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage)
+};
+
+const handleChangeDataPage = (event, newPage) => {
+  setPageData(newPage)
 };
 
 const handleChange = (e) => {
@@ -62,6 +65,11 @@ const handleChangeItemPerPage = (event) => {
   setPage(0);
 };
 
+const handleChangeDataPerPage = (event) => {   
+  setDataPerPage(+event.target.value);
+  setPageData(0);
+};
+
 products.forEach((item)=>{
   categoryName.map((name) => {
       if (item.category_id == name.id) {
@@ -91,7 +99,7 @@ console.log(selectedCategory);
 
 const fetchDataLog = async () => {
   try {
-      const res = await axios.get(`/datalog`, { params: { filterData, sortData, } } )
+      const res = await axios.get(`/datalog`, { params: { pages:(`limit ${dataPerPage} offset ${(pageData)*dataPerPage}`), filterData, sortData, } } )
       const {data} = res
       setDataLog(data.result);
       setDataLogCount(data.count[0].count);
@@ -103,7 +111,7 @@ const fetchDataLog = async () => {
 
 useEffect(() => {
   fetchDataLog();
-},[sortData, filterData])
+},[sortData, filterData, pageData, dataPerPage])
 
 const fetchCategories = async () => {
   try {
@@ -357,6 +365,15 @@ const datalogs = [
 
                   </Table>
                 </TableContainer>
+                <TablePagination
+                        rowsPerPageOptions={[10, 20, 30]}
+                        component="div"
+                        count={dataLogCount}
+                        rowsPerPage={dataPerPage}
+                        page={pageData}
+                        onPageChange={handleChangeDataPage}
+                        onRowsPerPageChange={handleChangeDataPerPage}
+                    />
               </Paper>
 
             </Grid>

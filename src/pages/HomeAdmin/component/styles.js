@@ -16,7 +16,12 @@ export default makeStyles((theme) => ({
       marginRight: 'auto',
     },
   },
-  
+  paper: {
+    flexGrow: 1,
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(1),
+  },
+
   
   
 }));

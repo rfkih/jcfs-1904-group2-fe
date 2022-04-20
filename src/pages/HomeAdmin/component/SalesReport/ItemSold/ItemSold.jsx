@@ -188,9 +188,9 @@ function ItemSold() {
                             justifyContent="center"
                             alignItems="center" 
                             item xs={6}>
-                                <Paper>
+                                <Paper className={classes.paper}>
                                     <Input
-                                    sx={{ ml: 1, flex: 1 }}
+                                    className={classes.input}
                                     placeholder="Search Products"
                                     name="keyword"
                                     align="center"
