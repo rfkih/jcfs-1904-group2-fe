@@ -5,6 +5,7 @@ import axios from '../../../../utils/axios'
 import {SearchOutlined} from '@material-ui/icons'
 import {Link} from 'react-router-dom'
 import { useParams } from "react-router-dom";
+import moment from 'moment'
 
 function Stocks() {
 const params = useParams();
@@ -17,8 +18,12 @@ const [categoryName, setCategoryName] = useState([])
 const [page, setPage] = useState(0)
 const [productsPerPage, setProductsPerPage] = useState(10)
 const [productsCount, setProductsCount] = useState(1)
+const [productName, setProductName] = useState([])
 const [ dataLog, setDataLog] = useState([])
 const [dataLogCount, setDataLogCount] = useState([])
+
+
+
 const handleChangePage = (event, newPage) => {
   setPage(newPage)
 };
@@ -63,6 +68,8 @@ const fetchProducts = async () => {
 };
 
 
+
+
 const fetchDataLog = async () => {
   try {
       const res = await axios.get(`/datalog`, { params: {  pages: 9 } } )
@@ -103,6 +110,16 @@ const columns = [
   { id:'price', label: 'Price', align: 'right', minWidth: 70},
 ]
 
+const datalogs = [
+  { id:'productName', label: 'Product', align: 'right', minWidth: 30},
+  { id:'status', label: 'Status', align: 'right', minWidth: 30},
+  { id:'stock_in', label: 'Stock In', align: 'right', minWidth: 30},
+  { id:'stock_out', label: 'Stock Out', align: 'right', minWidth: 30},
+  { id:'username', label: 'Username',align: 'right', minWidth: 50},
+  { id:'created_at', label: 'Date', align: 'right', minWidth: 70},
+]
+
+console.log(dataLog);
   
   return (
     <Container>
@@ -157,7 +174,7 @@ const columns = [
             <Grid item xs={5}>
                 <Typography>Custom Order Usage</Typography>
             </Grid>
-            <Grid item xs ={7}>
+            <Grid item xs ={6}>
               <Paper>
                 <TableContainer>
                   <Table stickyHeader >
@@ -202,6 +219,55 @@ const columns = [
                         onRowsPerPageChange={handleChangeItemPerPage}
                     />
               </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper>
+                <TableContainer>
+                  <Table stickyHeader >
+                  <TableHead>
+                      <TableRow>
+                        {datalogs.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth}}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {dataLog.map((product) => {
+                        return (
+                          <TableRow hover role="checkbox">
+                            {datalogs.map((column) => {
+                                                    const value = product[column.id];
+                                                    if (column.id === "created_at" ) {
+                                                        const date =  moment(value).utc().format('DD/MM/YYYY')
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
+                                                                {date}
+                                                            </TableCell>     
+                                                        )  
+                                                    } else {
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
+                                                            {value}
+                                                        </TableCell>                                                                                                             
+                                                        )    
+                                                    }
+                                                    
+                                                })}
+                          </TableRow>
+                        )
+                      })}
+                    </TableBody>
+
+                  </Table>
+                </TableContainer>
+              </Paper>
+
             </Grid>
 
         </Grid>
