@@ -23,7 +23,7 @@ function DrawerBar() {
         
         dispatch(logoutAction());
         <Navigate to="/" replace />
-        window.location.reload();
+        
       };
 
 

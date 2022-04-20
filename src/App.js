@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { keepLoginAction } from "./store/actions";
+import {useSelector} from 'react-redux'
 import Login from "./pages/Login";
 import Navigation from "./components/Navigation/index";
 import Register from "./pages/Register";
@@ -38,9 +39,11 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const [role, setRole] = useState("");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
-  const [checkAdmin, isCheckAdmin ] = useState(false)
+  const {role} = useSelector((state) => {
+    return state.auth;
+  });
+
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -49,25 +52,19 @@ function App() {
       const userData = JSON.parse(userLocalStorage);
 
       const { id, username, role, tokens, photo } = userData;
-      setRole(role)
+     
       
       dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
+
+
+   
 
     setIsLocalStorageChecked(true);
     
   }, []);
 
-//  if (role) {
-//   if (checkAdmin) {
-//     if (role == "admin") {
-//       window.location.reload();
-//       isCheckAdmin(true)
-//     }else{
-//       isCheckAdmin(true)
-//     } 
-//   }
-//  }
+console.log(role);
   if (isLocalStorageChecked) {
 
    
@@ -118,6 +115,7 @@ function App() {
                   path={`usertransaction/:userId`}
                   element={<UserDetail />}
                 />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </div>
           </Router>

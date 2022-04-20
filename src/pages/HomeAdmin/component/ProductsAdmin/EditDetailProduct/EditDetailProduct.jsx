@@ -43,7 +43,7 @@ function EditDetailProduct() {
     const [calculatedStock, setCalculatedStock] = useState({})
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
-    console.log(onCancelStock);
+  
 
 
     const handleChange = (e) => {

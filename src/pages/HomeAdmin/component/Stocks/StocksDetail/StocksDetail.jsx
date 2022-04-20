@@ -155,16 +155,16 @@ function StocksDetail() {
                             { product.isLiquid === 0 ? 
                             <CardContent>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                 Total Stock In :  {detailedData[0].total_stock_in} Strips
+                                 Total Stock In :  {detailedData[0].total_stock_in ? detailedData[0].total_stock_in : 0} Strips
                                 </Typography>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                 Total Stock Out (Strips) : {detailedData[0].total_stock_out ? detailedData[0].total_stock_out : 0 } Strips
+                                 Total Stock Out : {detailedData[0].total_stock_out ? detailedData[0].total_stock_out : 0 } Strips
                                 </Typography>
                             </CardContent>
                             : 
                             <CardContent>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
-                                 Total Stock In : {detailedData[0].total_stock_in} Bottle
+                                 Total Stock In : {detailedData[0].total_stock_in ? detailedData[0].total_stock_in : 0} Bottle
                                 </Typography>
                                 <Typography sx={{ fontSize: 15 }} color="textSecondary" gutterBottom>
                                  Total Stock Out : {detailedData[0].total_stock_out ? detailedData[0].total_stock_out : 0 } Bottle

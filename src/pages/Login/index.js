@@ -7,7 +7,9 @@ import axios from "../../utils/axios";
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
+  const {username, role} = useSelector((state) => {
+    return state.auth;
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [formState, setFormState] = useState({
     username: "",
@@ -53,12 +55,14 @@ function LoginPage() {
     // setIsLoading(false);
   };
 
-  if (username) {
+  
+    if (username) {
+     return <Navigate to="/" replace />;
+    } 
+   
 
-    return <Navigate to="/" replace />;
 
   
-  }
 
   return (
     <div className="pages">
