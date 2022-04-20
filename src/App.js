@@ -40,6 +40,7 @@ function App() {
   const classes = useStyles();
   const [role, setRole] = useState("");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
+  const [checkAdmin, isCheckAdmin ] = useState(false)
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -54,13 +55,31 @@ function App() {
     }
 
     setIsLocalStorageChecked(true);
+    
   }, []);
+
+//  if (role) {
+//   if (checkAdmin) {
+//     if (role == "admin") {
+//       window.location.reload();
+//       isCheckAdmin(true)
+//     }else{
+//       isCheckAdmin(true)
+//     } 
+//   }
+//  }
+   
+
+
 
  
 
-  
+
 
   if (isLocalStorageChecked) {
+
+   
+    
     return (
       <div className={classes.root}>
         {role == "admin" ? (

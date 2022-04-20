@@ -22,8 +22,8 @@ function DrawerBar() {
     const onLogoutClick = () => {
         
         dispatch(logoutAction());
-         
-        
+        <Navigate to="/" replace />
+        window.location.reload();
       };
 
 

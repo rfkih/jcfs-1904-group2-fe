@@ -11,7 +11,7 @@ function TransactionDetail() {
     const [ listProduct, setlistProduct] = useState([])
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
-
+  console.log(listProduct);
     useEffect(() => {
         axios
           .get(`/transactiondetails/${params.transactionId}`,{ params: { id: params.transactionId } } )
