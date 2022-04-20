@@ -91,9 +91,10 @@ function SalesReport() {
         getTransactionDetail();
     })
   return (
-    <Container>
+    <div className={classes.content} >
+    <Container  >
         <div className={classes.toolbar}/>
-        <Grid container spacing ={2}>
+        <Grid container spacing ={2} >
             <Grid item xs={4}>
                 {revenueDetail === false ? 
                 <Card>
@@ -167,6 +168,7 @@ function SalesReport() {
             <RevenueDetail/>
         </Paper>
     </Container>
+    </div>
   )
 }
 

@@ -28,8 +28,8 @@ function UsersTransaction() {
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
     const [ totalTransaction, setTotalTransaction] = useState(1)
     const [ totalUser, setTotalUser ] = useState(1)
-   
-
+    const [ isCustom, setIsCustom ] = useState('')
+    console.log(isCustom);
     const searchBtnHandler = () => {
         fetchTransaction();
     }
@@ -39,7 +39,7 @@ function UsersTransaction() {
         const setDateTo = moment(selectedDateTo).utc().format('YYYY-MM-DD')
         const date = `where created_at between '${setDateFrom}' and '${setDateTo} 23:59:59'`
         try {
-            const res = await axios.get("/transaction", {params: { pages:(`limit ${transactionPerPage} offset ${(page) * transactionPerPage}`), date, sortTransactions, keywordTransaction, status}});
+            const res = await axios.get("/transaction", {params: { pages:(`limit ${transactionPerPage} offset ${(page) * transactionPerPage}`), date, isCustom, sortTransactions, keywordTransaction, status}});
             const { data } = res;
             setTransaction(data.result);  
             setTotalTransaction(data.count[0].count)
@@ -51,7 +51,7 @@ function UsersTransaction() {
 
     useEffect (() => {
         fetchTransaction();
-    },[status, sortTransactions, keywordTransaction, page, transactionPerPage]);
+    },[status, sortTransactions, keywordTransaction, page, transactionPerPage, isCustom]);
 
 
     const fetchUser = async () => {
@@ -135,6 +135,10 @@ function UsersTransaction() {
       setSortTransactions(e.target.value);
       };
 
+    const selectCustomHandler = (e) => {
+        setIsCustom(e.target.value)
+    }
+
     const selectSortUserHandler = (e) => {
         setSortUser(e.target.value);
       };
@@ -147,7 +151,7 @@ function UsersTransaction() {
       <div className={classes.toolbar}/>
         <Grid container spacing={2}>
             <Grid item xs={7}>
-                <Paper>
+                <Paper className={classes.paper} >
                     <Grid container spacing={2}>
                         <Grid item xs={3}>
                             <FormControl >
@@ -203,7 +207,7 @@ function UsersTransaction() {
                 </Paper>
             </Grid>
             <Grid item xs={5}>
-              <Paper>
+              <Paper className={classes.paper} >
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <FormControl sx={{ m: 3, minWidth: 200 }}>
@@ -240,11 +244,10 @@ function UsersTransaction() {
               </Paper>
             </Grid>
             <Grid item xs={7}>
-                <Paper>
-                    Test
+                <Paper className={classes.paper}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2}>
-                            <Grid item xs={5}>
+                        <Grid direction="row" container justifyContent="space-evenly" alignItems="flex-end" spacing={2} >
+                            <Grid item xs={3}>
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant='inline'
@@ -256,7 +259,7 @@ function UsersTransaction() {
                                     onChange={handleDateChangeFrom}
                                 />   
                             </Grid>                      
-                            <Grid item xs={5}>
+                            <Grid item xs={3}>
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant='inline'
@@ -271,13 +274,30 @@ function UsersTransaction() {
                             <Grid item xs={2}>
                                 <Button onClick={searchBtnHandler} > Search </Button>
                             </Grid>
+                            <Grid item xs={3}>
+                                <FormControl >
+                                    <InputLabel id="custom-select-label">Transaction Type</InputLabel>
+                                        <Select
+                                            labelId="custom-select-label"
+                                            id="custom-select"
+                                            label="Transaction Status"
+                                            name="status"
+                                            defaultValue=""
+                                            onChange={selectCustomHandler}
+                                        >
+                                        <MenuItem key={1} value={""} >All</MenuItem>
+                                        <MenuItem key={2} value={"and isByPresciption = 1 "} >Custom Order</MenuItem>
+                                        <MenuItem key={3} value={"and isByPresciption = 0 "} >Normal Order</MenuItem>
+                                        </Select>
+                                </FormControl>
+                            </Grid>
                         </Grid>                     
                     </MuiPickersUtilsProvider>
-
+                        
                 </Paper>
             </Grid>
             <Grid item xs={5}>
-
+                Wow
             </Grid>
             <Grid item xs={7}>
                 <Paper>

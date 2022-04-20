@@ -7,7 +7,11 @@ export default makeStyles( (theme) => {
     return {
 
         toolbar: theme.mixins.toolbar,
-        
+        content: {
+            flexGrow: 1,
+            backgroundColor: theme.palette.background.default,
+            padding: theme.spacing(1),
+          },  
     }
 
     
