@@ -24,6 +24,7 @@ function HomeAdmin() {
     const [totalPage, setTotalPage] = useState(1)
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
+    const [ deleteState, setDeleteState] = useState(false)
     const [checked, setChecked] = useState(false)
 
   
@@ -65,7 +66,7 @@ function HomeAdmin() {
     setChecked(false)
       fetchDeletedProducts();
   }
-  }, [deletedProducts, selectedCategory, page, keyword, sort])
+  }, [deletedProducts, deleteState, selectedCategory, page, keyword, sort])
 
   
   
@@ -85,6 +86,8 @@ function HomeAdmin() {
         setSort={setSort}
         setKeyword={setKeyword}
         checked={checked}
+        setDeleteState={setDeleteState}
+        deleteState={deleteState}
       />
     </>
     

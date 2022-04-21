@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import axios from '../../../../../utils/axios'
 
 
-function ProductAdmin({product, deletedProducts}) {
+function ProductAdmin({product, deletedProducts, deleteState, setDeleteState}) {
 
   const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
 
@@ -23,7 +23,7 @@ function ProductAdmin({product, deletedProducts}) {
     .put("/products", id)
     .then((res) => {
       alert(res.data.message);
-      window.location.reload(); 
+      setDeleteState(!deleteState)
      })
      .catch((error) => console.log({ error }));
   }
@@ -34,7 +34,7 @@ function ProductAdmin({product, deletedProducts}) {
     .put("/products/undelete", id)
     .then((res) => {
       alert(res.data.message);
-      window.location.reload(); 
+      setDeleteState(!deleteState)
      })
      .catch((error) => console.log({ error }));
   }

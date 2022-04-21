@@ -7,7 +7,7 @@ import useStyles from './styles'
 
 function ProductsAdmin(props) {
   const classes = useStyles();
-  const { products, deletedProducts, page, totalPage, setPage, checked} = props;
+  const { products, deletedProducts, page, totalPage, setPage, checked, deleteState, setDeleteState} = props;
   
 
   const renderProducts = () => {
@@ -15,7 +15,7 @@ function ProductsAdmin(props) {
     return products.map((product) => (
       <Grid item key={product.id} xs= {3} >
         <Paper elevation={0} className={classes.paper}>
-          <ProductAdmin deletedProducts={deletedProducts}product={product}/>
+          <ProductAdmin deletedProducts={deletedProducts} product={product} deleteState={deleteState} setDeleteState={setDeleteState}/>
         </Paper>  
       </Grid>
     ));
