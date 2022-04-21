@@ -15,6 +15,8 @@ export default makeStyles((theme) => ({
       cardContent: {
         display: 'flex',
         justifyContent: 'space-between',
+        direction:"row",
+        alignItems:"center"
       },
     paper: {
         marginTop: theme.spacing(3),

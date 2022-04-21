@@ -65,7 +65,7 @@ useEffect (() => {
       <Paper className={classes.paper}>
       <Card className={classes.root}>
         <CardMedia className={classes.media} image={product.productIMG} tittle={product.productName}/>
-        <CardContent>
+        <CardContent >
             <div className={classes.cardContent}>
                 <Typography variant="h6" gutterBottom>
                     {productName}
@@ -81,20 +81,32 @@ useEffect (() => {
       </Card>
 
 
-      <CardActions disableSpacing className={classes.cardActions}>
-          <Grid>
+      <CardActions className={classes.cardActions}>
+        <Grid container  direction="row" justifyContent="center"  alignItems="center" spacing={2}>
+          <Grid item xs={6}>
+            {product.isLiquid ? 
               <Typography>
-                Stock Available : {stock}
-              </Typography>
+                Stock Available : {stock} Bottle
+              </Typography> 
+              : 
+              <Typography>
+                Stock Available : {stock} Strips
+              </Typography>  }
+              
           </Grid>
-          {quantity === 0 ? <Button type="button" size="small" > - </Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity - 1)}>-</Button> }
-            <Typography>{quantity}</Typography>
-
-          {quantity === stock ? <Button type="button" size="small" >+</Button> : <Button type="button" size="small" variant="contained" color="#8bc34a" onClick={() => setQuantity(quantity + 1)}>+</Button> }
-            
+          <Grid container direction="row" justifyContent="space-around"  alignItems="center"  item xs={6}>
+            {quantity === 0 ? <Button size="small" variant="contained" color="success"  > - </Button> : <Button  size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity - 1)}>-</Button> }
+              <Typography variant="h6" >{quantity}</Typography>
+            {quantity === stock ? <Button  size="small" variant="contained" color="success"  >+</Button> : <Button size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity + 1)}>+</Button> }          
             <IconButton aria-label='Add to Cart' >
                 <AddShoppingCart/>
             </IconButton>  
+
+          </Grid>
+
+        </Grid>
+          
+         
         </CardActions>
     </Paper>
 
