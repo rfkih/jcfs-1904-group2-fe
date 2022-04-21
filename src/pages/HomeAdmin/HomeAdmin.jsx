@@ -27,7 +27,6 @@ function HomeAdmin() {
     const [ deleteState, setDeleteState] = useState(false)
     const [checked, setChecked] = useState(false)
 
-  console.log(keyword);
 
     const fetchProducts = async () => {     
       try {

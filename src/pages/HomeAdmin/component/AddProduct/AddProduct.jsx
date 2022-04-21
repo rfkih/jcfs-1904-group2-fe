@@ -31,13 +31,13 @@ function AddProduct() {
         price: "",
     });
     const [stockFormState, setStockFormState] = useState({
-      product_id: null,
-      qtyBoxAvailable: null,
-      qtyBoxTotal: null,
-      qtyBottleAvailable:null,
-      qtyBottleTotal: null,
-      qtyStripsavailable: null,
-      qtyStripsTotal: null,
+      product_id: 0,
+      qtyBoxAvailable: 0,
+      qtyBoxTotal: 0,
+      qtyBottleAvailable: 0,
+      qtyBottleTotal: 0,
+      qtyStripsavailable: 0,
+      qtyStripsTotal: 0,
     })
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -114,12 +114,13 @@ function AddProduct() {
         const newStock = {
           product_id,
           qtyBoxAvailable,
-          qtyBoxTotal,
+          qtyBoxTotal:  qtyBoxAvailable,
           qtyBottleAvailable,
-          qtyBottleTotal,
+          qtyBottleTotal: qtyBottleAvailable,
           qtyStripsavailable,
-          qtyStripsTotal
+          qtyStripsTotal: qtyStripsavailable
         }
+        console.log(newStock);
       await axios
       .post("/products", { userId: data.id , username: data.username, newProduct, newStock} )
       .then((res) => {
@@ -201,7 +202,7 @@ function AddProduct() {
                             >
                             <MenuItem value="">Default</MenuItem>
                             {category.map((category) => (
-                        <MenuItem  key={category.id} value={category.id}>
+                            <MenuItem  key={category.id} value={category.id}>
                             {category.categoryName}
                             </MenuItem>
                         ))}
@@ -211,23 +212,23 @@ function AddProduct() {
                   <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
                     {formState.isLiquid && 
                     <Grid container spacing={3}>
-                      <Grid item xs={6}>
+                      {/* <Grid item xs={6}>
                         <TextField size='small' variant="outlined" name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={6}>
-                        <TextField size='small' variant="outlined" name='qtyBoxAvailable' label='Input Total Box' onChange={stockHandleChange}/>
+                        <TextField size='small' variant="outlined" name='qtyBoxAvailable' label='Input Box' onChange={stockHandleChange}/>
                       </Grid>
                     {formState.isLiquid == 1 ? <>
-                      <Grid item xs={6} >
+                      {/* <Grid item xs={6} >
                         <TextField size='small' variant="outlined" name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={6}>  
                         <TextField size='small' variant="outlined" name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
                       </Grid> 
                     </> : <>
-                      <Grid item xs={6} >
+                      {/* <Grid item xs={6} >
                         <TextField size='small' variant="outlined"  name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={6}>
                         <TextField size='small' variant="outlined"  name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
                       </Grid>
