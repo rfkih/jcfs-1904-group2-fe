@@ -163,13 +163,14 @@ const datalogs = [
                                       <FormControl sx={{ m: 3, minWidth: 200 }}>
                                         <InputLabel id="sort-by" >Sort By</InputLabel>
                                             <Select
+                                                displayEmpty
                                                 labelId="sort-by"
                                                 id="1"
                                                 defaultValue=""
                                                 name="sortBy"
                                                 onChange={selectSortHandler}
                                             >
-                                                <MenuItem key={0} value="" > Default </MenuItem>
+                                                <MenuItem key={0} value="" >Sort By</MenuItem>
                                                 <MenuItem key={3} value="order by id asc" > Product id (Ascending) </MenuItem>
                                                 <MenuItem key={4} value="order by id desc" > Product id (Descending) </MenuItem>
                                                 <MenuItem key={1} value="order by productName asc" > Product Name (Ascending) </MenuItem>
@@ -183,6 +184,7 @@ const datalogs = [
                                       <FormControl sx={{ m: 1, minWidth: 120 }}>
                                         <InputLabel id="category-select">Category</InputLabel>
                                           <Select
+                                            displayEmpty
                                             labelId="category-select"
                                             id="1"
                                             defaultValue=""
@@ -191,7 +193,7 @@ const datalogs = [
                                             onChange={handleSelectedCategory}
                                         >
                                           <MenuItem key={1} value="">
-                                            <Typography>Default</Typography>
+                                            Category
                                           </MenuItem>
                                           {categoryName.map((category) => (
                                           <MenuItem key={category.id}  value={category.id}>
@@ -234,13 +236,14 @@ const datalogs = [
                             <FormControl sx={{ m: 3, minWidth: 200 }}>
                               <InputLabel id="sort-by" >Sort By</InputLabel>
                                 <Select
+                                  displayEmpty
                                   labelId="sort-by"
                                   id="1"
                                   defaultValue=""
                                   name="sortBy"
                                   onChange={selectSortData}
                                 >
-                                  <MenuItem key={0} value="" > Default </MenuItem>
+                                  <MenuItem key={0} value="" >Sort By</MenuItem>
                                   <MenuItem key={3} value="order by created_at desc" > Latest </MenuItem>
                                   <MenuItem key={4} value="order by created_at asc" > Oldest </MenuItem>
                                   <MenuItem key={1} value="order by stock_out asc" > Stock In </MenuItem>
@@ -252,13 +255,14 @@ const datalogs = [
                             <FormControl sx={{ m: 3, minWidth: 200 }}>
                               <InputLabel id="filter" >Filter By</InputLabel>
                                 <Select
+                                  displayEmpty
                                   labelId="filter"
                                   id="1"
                                   defaultValue=""
                                   name="filter"
                                   onChange={selectFilterData}
                                 >
-                                  <MenuItem key={0} value="" > All </MenuItem>
+                                  <MenuItem key={0} value="" >Filter By</MenuItem>
                                   <MenuItem key={3} value="where status = 'edit'" > Edit </MenuItem>
                                   <MenuItem key={4} value="where status = 'add'" > Add </MenuItem>
                                   <MenuItem key={1} value="where status = 'bought'" > Bought </MenuItem>
@@ -297,7 +301,7 @@ const datalogs = [
                             {columns.map((column) => {
                               const value = product[column.id];
                               return (
-                                <TableCell component={Link} to={`/stocks/${product.id}`} key={column.id} align={column.align}>
+                                <TableCell className={classes.link} component={Link} to={`/stocks/${product.id}`} key={column.id} align={column.align}>
                                     {value}
                                 </TableCell>
                               )

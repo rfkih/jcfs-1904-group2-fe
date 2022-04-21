@@ -20,13 +20,13 @@ function Product({product}) {
 
 
   return (
-    <Card hover classes={classes.card} >
+    <Card classes={classes.card} >
         <CardMedia component="img"  height="140" image={image} alt='product image'/>
         <CardContent>
                 <Typography variant="body2">
                        Rp.{product.price}
                 </Typography>
-                <Typography component={Link} to={`/products/${product.id}`} variant="subtitle2" gutterBottom>
+                <Typography className={classes.link} component={Link} to={`/products/${product.id}`} variant="subtitle2" gutterBottom>
                     {product.productName}
                 </Typography>
         </CardContent>

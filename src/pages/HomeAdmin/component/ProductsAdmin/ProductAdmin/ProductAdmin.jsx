@@ -3,10 +3,11 @@ import {Card, CardMedia, CardContent, CardActions, Typography, Button, useTheme}
 import { AddShoppingCart } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 import axios from '../../../../../utils/axios'
+import useStyles from './styles.js'
 
 
 function ProductAdmin({product, deletedProducts, deleteState, setDeleteState}) {
-
+  const classes = useStyles();
   const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
 
     useEffect(() => {
@@ -47,7 +48,7 @@ function ProductAdmin({product, deletedProducts, deleteState, setDeleteState}) {
             <Typography variant="body2">
                   Rp.{product.price}
             </Typography>
-            <Typography component={Link} to={`/products/${product.id}`} variant="subtitle2" gutterBottom>
+            <Typography className={classes.link} component={Link} to={`/products/${product.id}`} variant="subtitle2" gutterBottom>
                 {product.productName}
             </Typography>
         </CardContent>

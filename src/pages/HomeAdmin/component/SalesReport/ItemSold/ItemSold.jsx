@@ -260,7 +260,7 @@ function ItemSold() {
                                         {columns.map((column) => {
                                             const value = item[column.id];
                                             return (
-                                            <TableCell component={Link} to={`/itemsold/product/${item.product_id}`}  key={column.id} align={column.align}>
+                                            <TableCell className={classes.link} component={Link} to={`/itemsold/product/${item.product_id}`}  key={column.id} align={column.align}>
                                                     {value}
                                             </TableCell>
                                             )

@@ -324,7 +324,7 @@ function UsersTransaction() {
                                 {transaction
                                 .map((item) => {
                                     return (
-                                        <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" tabIndex={-1} key={item.id}>
+                                        <TableRow className={classes.link}  component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" tabIndex={-1} key={item.id}>
                                             {columns.map((column) => {
                                                 const value = item[column.id];               
                                                 if (column.id === "created_at" ) {
@@ -387,7 +387,7 @@ function UsersTransaction() {
                                 { users
                                     .map((user) => {
                                         return (
-                                            <TableRow component={Link} to={`/usertransaction/${user.id}`} hover role="checkbox" key={user.id}>
+                                            <TableRow className={classes.link} component={Link} to={`/usertransaction/${user.id}`} hover role="checkbox" key={user.id}>
                                                 {columnsUser.map((column) => {
                                                     const value = user[column.id];
                                                     return (

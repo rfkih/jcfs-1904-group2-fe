@@ -142,8 +142,8 @@ function ItemSoldDetail() {
                     </Grid>
                 </Grid>
             </Card>
-            <Paper>
-                <Grid container spacing={2}>
+            <Paper className={classes.paper}>
+                <Grid container  spacing={2}>
                     <Grid item xs={4}>
                         <Typography>Total Bought : {detail.total_bought} pcs</Typography>
                         <Typography>Total Amountt : Rp.{detail.total_amount}</Typography>
@@ -153,13 +153,14 @@ function ItemSoldDetail() {
                     <FormControl sx={{ m: 3, minWidth: 200 }}>
                         <InputLabel id="sort-by" >Sort By</InputLabel>
                             <Select
+                                displayEmpty
                                 labelId="sort-by"
                                 id="1"
                                 defaultValue=""
                                 name="sortBy"
                                 onChange={selectSortHandler}    
                             >
-                                <MenuItem key={0} value="" > Default </MenuItem>
+                                <MenuItem key={0} value="" >Sort By</MenuItem>
                                 <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
                                 <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
                                 <MenuItem key={2} value="order by created_at asc" > Stock In (Descending) </MenuItem>
