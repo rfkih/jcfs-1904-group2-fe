@@ -90,7 +90,7 @@ useEffect (() => {
           {quantity === 0 ? <Button type="button" size="small" > - </Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity - 1)}>-</Button> }
             <Typography>{quantity}</Typography>
 
-          {quantity === stock ? <Button type="button" size="small" >+</Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity + 1)}>+</Button> }
+          {quantity === stock ? <Button type="button" size="small" >+</Button> : <Button type="button" size="small" variant="contained" color="#8bc34a" onClick={() => setQuantity(quantity + 1)}>+</Button> }
             
             <IconButton aria-label='Add to Cart' >
                 <AddShoppingCart/>

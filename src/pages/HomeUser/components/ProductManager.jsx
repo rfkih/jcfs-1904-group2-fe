@@ -60,9 +60,10 @@ function ProductManager(props) {
                 </Grid>
               </Grid>
             <br />
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 420 }}>
                 <InputLabel id="category-select">Category</InputLabel>
                   <Select
+                    displayEmpty
                     labelId="category-select"
                     id="1"
                     defaultValue=""
@@ -71,7 +72,7 @@ function ProductManager(props) {
                     onChange={handleSelectedCategory}
                   >
                     <MenuItem key={1} value="">
-                      <em>Default</em>
+                      Category
                     </MenuItem>
                     {category.map((category) => (
                     <MenuItem key={category.id}  value={category.id}>
@@ -93,13 +94,14 @@ function ProductManager(props) {
             <FormControl sx={{ m: 3, minWidth: 200 }}>
               <InputLabel id="sort-by" >Sort By</InputLabel>
                   <Select
+                    displayEmpty
                     labelId="sort-by"
                     id="1"
                     defaultValue=""
                     name="sortBy"
                     onChange={selectSortHandler}
                   >
-                    <MenuItem value="" > Default </MenuItem>
+                    <MenuItem value="" > Sort By </MenuItem>
                     <MenuItem value="order by price ASC" > Lowest Price </MenuItem>
                     <MenuItem value="order by price DESC" > Highest Price </MenuItem>
                     <MenuItem value="order by productName ASC" > A - Z </MenuItem>

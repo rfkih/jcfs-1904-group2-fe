@@ -157,6 +157,7 @@ function UsersTransaction() {
                             <FormControl >
                                 <InputLabel id="range-select-label">Transaction Status</InputLabel>
                                     <Select
+                                        displayEmpty
                                         labelId="range-select-label"
                                         id="range-select"
                                         label="Transaction Status"
@@ -164,7 +165,7 @@ function UsersTransaction() {
                                         defaultValue=""
                                         onChange={handleChangeStatus}
                                     >
-                                        <MenuItem key={1} value={""} >Default</MenuItem>
+                                        <MenuItem key={1} value={""} >Transaction Status</MenuItem>
                                         <MenuItem key={2} value={"and transactionStatus = 'paid'"} >Paid</MenuItem>
                                         <MenuItem key={3} value={"and transactionStatus = 'failed'"} >Failed</MenuItem>
                                         <MenuItem key={4} value={"and transactionStatus = 'sent'"} >Sent</MenuItem>
@@ -176,13 +177,14 @@ function UsersTransaction() {
                             <FormControl sx={{ m: 3, minWidth: 200 }}>
                                 <InputLabel id="sort-by" >Sort By</InputLabel>
                                     <Select
+                                        displayEmpty
                                         labelId="sort-by"
                                         id="1"
                                         defaultValue=""
                                         name="sortBy"
                                         onChange={selectSortHandler}
                                     >
-                                        <MenuItem key={1} value={``} >Default</MenuItem>
+                                        <MenuItem key={1} value={``} >Sort By</MenuItem>
                                         <MenuItem key={2} value={`order by id asc`} >Transaction Id (ascending)</MenuItem>
                                         <MenuItem key={3} value={`order by id desc`} >Transaction Id (descending)</MenuItem>
                                         <MenuItem key={4} value={`order by created_at desc`} >Latest</MenuItem>
@@ -213,13 +215,14 @@ function UsersTransaction() {
                     <FormControl sx={{ m: 3, minWidth: 200 }}>
                                 <InputLabel id="sort-by" >Sort By</InputLabel>
                                     <Select
+                                        displayEmpty
                                         labelId="sort-by"
                                         id="1"
                                         defaultValue=""
                                         name="sortBy"
                                         onChange={selectSortUserHandler}
                                     >
-                                        <MenuItem key={1} value={""} >Default</MenuItem>
+                                        <MenuItem key={1} value={""} >Sort By</MenuItem>
                                         <MenuItem key={2} value={"order by id asc"} >User Id (ascending)</MenuItem>
                                         <MenuItem key={3} value={"order by id desc"} >User Id (descending)</MenuItem>
                                         <MenuItem key={4} value={"order by username asc"} >Username(ascending)</MenuItem>
@@ -278,6 +281,7 @@ function UsersTransaction() {
                                 <FormControl >
                                     <InputLabel id="custom-select-label">Transaction Type</InputLabel>
                                         <Select
+                                            displayEmpty
                                             labelId="custom-select-label"
                                             id="custom-select"
                                             label="Transaction Status"
@@ -285,7 +289,7 @@ function UsersTransaction() {
                                             defaultValue=""
                                             onChange={selectCustomHandler}
                                         >
-                                        <MenuItem key={1} value={""} >All</MenuItem>
+                                        <MenuItem key={1} value={""} >Transaction Type</MenuItem>
                                         <MenuItem key={2} value={"and isByPresciption = 1 "} >Custom Order</MenuItem>
                                         <MenuItem key={3} value={"and isByPresciption = 0 "} >Normal Order</MenuItem>
                                         </Select>
@@ -297,7 +301,7 @@ function UsersTransaction() {
                 </Paper>
             </Grid>
             <Grid item xs={5}>
-                Wow
+                
             </Grid>
             <Grid item xs={7}>
                 <Paper>

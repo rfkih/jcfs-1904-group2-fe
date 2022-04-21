@@ -226,13 +226,14 @@ function StocksDetail() {
                         <FormControl sx={{ m: 3, minWidth: 200 }}>
                             <InputLabel id="sort-by" >Sort By</InputLabel>
                                 <Select
+                                    displayEmpty
                                     labelId="sort-by"
                                     id="1"
                                     defaultValue=""
                                     name="sortBy"
                                     onChange={selectSortHandler}    
                                 >
-                                    <MenuItem key={0} value="" > Default </MenuItem>
+                                    <MenuItem key={0} value="" >Sort By</MenuItem>
                                     <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
                                     <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
                                     <MenuItem key={3} value="order by stock_in desc" > Stock In </MenuItem>
@@ -244,13 +245,14 @@ function StocksDetail() {
                         <FormControl sx={{ m: 3, minWidth: 200 }}>
                             <InputLabel id="filter-by" >Filter By</InputLabel>
                                 <Select
+                                    displayEmpty
                                     labelId="filter-by"
                                     id="1"
                                     defaultValue=""
                                     name="filterBy"
                                     onChange={selectFilterHandler}    
                                 >
-                                    <MenuItem key={0} value="" > All </MenuItem>
+                                    <MenuItem key={0} value="" >Filter By</MenuItem>
                                     <MenuItem key={1} value="and status = 'edit'" > Edit </MenuItem>
                                     <MenuItem key={2} value="and status = 'bought'" > Bought </MenuItem>
                                     <MenuItem key={3} value="and status = 'add'" > Add </MenuItem>
