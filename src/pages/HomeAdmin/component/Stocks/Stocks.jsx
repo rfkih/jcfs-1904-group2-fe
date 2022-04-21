@@ -152,11 +152,11 @@ const datalogs = [
     <Container>
         <div className={classes.toolbar}/>
         <Grid container spacing={2}>
-            <Grid item xs={7}>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>            
-                            <Card sx={{ minWidth: 275 }}>
-                            
+            <Grid item xs={6}>
+              <Paper className={classes.paper}>
+                <Grid container spacing={2}>          
+                  <Grid item xs={6}>                       
+                            <Card sx={{ minWidth: 275 }}>      
                                 <CardContent>
                                   <Grid container spacing={2}>
                                     <Grid Grid xs={7}>
@@ -200,18 +200,14 @@ const datalogs = [
                                         ))}
                                       </Select>
                                   </FormControl>
-
                                     </Grid>
-
-                                  </Grid>
-
-                                    
-                                    
+                                  </Grid>                                             
                                 </CardContent>
                             </Card>
-                    </Grid>
+                            
+                    </Grid> 
                   <Grid item xs={5}>       
-                        <Paper className={classes.paper} >
+                       
                           <Input
                                 sx={{ ml: 1, flex: 1 }}
                                 placeholder="Search Products"
@@ -222,56 +218,60 @@ const datalogs = [
                             <IconButton>
                                 <SearchOutlined />
                             </IconButton>
-                        </Paper>                                     
-                  </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={5}>
-                <Card>
-                  <CardContent>
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <FormControl sx={{ m: 3, minWidth: 200 }}>
-                          <InputLabel id="sort-by" >Sort By</InputLabel>
-                            <Select
+                                                            
+                  </Grid>               
+                </Grid>
+              </Paper>
+            </Grid> 
+            <Grid item xs={6}>
+              <Paper className={classes.paper}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Card sx={{ minWidth: 275 }} >
+                      <CardContent>
+                        <Grid container spacing={2}>
+                          <Grid item xs={7}>
+                            <FormControl sx={{ m: 3, minWidth: 200 }}>
+                              <InputLabel id="sort-by" >Sort By</InputLabel>
+                                <Select
                                   labelId="sort-by"
-                                id="1"
-                                defaultValue=""
-                                name="sortBy"
-                                onChange={selectSortData}
-                            >
-                                <MenuItem key={0} value="" > Default </MenuItem>
-                                <MenuItem key={3} value="order by created_at desc" > Latest </MenuItem>
-                                <MenuItem key={4} value="order by created_at asc" > Oldest </MenuItem>
-                                <MenuItem key={1} value="order by stock_out asc" > Stock In </MenuItem>
-                                <MenuItem key={2} value="order by stock_in asc" > Stock Out </MenuItem>
-                            </Select>   
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <FormControl sx={{ m: 3, minWidth: 200 }}>
-                          <InputLabel id="filter" >Filter By</InputLabel>
-                            <Select
+                                  id="1"
+                                  defaultValue=""
+                                  name="sortBy"
+                                  onChange={selectSortData}
+                                >
+                                  <MenuItem key={0} value="" > Default </MenuItem>
+                                  <MenuItem key={3} value="order by created_at desc" > Latest </MenuItem>
+                                  <MenuItem key={4} value="order by created_at asc" > Oldest </MenuItem>
+                                  <MenuItem key={1} value="order by stock_out asc" > Stock In </MenuItem>
+                                  <MenuItem key={2} value="order by stock_in asc" > Stock Out </MenuItem>
+                                </Select>   
+                            </FormControl>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <FormControl sx={{ m: 3, minWidth: 200 }}>
+                              <InputLabel id="filter" >Filter By</InputLabel>
+                                <Select
                                   labelId="filter"
-                                id="1"
-                                defaultValue=""
-                                name="filter"
-                                onChange={selectFilterData}
-                            >
-                                <MenuItem key={0} value="" > All </MenuItem>
-                                <MenuItem key={3} value="where status = 'edit'" > Edit </MenuItem>
-                                <MenuItem key={4} value="where status = 'add'" > Add </MenuItem>
-                                <MenuItem key={1} value="where status = 'bought'" > Bought </MenuItem>
-                                <MenuItem key={2} value="where status = 'custom'" > Custom </MenuItem>
-                            </Select>   
-                        </FormControl>
-                      </Grid>
-
-                    </Grid>
-                    
-                    
-                  </CardContent>
-                </Card>
+                                  id="1"
+                                  defaultValue=""
+                                  name="filter"
+                                  onChange={selectFilterData}
+                                >
+                                  <MenuItem key={0} value="" > All </MenuItem>
+                                  <MenuItem key={3} value="where status = 'edit'" > Edit </MenuItem>
+                                  <MenuItem key={4} value="where status = 'add'" > Add </MenuItem>
+                                  <MenuItem key={1} value="where status = 'bought'" > Bought </MenuItem>
+                                  <MenuItem key={2} value="where status = 'custom'" > Custom </MenuItem>
+                                </Select>   
+                            </FormControl>
+                          </Grid>
+                        </Grid>   
+                      </CardContent>
+                    </Card>
+                    </Grid> 
+                  </Grid>
+                </Paper>
             </Grid>
             <Grid item xs ={6}>
               <Paper>
