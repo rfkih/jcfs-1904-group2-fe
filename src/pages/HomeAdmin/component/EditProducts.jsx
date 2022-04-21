@@ -7,12 +7,12 @@ import ProductManager from './ProductManager'
 
 
 function EditProducts(props) {
-    const { products, deletedProducts, checked, setDeletedProducts, setSelectedCategory, setPage, totalPage, page, setSort, setKeyword, deleteState, setDeleteState  } = props;
+    const { products, deletedProducts, checked, setDeletedProducts, setSelectedCategory, setPage, totalPage, page, setSort, setKeyword, deleteState, setDeleteState } = props;
     const classes = useStyles();
   return (
     <>
       <div className={classes.toolbar}/>
-      <AddProduct/>
+      <AddProduct />
       
       <ProductManager
         deletedProducts={deletedProducts}

@@ -18,7 +18,7 @@ function AddProduct() {
       return state.auth;
     });  
 
-    console.log(data);
+    
     const [image, setImage] = useState("https://fakeimg.pl/350x200/");
     const [category, setCategory] = useState([]);
     const [formState, setFormState] = useState({
@@ -124,9 +124,7 @@ function AddProduct() {
       .post("/products", { userId: data.id , username: data.username, newProduct, newStock} )
       .then((res) => {
        alert(res.data);
-       window.location.reload(); 
-     
-       
+        window.location.reload()
       })
       .catch((error) => console.log({ error }));
   };
