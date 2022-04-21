@@ -1,15 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import { TextField, Paper, InputLabel, Select, MenuItem, Button, styled,  Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container} from '@material-ui/core'
-import { useForm, FormProvider } from 'react-hook-form';
+import { TextField, Paper, InputLabel, Select, MenuItem, Button, OutlinedInput, styled,  Grid, CardMedia, CardContent, CardActions, Card, Typography, Input, Container, FormControl} from '@material-ui/core'
+import InputAdornment from '@mui/material/InputAdornment';
 import axios from '../../../../utils/axios'
 import { makeStyles } from "@material-ui/core/styles";
 import {useSelector} from 'react-redux'
-const useStyles = makeStyles({
-  
-  input: {
-    display: 'none'
-  }
-});
+import useStyles from './styles.js'
 
 
 function AddProduct() {
@@ -180,15 +175,26 @@ function AddProduct() {
         
             <form > 
               <Grid container spacing={2}>
-                <Grid item xs={9}>
-                  <TextField  fullWidth name='productName' label='Product Name'  onInput={handleChange}/>
-                  <TextField fullWidth multiline name='productDetails' label='Product Detail'  onInput={handleChange}/>
-                  <TextField fullWidth name='price' label='Price'  onInput={handleChange}/>
-
+                <Grid container direction="column" justifyContent='space-between' alignItems='stretch' item xs={9}>
+                  <TextField className={classes.content} fullWidth  name='productName' label='Product Name'  onInput={handleChange}/>
+                  <TextField className={classes.content} fullWidth multiline name='productDetails' label='Product Detail'  onInput={handleChange}/>
+                  <FormControl className={classes.content} >
+                  <InputLabel  htmlFor="price">Price</InputLabel>
+                  <Input   
+                  id="price"
+                  size='small'
+                  name='price' 
+                  label='Price' 
+                  startAdornment={<InputAdornment position="start" >Rp.</InputAdornment>}
+                  onInput={handleChange}/>
+                </FormControl>
                 </Grid>
                     <Grid item xs={6} sm={6}>
                         <InputLabel>Liquid ?</InputLabel>
-                        <Select defaultValue="" name='isLiquid' onChange={handleChange} >
+                        <Select 
+                        displayEmpty
+                        defaultValue="" name='isLiquid' onChange={handleChange} >
+                        <MenuItem value="">Choose</MenuItem>
                         <MenuItem value='1'>Yes</MenuItem>
                         <MenuItem value='0'>No</MenuItem>
                         </Select>
@@ -196,11 +202,12 @@ function AddProduct() {
                     <Grid item xs={6} sm={6}>
                         <InputLabel>Category</InputLabel>
                             <Select
-                                defaultValue=""
-                                name="category_id"
-                                onChange={handleChange}
+                              displayEmpty
+                              defaultValue=""
+                              name="category_id"
+                              onChange={handleChange}
                             >
-                            <MenuItem value="">Default</MenuItem>
+                            <MenuItem value="">Choose</MenuItem>
                             {category.map((category) => (
                             <MenuItem  key={category.id} value={category.id}>
                             {category.categoryName}
@@ -212,23 +219,14 @@ function AddProduct() {
                   <Typography   variant="h6" gutterBottom> Input Stocks</Typography>
                     {formState.isLiquid && 
                     <Grid container spacing={3}>
-                      {/* <Grid item xs={6}>
-                        <TextField size='small' variant="outlined" name='qtyBoxTotal' label='Input Box' onInput={stockHandleChange}/>
-                      </Grid> */}
                       <Grid item xs={6}>
                         <TextField size='small' variant="outlined" name='qtyBoxAvailable' label='Input Box' onChange={stockHandleChange}/>
                       </Grid>
                     {formState.isLiquid == 1 ? <>
-                      {/* <Grid item xs={6} >
-                        <TextField size='small' variant="outlined" name='qtyBottleTotal' label='Input Total Bottle per Box'onInput={stockHandleChange}/>
-                      </Grid> */}
                       <Grid item xs={6}>  
                         <TextField size='small' variant="outlined" name='qtyBottleAvailable' label='Input Bottle'onInput={stockHandleChange}/>
                       </Grid> 
                     </> : <>
-                      {/* <Grid item xs={6} >
-                        <TextField size='small' variant="outlined"  name='qtyStripsTotal' label='Input Total Strip per Box'onInput={stockHandleChange}/>
-                      </Grid> */}
                       <Grid item xs={6}>
                         <TextField size='small' variant="outlined"  name='qtyStripsavailable' label='Input Strip'onInput={stockHandleChange}/>
                       </Grid>
