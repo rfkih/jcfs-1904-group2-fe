@@ -48,12 +48,17 @@ function ChartRevenue({graphData, setRange, setYear}) {
   
 
   const handleChange = (e) => {
-    setRange(e.target.value)
-    setYear(null)
+    if (e.target.value) {
+      setRange(e.target.value)
+      setYear(null) 
+    }
+    
   };
 
   const handleYearChange= (e) => {
-    setYear(e.target.value)
+    if (e.target.value) {
+      setYear(e.target.value)
+    } 
   }
 
 
@@ -82,13 +87,15 @@ function ChartRevenue({graphData, setRange, setYear}) {
             <FormControl >
               <InputLabel id="range-select-label">Range</InputLabel>
                 <Select
+                  displayEmpty
                   labelId="range-select-label"
                   id="range-select"
                   label="Age"
                   name="range"
                   defaultValue=""
                   onChange={handleChange}
-                >
+                > 
+                  <MenuItem key={0} value="">Range</MenuItem>
                   <MenuItem key={1} value={6} >Last 6 month</MenuItem>
                   <MenuItem key={2} value={12} >Last 1 Year</MenuItem>
                   <MenuItem key={3} value={24} >Last 2 Year</MenuItem>
@@ -100,6 +107,7 @@ function ChartRevenue({graphData, setRange, setYear}) {
           <FormControl >
               <InputLabel id="range-select-label">Select Year</InputLabel>
                 <Select
+                  displayEmpty
                   labelId="range-select-label"
                   id="range-select"
                   label="Age"
@@ -107,7 +115,7 @@ function ChartRevenue({graphData, setRange, setYear}) {
                   defaultValue=""
                   onChange={handleYearChange}
                 >
-                  <MenuItem key={1} value={""} >Default</MenuItem>
+                  <MenuItem key={0} value="">Select Year</MenuItem>
                   <MenuItem key={2} value={2021} >2021</MenuItem>
                   <MenuItem key={3} value={2022} >2022</MenuItem>
                 </Select>

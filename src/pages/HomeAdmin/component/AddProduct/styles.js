@@ -7,5 +7,8 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     margin: theme.spacing(1),
   },
+  input: {
+    display: 'none'
+  }
 
 }));

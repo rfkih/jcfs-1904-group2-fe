@@ -226,7 +226,7 @@ const datalogs = [
               </Paper>
             </Grid> 
             <Grid item xs={6}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.papers}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <Card sx={{ minWidth: 275 }} >
@@ -268,12 +268,12 @@ const datalogs = [
                                   <MenuItem key={1} value="where status = 'bought'" > Bought </MenuItem>
                                   <MenuItem key={2} value="where status = 'custom'" > Custom </MenuItem>
                                 </Select>   
-                            </FormControl>
-                          </Grid>
-                        </Grid>   
-                      </CardContent>
-                    </Card>
-                    </Grid> 
+                              </FormControl>
+                            </Grid>
+                          </Grid>   
+                        </CardContent>
+                      </Card>
+                    </Grid>                  
                   </Grid>
                 </Paper>
             </Grid>
