@@ -20,7 +20,7 @@ function Product({product}) {
 
 
   return (
-    <Card sx={{ maxWidth: 300 }}>
+    <Card hover classes={classes.card} >
         <CardMedia component="img"  height="140" image={image} alt='product image'/>
         <CardContent>
                 <Typography variant="body2">

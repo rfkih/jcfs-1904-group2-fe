@@ -27,6 +27,7 @@ import OrderDetail from "./pages/HomeAdmin/component/PendingOrder/OrderDetail/Or
 import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSoldDetail/ItemSoldDetail'
 import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/StocksDetail";
+import Spinner from "./pages/HomeUser/Spinner";
 
 const useStyles = makeStyles({
   page: {
@@ -147,9 +148,7 @@ function App() {
       </div>
     );
   } else {
-    return  <Container>
-              <CircularProgress color="success" />;
-            </Container> 
+    return  <Spinner message="We are adding products!"/>   
   }
 }
 

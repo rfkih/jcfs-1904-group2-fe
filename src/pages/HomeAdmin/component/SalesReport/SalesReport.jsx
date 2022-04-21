@@ -97,7 +97,7 @@ function SalesReport() {
         <Grid container spacing ={2} >
             <Grid item xs={4}>
                 {revenueDetail === false ? 
-                <Card>
+                <Card className={classes.card}>
                     <CardContent>
                         <Typography variant="h4" component="div" color="primary" >All Time Revenue </Typography>
                         <br/>
@@ -139,7 +139,7 @@ function SalesReport() {
             }      
             </Grid>
             <Grid item xs={4}>
-                <Card>
+                <Card className={classes.card} >
                     <CardContent>
                         <Typography variant="h4" component="div" color="primary" >Total User</Typography>
                             <br/>
@@ -151,7 +151,7 @@ function SalesReport() {
                 </Card>
             </Grid>
             <Grid item xs={4}>
-                <Card>
+                <Card className={classes.card} >
                     <CardContent>
                         <Typography variant="h4" component="div" color="primary" >Total Item Sold</Typography>
                             <br/>

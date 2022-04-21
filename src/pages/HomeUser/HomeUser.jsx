@@ -49,9 +49,14 @@ function HomeUser() {
 
 
     useEffect(() => {
-      
+      setLoading(true)
         fetchProducts();
       }, [selectedCategory, page, sort, keyword]);
+
+      useEffect(() => {
+        
+        fetchProducts();
+      }, [keyword]);
 
   if(loading) return <Spinner message="We are adding products!"/>   
   
