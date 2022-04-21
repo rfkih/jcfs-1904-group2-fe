@@ -24,6 +24,7 @@ function HomeAdmin() {
     const [totalPage, setTotalPage] = useState(1)
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
+    const [checked, setChecked] = useState(false)
 
   
 
@@ -34,7 +35,7 @@ function HomeAdmin() {
             const { data } = res;
             setProducts(data.result);
             setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
-            
+            setChecked(true)
           }));
           
       } catch (error) {
@@ -49,7 +50,7 @@ function HomeAdmin() {
           const { data } = res;
           setProducts(data.result);
           setTotalPage(Math.ceil(data.count[0].count / productPerPage ));
-          console.log(Math.ceil(data.count[0].count / productPerPage ));
+          setChecked(true)
       } catch (error) {
           console.log(alert(error.message));
       }
@@ -57,9 +58,11 @@ function HomeAdmin() {
 
 
   useEffect(() => {
+    setChecked(false)
     if (!deletedProducts) {
       fetchProducts();
   }else{
+    setChecked(false)
       fetchDeletedProducts();
   }
   }, [deletedProducts, selectedCategory, page, keyword, sort])
@@ -81,6 +84,7 @@ function HomeAdmin() {
         setPage={setPage}
         setSort={setSort}
         setKeyword={setKeyword}
+        checked={checked}
       />
     </>
     

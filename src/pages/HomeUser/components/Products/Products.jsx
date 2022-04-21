@@ -28,7 +28,7 @@ function Products(props) {
   return (
     <main className={classes.content}>
         <div className={classes.toolbar}/>
-          <Zoom in={checked} style={{ transitionDelay: checked ? '300ms' : '0ms' }}>
+          <Zoom in={checked} style={{ transitionDelay: checked ? '250ms' : '0ms' }}>
             <Grid container justifyContent="center" spacing ={2}>
               {renderProducts()}
             </Grid>
