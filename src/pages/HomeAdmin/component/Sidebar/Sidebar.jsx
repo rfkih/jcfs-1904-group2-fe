@@ -102,7 +102,7 @@ function DrawerBar() {
                 ))}
             </List>
             <Paper>
-                <Button component={Link} to={`/`} onClick={onLogoutClick}>Log Out</Button>
+                <Button fullWidth component={Link} to={`/`} onClick={onLogoutClick}>Log Out</Button>
             </Paper>      
         </Drawer>
     </div>

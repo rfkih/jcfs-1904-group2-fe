@@ -123,7 +123,7 @@ const fetchCategories = async () => {
       console.log(alert(error.message));
   }
 };
-
+console.log(dataLog);
 
 useEffect(() => {
   fetchProducts();

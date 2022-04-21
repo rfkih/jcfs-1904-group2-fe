@@ -9,10 +9,8 @@ import useStyles from './styles'
 function Product({product}) {
     const classes = useStyles();
     const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
-    const alternateimage = "https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png"
     
   
-   
 
     useEffect(() => {
         if (product.productIMG) {
@@ -23,7 +21,7 @@ function Product({product}) {
 
   return (
     <Card sx={{ maxWidth: 300 }}>
-        <CardMedia component="img"  height="140" image={image} alt={alternateimage}/>
+        <CardMedia component="img"  height="140" image={image} alt='product image'/>
         <CardContent>
                 <Typography variant="body2">
                        Rp.{product.price}
