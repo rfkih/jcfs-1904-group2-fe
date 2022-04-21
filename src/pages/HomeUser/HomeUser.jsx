@@ -4,8 +4,11 @@ import { Grid, Box, Container, Typography } from "@material-ui/core";
 import Products from './components/Products/Products'
 import ProductManager from './components/ProductManager'
 import Spinner from './Spinner'
+import { ClassNames } from "@emotion/react";
+import useStyles from './styles.js'
 
 function HomeUser() {
+    const classes = useStyles();
     const [products, setProducts] = useState([]);
     const [ page, setPage ] = useState(1)
     const [ productPerPage, setProductPerPage] = useState(12)
@@ -14,7 +17,7 @@ function HomeUser() {
     const [totalPage, setTotalPage] = useState(1)
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
-    const [loading, setLoading] = useState(false);
+    const [checked, setChecked] = useState(false)
     const fetchCategories = async () => {
       try {
           const res = await axios.get("/categories");
@@ -26,7 +29,7 @@ function HomeUser() {
       }
   };
 
-  console.log(loading);
+
 
   useEffect(() => {
     fetchCategories();
@@ -40,8 +43,9 @@ function HomeUser() {
               const { data } = res;
             setProducts(data.result);
             setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
+            setChecked(true)
             }));
-            setLoading(false)
+            
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -49,16 +53,13 @@ function HomeUser() {
 
 
     useEffect(() => {
-      setLoading(true)
+      setChecked(false)
+      
         fetchProducts();
       }, [selectedCategory, page, sort, keyword]);
 
-      useEffect(() => {
-        
-        fetchProducts();
-      }, [keyword]);
 
-  if(loading) return <Spinner message="We are adding products!"/>   
+  
   
   return (
     <Container>
@@ -76,11 +77,13 @@ function HomeUser() {
           </Grid>
           <Grid item xs={9}>
             <Products 
+              classNames={classes.product}
               products={products}
               setPage={setPage}
               page={page}
               setProductPerPage={setProductPerPage}
               totalPage={totalPage}
+              checked={checked}
             />
           </Grid>
         </Grid>

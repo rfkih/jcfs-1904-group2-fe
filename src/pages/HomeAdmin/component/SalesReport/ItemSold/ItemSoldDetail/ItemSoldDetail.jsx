@@ -235,8 +235,7 @@ function ItemSoldDetail() {
                                                         return (
                                                             <TableCell key={column.id} align={column.align}>
                                                             {value}
-                                                        </TableCell>
-                                                        
+                                                        </TableCell>                                                        
                                                             
                                                         )
     

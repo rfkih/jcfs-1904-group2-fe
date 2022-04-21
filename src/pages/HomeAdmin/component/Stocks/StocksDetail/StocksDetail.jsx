@@ -21,6 +21,15 @@ function StocksDetail() {
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
     const [detailedData, setDetailedData] = useState([{total_stock_in: 0, total_stock_out:0 }, {total_bought: 0}])
     const [filter, setFilter] = useState('')
+    const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
+    
+  console.log(product);
+
+    useEffect(() => {
+        if (product.productIMG) {
+            setImage(product.productIMG)
+        }
+    },[])
 
  
 
@@ -113,7 +122,8 @@ function StocksDetail() {
                         <CardMedia
                             component="img"
                             height = "200"
-                            src={product.productIMG}
+                            src={image}
+                            alt="product image"
                         />
                     </Grid>
                 </Grid>

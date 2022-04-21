@@ -1,14 +1,14 @@
-import React from 'react'
-import { Grid, Box} from '@material-ui/core';
+import React,{useState} from 'react'
+import { Grid, Box, Paper } from '@material-ui/core';
 import Pagination from "@material-ui/lab/Pagination";
 import Product from './Product/Product'
 import useStyles from './styles'
-
+import Grow from '@mui/material/Grow';
+import Zoom from '@mui/material/Zoom';
 function Products(props) {
   const classes = useStyles();
-  const { 
-   
-    products, page, setPage, totalPage } = props;
+  const { products, page, setPage, totalPage, checked } = props;
+  
  
 
 
@@ -16,8 +16,10 @@ function Products(props) {
     
 
     return products.map((product) => (
-      <Grid className={classes.card} item key={product.id} xs= {3} >
-        <Product   product={product}/>
+      <Grid  item key={product.id} xs= {4} >
+        <Paper elevation={0} className={classes.paper} key={product.id} >
+          <Product key={product.id} product={product}/>
+        </Paper> 
       </Grid>
     ));
   };
@@ -26,9 +28,11 @@ function Products(props) {
   return (
     <main className={classes.content}>
         <div className={classes.toolbar}/>
-        <Grid container justifyContent="center" spacing ={2}>
-          {renderProducts()}
-        </Grid>
+          <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
+            <Grid container justifyContent="center" spacing ={2}>
+              {renderProducts()}
+            </Grid>
+          </Zoom>     
         <Box py={3} display="flex" justifyContent="center">
           <Pagination
             count={totalPage}

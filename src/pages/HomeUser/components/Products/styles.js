@@ -10,11 +10,10 @@ export default makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  card : {
+  paper : {
     transition:" all 200ms ease",
-    // transition: theme.transitions.create(["background", "background-color"], {
-    //   duration: theme.transitions.duration.complex,
-    // }),
+    margin: theme.spacing(1),
+    padding: theme.spacing(1),
     "&:hover": {
       backgroundColor: "#f1f1f1",
       transform: 'scale(1.02)'
