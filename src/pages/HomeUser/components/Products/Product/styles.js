@@ -1,6 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { Transform } from "@material-ui/icons";
+import { Scale } from "@mui/icons-material";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     root: {
         maxWidth: '100%'
     },
@@ -16,4 +18,19 @@ export default makeStyles(() => ({
         display: 'flex',
         justifyContent: 'space-between',
       },
+      card : {
+        transition: theme.transitions.create(["background", "background-color"], {
+          duration: theme.transitions.duration.complex,
+        }),
+        "&:hover": {
+          backgroundColor: "#333",
+        },
+    },
+    
+      hover: { 
+       
+        "&:hover": {
+          backgroundColor: "#f00",
+          
+        }},
 }));

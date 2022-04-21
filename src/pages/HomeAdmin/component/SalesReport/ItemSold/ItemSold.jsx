@@ -182,17 +182,25 @@ function ItemSold() {
                                 </CardContent>
                             </Card>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Input
-                                sx={{ ml: 1, flex: 1 }}
-                                placeholder="Search Products"
-                                name="keyword"
-                                align="center"
-                                onChange={handleChange}
-                            />
-                            <IconButton>
-                                <SearchOutlined />
-                            </IconButton>
+                        <Grid 
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center" 
+                            item xs={6}>
+                                <Paper className={classes.paper}>
+                                    <Input
+                                    className={classes.input}
+                                    placeholder="Search Products"
+                                    name="keyword"
+                                    align="center"
+                                    onChange={handleChange}
+                                    />
+                                    <IconButton>
+                                        <SearchOutlined />
+                                    </IconButton>
+                                </Paper>
+                            
                         </Grid>
                     </Grid>  
                 </Paper>

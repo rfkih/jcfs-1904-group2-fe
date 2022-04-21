@@ -7,7 +7,9 @@ import axios from "../../utils/axios";
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
+  const {username, role} = useSelector((state) => {
+    return state.auth;
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [formState, setFormState] = useState({
     username: "",
@@ -29,11 +31,12 @@ function LoginPage() {
   const onLogin = async () => {
     try {
       const res = await axios.post("/users/login", {
+        
         username: formState.username,
         password: formState.password,
       });
       const payload = res.data;
-      console.log(payload);
+      console.log(res.data);
       // const id = payload.id;
       // const username = payload.username;
       // const role = payload.role;
@@ -52,9 +55,14 @@ function LoginPage() {
     // setIsLoading(false);
   };
 
-  if (username) {
-    return <Navigate to="/" replace />;
-  }
+  
+    if (username) {
+     return <Navigate to="/" replace />;
+    } 
+   
+
+
+  
 
   return (
     <div className="pages">

@@ -16,8 +16,8 @@ function Products(props) {
     
 
     return products.map((product) => (
-      <Grid item key={product.id} xs= {3} >
-        <Product product={product}/>
+      <Grid className={classes.card} item key={product.id} xs= {3} >
+        <Product   product={product}/>
       </Grid>
     ));
   };

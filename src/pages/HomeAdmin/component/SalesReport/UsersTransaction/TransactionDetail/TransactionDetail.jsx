@@ -3,7 +3,7 @@ import axios from '../../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import useStyles from './style'
-
+import moment from 'moment';
 
 function TransactionDetail() {
     const classes = useStyles();
@@ -11,6 +11,8 @@ function TransactionDetail() {
     const [ listProduct, setlistProduct] = useState([])
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
+    const [ address, setAddress] = useState({})
+    const date =  moment(transactionDetail.created_at).utc().format('LLL')
 
     useEffect(() => {
         axios
@@ -30,6 +32,7 @@ function TransactionDetail() {
             const  {data} = res
             setTransactionDetail(data.result[0]);
             setUserDetail(data.user[0]);
+            setAddress(data.address[0]);
             
         } catch (error) {
             console.log(alert(error.message));
@@ -69,7 +72,7 @@ console.log(transactionDetail);
 
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography>{transactionDetail.created_at}</Typography>
+                  <Typography>{date}</Typography>
                 </Grid>
                 <Grid item xs={2}>
                     <Typography>id: {userDetail.id}</Typography>
@@ -84,6 +87,43 @@ console.log(transactionDetail);
                 </Grid>
               </Grid>
             </CardActions>
+            <CardContent>
+              <Typography variant='h6'> Address Detail </Typography>
+              <Grid container spacing={2}>
+                <Grid container item xs={5}>
+                  <Grid item xs={3}>
+                    <Typography> Province </Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography>: {address.province}</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography> City </Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography>: {address.city}</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography> District </Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography>: {address.district}</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography> zipCode </Typography>
+                  </Grid>
+                  <Grid item xs={7}>
+                    <Typography>: {address.zipCode}</Typography>
+                  </Grid>
+                </Grid>
+                <Grid item xs={7}>
+                    { transactionDetail.isByPresciption ? <Typography variant='h6'>Custom Order</Typography> : null }
+                </Grid>
+                
+
+              </Grid>
+
+            </CardContent>
             <CardContent>
             <Paper>
               <TableContainer >

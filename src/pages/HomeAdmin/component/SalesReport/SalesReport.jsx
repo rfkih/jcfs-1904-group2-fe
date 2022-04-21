@@ -6,8 +6,7 @@ import axios from '../../../../utils/axios'
 import { Link } from 'react-router-dom'
 import useStyles from './style'
 import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import {MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker} from '@material-ui/pickers'
+
 
 
 
@@ -92,12 +91,13 @@ function SalesReport() {
         getTransactionDetail();
     })
   return (
-    <Container>
+    <div className={classes.content} >
+    <Container  >
         <div className={classes.toolbar}/>
-        <Grid container spacing ={2}>
+        <Grid container spacing ={2} >
             <Grid item xs={4}>
                 {revenueDetail === false ? 
-                <Card>
+                <Card className={classes.card}>
                     <CardContent>
                         <Typography variant="h4" component="div" color="primary" >All Time Revenue </Typography>
                         <br/>
@@ -139,7 +139,7 @@ function SalesReport() {
             }      
             </Grid>
             <Grid item xs={4}>
-                <Card>
+                <Card className={classes.card} >
                     <CardContent>
                         <Typography variant="h4" component="div" color="primary" >Total User</Typography>
                             <br/>
@@ -151,7 +151,7 @@ function SalesReport() {
                 </Card>
             </Grid>
             <Grid item xs={4}>
-                <Card>
+                <Card className={classes.card} >
                     <CardContent>
                         <Typography variant="h4" component="div" color="primary" >Total Item Sold</Typography>
                             <br/>
@@ -164,10 +164,11 @@ function SalesReport() {
             </Grid>
         </Grid>
         <Chart graphData={graphData} setRange={setRange} setYear={setYear} />
-        <Paper>
+        <Paper className={classes.paper}>
             <RevenueDetail/>
         </Paper>
     </Container>
+    </div>
   )
 }
 

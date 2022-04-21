@@ -7,6 +7,10 @@ export default makeStyles( (theme) => {
     return {
 
         toolbar: theme.mixins.toolbar,
+        paper: {
+            marginTop: theme.spacing(2.8),
+            padding: theme.spacing(1),
+          },
         
     }
 

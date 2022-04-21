@@ -1,18 +1,33 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate, Navigate} from 'react-router-dom';
 import {HomeRounded, ReportOutlined, MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
 import { AppBar, Drawer, ListItem, Button, Paper, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
 import {format} from 'date-fns'
-import {useSelector} from 'react-redux'
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAction } from "../../../../store/actions";
 import useStyles from './style'
+import { WindowSharp } from '@mui/icons-material';
 
 function DrawerBar() {
-    const adminId = useSelector(state => state.auth.username)
+    const { username, photo } = useSelector((state) => {
+        return state.auth;
+      });
+  
     const classes = useStyles();
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+
+
+    const onLogoutClick = () => {
+        
+        dispatch(logoutAction());
+        <Navigate to="/" replace />
+        
+      };
+
+
+  
 
     const menuItems =[
         {
@@ -54,9 +69,9 @@ function DrawerBar() {
                     Today is the {format(new Date(), 'do MMM Y')}
                 </Typography>
                 <Typography>
-                   Hi {adminId}
+                   Hi {username}
                 </Typography>
-                <Avatar className={classes.avatar}/>
+                <Avatar alt="Admin Photo" src={photo} className={classes.avatar}/>
             </Toolbar>
 
         </AppBar>
@@ -87,7 +102,7 @@ function DrawerBar() {
                 ))}
             </List>
             <Paper>
-                <Button>Log Out</Button>
+                <Button fullWidth component={Link} to={`/`} onClick={onLogoutClick}>Log Out</Button>
             </Paper>      
         </Drawer>
     </div>

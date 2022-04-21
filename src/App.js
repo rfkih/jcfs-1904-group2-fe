@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Grid, Box, Container, CircularProgress} from '@material-ui/core';
 import { useDispatch } from "react-redux";
 import { keepLoginAction } from "./store/actions";
+import {useSelector} from 'react-redux'
 import Login from "./pages/Login";
 import Navigation from "./components/Navigation/index";
 import Register from "./pages/Register";
@@ -25,6 +27,7 @@ import OrderDetail from "./pages/HomeAdmin/component/PendingOrder/OrderDetail/Or
 import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/ItemSoldDetail/ItemSoldDetail'
 import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/StocksDetail";
+import Spinner from "./pages/HomeUser/Spinner";
 
 const useStyles = makeStyles({
   page: {
@@ -38,27 +41,39 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
-  const [role, setRole] = useState("");
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
-  const dispatch = useDispatch();
+  const {role} = useSelector((state) => {
+    return state.auth;
+  });
 
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
     if (userLocalStorage) {
       const userData = JSON.parse(userLocalStorage);
 
-      const { id, username, role, tokens } = userData;
-      setRole(role)
-      dispatch(keepLoginAction({ id, username, role, tokens }));
+      const { id, username, role, tokens, photo } = userData;
+     
+      
+      dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
 
+
+   
+
     setIsLocalStorageChecked(true);
+    
   }, []);
 
+
   if (isLocalStorageChecked) {
+
+   
+    
     return (
       <div className={classes.root}>
-        {role == "admin" ? (
+        {role === "admin" ? (
           <Router>
             <div>
               <DrawerBar />
@@ -102,6 +117,7 @@ function App() {
                   path={`usertransaction/:userId`}
                   element={<UserDetail />}
                 />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </div>
           </Router>
@@ -132,7 +148,7 @@ function App() {
       </div>
     );
   } else {
-    return <h1> Loading .. </h1>;
+    return  <Spinner message="We are adding products!"/>   
   }
 }
 

@@ -3,6 +3,7 @@ import { TextField, Paper, InputLabel, Select, MenuItem, Button, styled,  Grid, 
 import { useForm, FormProvider } from 'react-hook-form';
 import axios from '../../../../utils/axios'
 import { makeStyles } from "@material-ui/core/styles";
+import {useSelector} from 'react-redux'
 const useStyles = makeStyles({
   
   input: {
@@ -13,8 +14,11 @@ const useStyles = makeStyles({
 
 function AddProduct() {
     const classes = useStyles();
-    
-    
+    const data = useSelector((state) => {
+      return state.auth;
+    });  
+
+    console.log(data);
     const [image, setImage] = useState("https://fakeimg.pl/350x200/");
     const [category, setCategory] = useState([]);
     const [formState, setFormState] = useState({
@@ -117,7 +121,7 @@ function AddProduct() {
           qtyStripsTotal
         }
       await axios
-      .post("/products", {newProduct, newStock} )
+      .post("/products", { userId: data.id , username: data.username, newProduct, newStock} )
       .then((res) => {
        alert(res.data);
        window.location.reload(); 

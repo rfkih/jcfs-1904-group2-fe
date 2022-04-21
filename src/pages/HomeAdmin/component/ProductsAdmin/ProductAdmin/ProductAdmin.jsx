@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Card, CardMedia, CardContent, CardActions, Typography, Button, useTheme} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
@@ -7,6 +7,15 @@ import axios from '../../../../../utils/axios'
 
 function ProductAdmin({product, deletedProducts}) {
 
+  const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
+
+    useEffect(() => {
+        if (product.productIMG) {
+            setImage(product.productIMG)
+        }
+    },[])
+
+    
   const id = {id: product.id}
  
   const deleteProduct = () => {
@@ -33,7 +42,7 @@ function ProductAdmin({product, deletedProducts}) {
 
   return (
       <Card sx={{ maxWidth: 300 }}>
-        <CardMedia component="img"  height="140" image={product.productIMG} alt="product Image"/>
+        <CardMedia component="img"  height="140" image={image} alt="product Image"/>
           <CardContent>
             <Typography variant="body2">
                   Rp.{product.price}
