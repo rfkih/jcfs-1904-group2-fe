@@ -58,7 +58,11 @@ function StocksDetail() {
 
     const addStockHandleChange = () => {
         if (isEditStock) {
-            updateStocks()
+            updateStocks();
+            setDetailedStocks({ 
+                qtyBoxAvailable: 0,
+                qtyBottleAvailable: 0,
+                qtyStripsavailable: 0, });
         }  
         setIsEditStock(!isEditStock)
     }
@@ -126,7 +130,7 @@ function StocksDetail() {
                 setDetailedData([data.detail[0]])
             }
             setLog(data.data);
-            // setDetailedStocks(data.result[0]);
+            
             setInitialStocks(data.result[0])
             setStocks(data.calculatedStock);
         } catch (error) {
@@ -180,7 +184,7 @@ function StocksDetail() {
             
         }
         
-       console.log(updatedStocks);
+     
     
        
       await axios
@@ -257,7 +261,7 @@ function StocksDetail() {
                         </Card>  
                     </Grid>
                     <Grid item xs={8}>
-                        <Card>
+                        <Card className={isEditStock ? classes.stockCardActive : classes.stockCard } >
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                 { product.isLiquid === 0 ? 

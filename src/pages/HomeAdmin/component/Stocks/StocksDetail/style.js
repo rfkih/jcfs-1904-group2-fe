@@ -15,6 +15,12 @@ export default makeStyles( (theme) => {
           },
         card: {
             padding: theme.spacing(2)
+        },
+        stockCardActive: {
+            paddingBottom: theme.spacing(0)
+        },
+        stockCard: {
+            paddingBottom: theme.spacing(3.8)
         }
         
         
