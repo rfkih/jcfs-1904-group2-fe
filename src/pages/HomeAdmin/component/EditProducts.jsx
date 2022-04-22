@@ -1,7 +1,5 @@
 import React,{useState} from 'react'
 import { Paper, Typography, Button} from '@material-ui/core'
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide} from '@mui/material'
-import { TransitionProps } from '@mui/material/transitions';
 import useStyles from './styles'
 import AddProduct from './AddProduct/AddProduct'
 import ProductsAdmin from './ProductsAdmin/ProductsAdmin'

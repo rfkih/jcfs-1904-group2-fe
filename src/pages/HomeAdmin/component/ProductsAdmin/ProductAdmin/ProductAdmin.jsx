@@ -54,7 +54,6 @@ function ProductAdmin({product, deletedProducts, deleteState, setDeleteState}) {
 
 
   return (
-
     <>
       <Card sx={{ maxWidth: 300 }}>
         <CardMedia component="img"  height="140" image={image} alt="product Image"/>
