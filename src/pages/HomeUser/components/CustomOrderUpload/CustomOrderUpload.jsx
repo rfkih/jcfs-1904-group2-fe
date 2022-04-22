@@ -100,6 +100,7 @@ function CustomOrderUpload() {
                         </CardContent>
                         <CardActions>
                             <Input
+                                className={classes.input}
                                 id="upload-file"
                                 type="file"
                                 onChange={fileSelectedHandler} 

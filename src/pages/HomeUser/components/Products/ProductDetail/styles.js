@@ -44,4 +44,7 @@ export default makeStyles((theme) => ({
           marginRight: 'auto',
         },
       },
+      input: {
+        display: 'none'
+      }
 }));
