@@ -29,6 +29,7 @@ import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/StocksDetail";
 import Spinner from "./pages/HomeUser/Spinner";
 import CustomOrderUpload from "./pages/HomeUser/components/CustomOrderUpload/CustomOrderUpload";
+import CustomOrders from "./pages/HomeUser/components/CustomOrders/CustomOrders";
 
 const useStyles = makeStyles({
   page: {
@@ -59,8 +60,6 @@ function App() {
       
       dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
-
-
    
 
     setIsLocalStorageChecked(true);
@@ -143,6 +142,7 @@ function App() {
                 />
                 <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/customorder/upload" element={<CustomOrderUpload />} />
+                <Route path="/customorders" element={<CustomOrders />} />
               </Routes>
             </div>
           </Router>

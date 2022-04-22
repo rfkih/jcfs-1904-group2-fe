@@ -52,7 +52,7 @@ function Navigation() {
 
           <div className="product-navbar">
             <Typography sx={{ mr: 3 }}> Products </Typography>
-            <Typography component={Link} to='/customorder/upload'> Custom Products </Typography>
+            <Typography component={Link} to='/customorders'> Custom Products </Typography>
           </div>
 
           {username ? (
