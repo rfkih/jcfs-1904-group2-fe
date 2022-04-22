@@ -96,7 +96,6 @@ const fetchProducts = async () => {
 
 
 
-
 const fetchDataLog = async () => {
   try {
       const res = await axios.get(`/datalog`, { params: { pages:(`limit ${dataPerPage} offset ${(pageData)*dataPerPage}`), filterData, sortData, } } )
@@ -123,7 +122,7 @@ const fetchCategories = async () => {
       console.log(alert(error.message));
   }
 };
-
+console.log(dataLog);
 
 useEffect(() => {
   fetchProducts();

@@ -30,7 +30,6 @@ function HomeUser() {
   };
 
 
-
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -45,7 +44,6 @@ function HomeUser() {
             setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
             setChecked(true)
             }));
-            
         } catch (error) {
             console.log(alert(error.message));
         }
