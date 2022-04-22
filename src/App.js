@@ -28,6 +28,7 @@ import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/Ite
 import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/StocksDetail";
 import Spinner from "./pages/HomeUser/Spinner";
+import CustomOrderUpload from "./pages/HomeUser/components/CustomOrderUpload/CustomOrderUpload";
 
 const useStyles = makeStyles({
   page: {
@@ -141,6 +142,7 @@ function App() {
                   element={<ProfilePicture />}
                 />
                 <Route path="/edit-profile" element={<EditProfile />} />
+                <Route path="/customorder/upload" element={<CustomOrderUpload />} />
               </Routes>
             </div>
           </Router>
