@@ -2,14 +2,33 @@ import React,{useState, useEffect} from 'react'
 import useStyles from './styles.js'
 import { Grid, Box, Container, Typography, Paper, Card, CardActions, Button, Input, TextField, CardMedia, CardContent, CircularProgress} from '@material-ui/core';
 import axios from '../../../../utils/axios'
+import {useSelector} from 'react-redux'
 
 
 function CustomOrderUpload() {
+    const {id, role} = useSelector((state) => {
+        return state.auth;
+      });
     const classes = useStyles();
     const [ image, setImage ] = useState('https://image.shutterstock.com/image-vector/various-meds-pills-capsules-blisters-600w-1409823341.jpg')
     const [ selectedFile, setSelectedFile] = useState(null)
+    const [formState, setFormState] = useState({
+        user_id: 0,
+        image: "",
+        status: "waiting",
+        notes: "",
+    });
+    
+    console.log(formState);
 
-    console.log(image);
+    useEffect(() => {
+        setFormState({ ...formState, user_id: id });
+    },[id])
+
+
+    const handleChange = (e) => {
+        setFormState({ ...formState, [e.target.name]: e.target.value });
+      };
 
    
     const fileSelectedHandler = (e) => {
@@ -27,7 +46,8 @@ function CustomOrderUpload() {
           fd.append("prescription", selectedFile)
           axios.post("/customorders/upload", fd)
           .then((res) => {
-            console.log(res.data.image);
+            const image = res.data.image;
+            setFormState({ ...formState, image })
             alert("Image Uploaded")
             })
           .catch((error) => console.log({ error }));
@@ -39,6 +59,24 @@ function CustomOrderUpload() {
           fileUploadHandler();
         }
       },[selectedFile])
+
+
+      const onSendClick = () => {
+          addNewCustomOrder();
+      }
+
+
+      const addNewCustomOrder = async () => {
+    
+      await axios
+      .post("/customorders", {formState})
+      .then((res) => {
+          console.log(res.data);
+       alert(res.data.message);    
+      })
+      .catch((error) => console.log({ error }));
+  };
+  
 
 
   return (
@@ -58,7 +96,7 @@ function CustomOrderUpload() {
                             <Typography gutterBottom variant="h5" component="div">
                                 Upload Prescription
                             </Typography>          
-                            <TextField fullWidth multiline name='notes' label='Type Notes Here' />
+                            <TextField fullWidth multiline name='notes' label='Type Notes Here' onChange={handleChange} />
                         </CardContent>
                         <CardActions>
                             <Input
@@ -71,7 +109,7 @@ function CustomOrderUpload() {
                                     Upload Image
                                 </Button>  
                       </label> 
-                            <Button>Send</Button>
+                            <Button onClick={onSendClick}>Send</Button>
                         </CardActions>
 
                     </Card>
