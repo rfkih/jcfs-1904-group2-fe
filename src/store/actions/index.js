@@ -18,7 +18,7 @@ export const keepLoginAction = ({ id, username, role, token, photo }) => {
 };
 
 export const logoutAction = () => {
-  localStorage.removeItem("userData");
+  localStorage.removeItem("userData","cartData");
   return {
     type: "LOGOUT_SUCCESS",
   };

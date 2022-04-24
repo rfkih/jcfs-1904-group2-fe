@@ -1,7 +1,7 @@
 import React,{useState, useEffect, useContext} from 'react'
 import useStyles from './styles'
 import axios from '../../../../utils/axios'
-import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import { Typography,Container, Grid, Card, CardContent,InputBase, CardMedia, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import {CartContext} from '../../../../helper/Context'
 import { useParams } from "react-router-dom";
@@ -13,7 +13,7 @@ function PendingOrder() {
     const [orders, setOrders] = useState([]);
     const [page, setPage] = useState(0);
     const [ordersPerPage, setOrdersPerPage] = useState(10);
-    const {userId, orderId, setUserId} = useContext(CartContext)
+    const {userId, orderId, setUserId, setOrderId} = useContext(CartContext)
     const params = useParams();
     const [activeOrder, setActiveOrder] = useState({})
 
@@ -37,6 +37,23 @@ function PendingOrder() {
             console.log(alert(error.message));
         }
     };
+
+    
+    const cancelOrder = async () => {
+        try {
+            const res = await axios.put(`/customorders/${orderId}`, {params: { cancel: true , orderId}} );
+            const  {data} = res
+            console.log(res);
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
+
+    const onCancelClick = () => {
+        cancelOrder();
+        setUserId(0)
+        setOrderId(0)
+    }
 
     useEffect(() =>{
         if(userId) {
@@ -74,13 +91,28 @@ function PendingOrder() {
     <Container>
         <div className={classes.toolbar}/>
         <Paper>
-            Current Active Order :
+            Current Active Order : 
             <Card>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                            <Typography>Order Id Id: {orderId}</Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }} >
+                            <CardContent>
+                                <Typography variant="subtitle1">Order Id : {orderId}</Typography>
+                                <Typography variant="subtitle1">User Id : {userId}</Typography>
+                                <Typography variant="subtitle1">Status : {activeOrder.status}</Typography>
+                                <Typography variant="subtitle1">Order Date : {activeOrder.created_at}</Typography>
+                                <Typography variant="subtitle1">Notes : {activeOrder.notes}</Typography>
+                            </CardContent>
+                        </Box>
+                        <Button onClick={onCancelClick}>Cancel this order</Button>
                     </Grid>
                     <Grid item xs={4}>
+                        <CardMedia
+                            component="img"
+                            sx={{ width: 151 }}
+                            image={activeOrder.image}
+                            alt="Picture"
+                        />
 
                     </Grid>
                 </Grid>
@@ -106,7 +138,7 @@ function PendingOrder() {
                         {orders.slice(page * ordersPerPage, page * ordersPerPage + ordersPerPage)
                             .map((order) => {
                                 return (
-                                    <TableRow  component={Link} to={`/orders/${order.id}`} hover role="checkbox" key={order.id}>
+                                    <TableRow  component={userId ? 'text' : Link} to={`/orders/${order.id}`} hover role="checkbox" key={order.id}>
                                         {columns.map((column) => {
                                             const value = order[column.id];
                                             return(

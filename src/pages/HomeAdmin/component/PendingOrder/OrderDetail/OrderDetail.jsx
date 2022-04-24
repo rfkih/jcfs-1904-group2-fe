@@ -1,11 +1,12 @@
 import React,{useState, useEffect, useContext} from 'react'
 import useStyles from './styles'
+import { Link, useLocation, useNavigate, Navigate} from 'react-router-dom';
 import { Typography,Container, Grid, Card, CardMedia, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 import {CartContext} from '../../../../../helper/Context'
 import { set } from 'date-fns/esm';
-import { Link } from 'react-router-dom'
+
 
 function OrderDetail() {
     const {userId, setUserId, orderId, setOrderId} = useContext(CartContext)
@@ -25,6 +26,7 @@ function OrderDetail() {
  
     const isApprovedHandlerClick = () => {
         isApprovedMessage();
+        <Navigate to="/customorders" replace />;
     }
 
   
@@ -42,13 +44,13 @@ function OrderDetail() {
     };
 
     const isApprovedMessage = async () => {
-
-        await axios
-      .put(`/customorders/${params.orderId}`, {params: { isApproved, id: params.orderId } }  )
-      .then((res) => {
-       alert(res);
-      })
-      .catch((error) => console.log({ error }));
+        try {
+            const res = await axios.put(`/customorders/${params.orderId}`, {params: { isApproved, id: params.orderId}} );
+            const  {data} = res
+            console.log(res);
+        } catch (error) {
+            console.log(alert(error.message));
+        }
     };
 
     
@@ -57,7 +59,7 @@ function OrderDetail() {
         if (isApproved) {
             setUserId(order.user_id)
             setOrderId(order.id)
-            // isApprovedMessage();
+            isApprovedMessage();
         } else {;
             setUserId(0)
             setOrderId(0)
@@ -71,6 +73,10 @@ function OrderDetail() {
     useEffect(() => {
         fetchOrderById();
     },[])
+
+    if (userId) {
+        return <Navigate to="/orders" replace />;
+    }
 
   return (
       <Container>

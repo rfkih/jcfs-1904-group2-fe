@@ -55,6 +55,12 @@ function DrawerBar() {
             icon: <ReportOutlined color="primary"/>,
             path: '/stocks'
 
+        },
+        {
+            text: 'User Cart',
+            icon: <ShoppingCart color="primary"/>,
+            path: '/userscart'
+
         }
     ]
   return (
