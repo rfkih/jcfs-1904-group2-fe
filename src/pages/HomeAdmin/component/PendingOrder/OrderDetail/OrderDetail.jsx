@@ -8,7 +8,7 @@ import { set } from 'date-fns/esm';
 import { Link } from 'react-router-dom'
 
 function OrderDetail() {
-    const {userId, setUserId} = useContext(CartContext)
+    const {userId, setUserId, orderId, setOrderId} = useContext(CartContext)
     const classes = useStyles();
     const [order, setOrder] = useState({})
     const params = useParams();
@@ -51,32 +51,21 @@ function OrderDetail() {
       .catch((error) => console.log({ error }));
     };
 
-    console.log(order);
+    
 
     useEffect(() => {
         if (isApproved) {
             setUserId(order.user_id)
-        } else {
+            setOrderId(order.id)
+            // isApprovedMessage();
+        } else {;
             setUserId(0)
+            setOrderId(0)
         }
     },[isApproved])
 
 
-    const fetchProducts = async () => {
-     
-        try {
-            const res = await axios.get("/products", {params: { keyword, sort, productPerPage, OFFSET: (page - 1)*productPerPage, category: selectedCategory.category_id}})
-            .then((res=>{
-              const { data } = res;
-              setProducts(data.result);
-              setTotalPage(Math.ceil(data.count[0].count / productPerPage ))
-              
-            }));
-            
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
+  
 
 
     useEffect(() => {

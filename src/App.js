@@ -46,15 +46,18 @@ function App() {
   const classes = useStyles();
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const [userId, setUserId] = useState(0)
+  const [orderId, setOrderId] = useState(0)
   const [cart, setCart] = useState([])
   const {role} = useSelector((state) => {
     return state.auth;
   });
 
   const dispatch = useDispatch();
+   
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
+    const dataLocalStorage = localStorage.getItem("cartData")
     if (userLocalStorage) {
       const userData = JSON.parse(userLocalStorage);
 
@@ -63,11 +66,60 @@ function App() {
       
       dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
-   
-
+    if(dataLocalStorage){
+      const getData = JSON.parse(dataLocalStorage);
+  
+     const data = {
+      userId: getData.userId,
+      orderId: getData.orderId,
+      cart: getData.cart
+    }
+     localStorage.setItem(
+      "cartData",
+      JSON.stringify(data)
+    );
+    
+    };
     setIsLocalStorageChecked(true);
     
   }, []);
+
+  const cartData  = ( ) => {
+
+    const data = {
+      userId: userId,
+      orderId: orderId,
+      cart: cart
+    }
+      localStorage.setItem(
+        "cartData",
+        JSON.stringify(data)
+      );
+  
+    };
+
+  const getLocalStorage = () => {
+    const dataLocalStorage = window.localStorage.getItem("cartData")
+    
+      const getData = JSON.parse(dataLocalStorage);
+      setUserId(getData.userId)
+      setOrderId(getData.orderId)
+      setCart(getData.cart)
+      
+    
+  }
+
+    
+    useEffect(() => {
+      if (isLocalStorageChecked) {       
+        cartData(); 
+       
+      }
+    },[userId, orderId, cart])
+
+    useEffect(() => {
+      getLocalStorage();
+    },[])
 
 
   if (isLocalStorageChecked) {
@@ -77,7 +129,7 @@ function App() {
     return (
       <div className={classes.root}>
         {role === "admin" ? (
-        <CartContext.Provider value={{cart, setCart, userId, setUserId}}>
+        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId}}>
           <Router>
             <div>
               <DrawerBar />
@@ -155,7 +207,7 @@ function App() {
       </div>
     );
   } else {
-    return  <Spinner message="We are adding products!"/>   
+    return  <Spinner message="Loading"/>   
   }
 }
 

@@ -13,7 +13,7 @@ function PendingOrder() {
     const [orders, setOrders] = useState([]);
     const [page, setPage] = useState(0);
     const [ordersPerPage, setOrdersPerPage] = useState(10);
-    const {userId, setUserId} = useContext(CartContext)
+    const {userId, orderId, setUserId} = useContext(CartContext)
     const params = useParams();
     const [activeOrder, setActiveOrder] = useState({})
 
@@ -28,7 +28,7 @@ function PendingOrder() {
 
       const fetchOrderByUserId = async () => {
         try {
-            const res = await axios.get(`/customorders/${userId}`, {params: {id: params.userId}});
+            const res = await axios.get(`/customorders/${orderId}`, {params: {id: params.orderId}});
             const  {data} = res
             setActiveOrder(data[0])
            
@@ -42,7 +42,7 @@ function PendingOrder() {
         if(userId) {
             fetchOrderByUserId();
         }
-    },[userId])
+    },[orderId])
 
     console.log(activeOrder);
 
@@ -78,7 +78,7 @@ function PendingOrder() {
             <Card>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
-                            <Typography>User Id: {userId}</Typography>
+                            <Typography>Order Id Id: {orderId}</Typography>
                     </Grid>
                     <Grid item xs={4}>
 
