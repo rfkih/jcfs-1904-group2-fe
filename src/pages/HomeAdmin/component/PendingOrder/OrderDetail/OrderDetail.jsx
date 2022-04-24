@@ -26,7 +26,6 @@ function OrderDetail() {
  
     const isApprovedHandlerClick = () => {
         isApprovedMessage();
-        <Navigate to="/customorders" replace />;
     }
 
   

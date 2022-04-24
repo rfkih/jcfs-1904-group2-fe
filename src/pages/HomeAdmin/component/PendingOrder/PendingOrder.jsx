@@ -91,8 +91,10 @@ function PendingOrder() {
     <Container>
         <div className={classes.toolbar}/>
         <Paper>
-            Current Active Order : 
-            <Card>
+            
+            {userId ?
+                <Card>
+                    <Typography>Current Active Order : </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
                         <Box sx={{ display: 'flex', flexDirection: 'column' }} >
@@ -104,19 +106,25 @@ function PendingOrder() {
                                 <Typography variant="subtitle1">Notes : {activeOrder.notes}</Typography>
                             </CardContent>
                         </Box>
-                        <Button onClick={onCancelClick}>Cancel this order</Button>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <CardMedia
-                            component="img"
-                            sx={{ width: 151 }}
-                            image={activeOrder.image}
-                            alt="Picture"
-                        />
+                            <Button onClick={onCancelClick}>Cancel this order</Button>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <CardMedia
+                                component="img"
+                                sx={{ width: 151 }}
+                                image={activeOrder.image}
+                                alt="Picture"
+                            />
 
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Card>
+                </Card> : 
+                <Card>
+                    <CardContent>
+                        <Typography>Ther is no Active order yet!</Typography>
+                    </CardContent>
+                </Card>    
+            }          
         </Paper>
         <Typography>Pending orders </Typography>
         <Paper>

@@ -31,6 +31,7 @@ import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/Stocks
 import Spinner from "./pages/HomeUser/Spinner";
 import CustomOrderUpload from "./pages/HomeUser/components/CustomOrderUpload/CustomOrderUpload";
 import CustomOrders from "./pages/HomeUser/components/CustomOrders/CustomOrders";
+import UserCart from "./pages/HomeAdmin/component/UserCart/UserCart";
 
 const useStyles = makeStyles({
   page: {
@@ -143,6 +144,7 @@ function App() {
                 <Route path="orders" element={<PendingOrder />} />
                 <Route path="stocks/:productId" element={<StocksDetail />} />
                 <Route path={`orders/:orderId`} element={<OrderDetail />} />
+                <Route path={`userscart`} element={<UserCart />} />
                 <Route
                   path={`products/:productId`}
                   element={<ProductDetail />}
