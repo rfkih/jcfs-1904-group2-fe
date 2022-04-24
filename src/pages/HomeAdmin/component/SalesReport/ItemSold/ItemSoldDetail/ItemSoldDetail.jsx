@@ -163,7 +163,6 @@ function ItemSoldDetail() {
                                 <MenuItem key={0} value="" >Sort By</MenuItem>
                                 <MenuItem key={1} value="order by created_at desc" > Latest </MenuItem>
                                 <MenuItem key={2} value="order by created_at asc" > Oldest </MenuItem>
-                                <MenuItem key={2} value="order by created_at asc" > Stock In (Descending) </MenuItem>
                             </Select>   
                     </FormControl>
                     </Grid>

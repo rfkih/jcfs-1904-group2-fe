@@ -133,10 +133,10 @@ function AddProduct() {
             <Paper >
               <Typography variant="h4" align="center"> Upload image here </Typography>
               <form > 
-                <Card>
+                <Card className={classes.upload}>
                   <CardMedia
                     component="img"
-                    height="200"
+                    height="270"
                     image={image}
                     alt="..."
                   />
@@ -166,7 +166,7 @@ function AddProduct() {
             </Paper>
           </Grid>
           <Grid item xs={6}>
-          <Paper >
+          <Paper className={formState.isLiquid ? classes.textActive : classes.text} >
             <Container>
               
             
