@@ -4,6 +4,7 @@ import { Grid, Box, Container, CircularProgress} from '@material-ui/core';
 import { useDispatch } from "react-redux";
 import { keepLoginAction } from "./store/actions";
 import {useSelector} from 'react-redux'
+import { CartContext } from './helper/Context'
 import Login from "./pages/Login";
 import Navigation from "./components/Navigation/index";
 import Register from "./pages/Register";
@@ -44,6 +45,8 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
+  const [userId, setUserId] = useState(0)
+  const [cart, setCart] = useState([])
   const {role} = useSelector((state) => {
     return state.auth;
   });
@@ -74,6 +77,7 @@ function App() {
     return (
       <div className={classes.root}>
         {role === "admin" ? (
+        <CartContext.Provider value={{cart, setCart, userId, setUserId}}>
           <Router>
             <div>
               <DrawerBar />
@@ -121,6 +125,7 @@ function App() {
               </Routes>
             </div>
           </Router>
+        </CartContext.Provider>
         ) : (
           <Router>
             <div>

@@ -1,15 +1,21 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useContext} from 'react'
 import useStyles from './styles'
 import axios from '../../../../utils/axios'
 import { Typography,Container, Grid, Card, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import {Link} from 'react-router-dom'
+import {CartContext} from '../../../../helper/Context'
+import { useParams } from "react-router-dom";
+
+
 
 function PendingOrder() {
     const classes = useStyles();
     const [orders, setOrders] = useState([]);
     const [page, setPage] = useState(0);
     const [ordersPerPage, setOrdersPerPage] = useState(10);
-
+    const {userId, setUserId} = useContext(CartContext)
+    const params = useParams();
+    const [activeOrder, setActiveOrder] = useState({})
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -20,7 +26,25 @@ function PendingOrder() {
         setPage(0);
       };
 
+      const fetchOrderByUserId = async () => {
+        try {
+            const res = await axios.get(`/customorders/${userId}`, {params: {id: params.userId}});
+            const  {data} = res
+            setActiveOrder(data[0])
+           
+            
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+    };
 
+    useEffect(() =>{
+        if(userId) {
+            fetchOrderByUserId();
+        }
+    },[userId])
+
+    console.log(activeOrder);
 
     const fetchOrders = async () => {
         try {
@@ -49,6 +73,19 @@ function PendingOrder() {
   return (
     <Container>
         <div className={classes.toolbar}/>
+        <Paper>
+            Current Active Order :
+            <Card>
+                <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                            <Typography>User Id: {userId}</Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+
+                    </Grid>
+                </Grid>
+            </Card>
+        </Paper>
         <Typography>Pending orders </Typography>
         <Paper>
             <TableContainer>

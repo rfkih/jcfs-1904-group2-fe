@@ -1,12 +1,14 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useContext} from 'react'
 import useStyles from './styles'
 import { Typography,Container, Grid, Card, CardMedia, CardContent,InputBase, TextField, Box, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
+import {CartContext} from '../../../../../helper/Context'
 import { set } from 'date-fns/esm';
 import { Link } from 'react-router-dom'
 
 function OrderDetail() {
+    const {userId, setUserId} = useContext(CartContext)
     const classes = useStyles();
     const [order, setOrder] = useState({})
     const params = useParams();
@@ -25,6 +27,7 @@ function OrderDetail() {
         isApprovedMessage();
     }
 
+  
 
     const fetchOrderById = async () => {
         try {
@@ -47,6 +50,17 @@ function OrderDetail() {
       })
       .catch((error) => console.log({ error }));
     };
+
+    console.log(order);
+
+    useEffect(() => {
+        if (isApproved) {
+            setUserId(order.user_id)
+        } else {
+            setUserId(0)
+        }
+    },[isApproved])
+
 
     const fetchProducts = async () => {
      
@@ -73,33 +87,44 @@ function OrderDetail() {
       <Container>
           <div className={classes.toolbar}/>
             <Paper>
-                <Card>
-                    <CardMedia
-                        component="img"
-                        alt="Doctor Prescription"
-                        height="400"
-                        image={order.image}
-                    >
+                <Grid container spacing={2}>
+                    <Grid item xs={5}>
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            alt="Doctor Prescription"
+                            height="400"
+                            image={order.image}
+                        >
 
-                    </CardMedia>
+                        </CardMedia>
                         <Typography variant="h6" component="div">Notes</Typography>
-                        <Typography variant="body1">{order.notes}</Typography>
-                    <CardActions>
-                        {isApproved ? <>
-                        <Typography> Select Drugs </Typography>
-                        <Button onClick={() => {setIsApproved(false)}}> Back </Button>
-                        </> : <>
-                        <Button onClick={() => {setIsApproved(true)}}>Approve</Button>
-                        <Button onClick={isApprovedHandlerClick}>Reject</Button>
-                        </>}
-                        <Button> Open Image</Button>
-                    </CardActions>
-                </Card>
-                {isApproved ? 
-                <>
+                            <Typography variant="body1">{order.notes}</Typography>
+                        <CardActions>
+                            {isApproved ? <>
+                            <Typography> Select Drugs </Typography>
+                            <Button onClick={() => {setIsApproved(false)}}> Back </Button>
+                            </> : <>
+                            <Button onClick={() => {setIsApproved(true)}}>Approve</Button>
+                            <Button onClick={isApprovedHandlerClick}>Reject</Button>
+                            </>}
+                            <Button> Open Image</Button>
+                        </CardActions>
+                    </Card>
+
+                    </Grid>
+                    <Grid item xs={5}>
+                        {isApproved ? 
+                    <>
+                    <Typography>This Order Has Been Approved And User </Typography>
+                    </> 
+                    : null}
+
+                    </Grid>
+
+                </Grid>
+               
                 
-                </> 
-                : null}
 
 
             </Paper>
