@@ -11,16 +11,33 @@ function CartItem({item, change, setChange}) {
 
     console.log(productQuantity);
 
+
+   
+
     const handleUpdateCartQty = async (id, productQuantity) => {
         
         console.log(productQuantity);
-        await axios
-      .put(`/cart/quantity/:${id}`, { params: { productQuantity, id } } )
-      .then((res) => {
-        setChange(!change)
-        console.log(res.data);
-      })
-      .catch((error) => console.log({ error }));
+
+        if (productQuantity) {
+            await axios
+            .put(`/cart/quantity/:${id}`, { params: { productQuantity, id } } )
+            .then((res) => {
+              setChange(!change)
+              console.log(res.data);
+            })
+            .catch((error) => console.log({ error }));
+        
+        }else {
+            await axios
+            .put(`/cart/delete/:${id}`, { params: { productQuantity, id } } )
+            .then((res) => {
+              setChange(!change)
+              console.log(res.data);
+            })
+            .catch((error) => console.log({ error }));
+
+        }
+       
     } 
 
 
