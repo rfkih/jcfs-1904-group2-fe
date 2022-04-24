@@ -21,7 +21,6 @@ function Product({product}) {
         
         if (checkProductInCart) {
             const totalQty = checkProductInCart.productQuantity + 1;
-
             await axios
             .put(`/cart/quantity/:${checkProductInCart.id}`, { params: { productQuantity: totalQty, id: checkProductInCart.id,  price: product.price } } )
             .then((res) => {
@@ -29,6 +28,15 @@ function Product({product}) {
               console.log(res.data);
             })
             .catch((error) => console.log({ error }));
+        } else {
+            await axios
+            .post(`/cart`, { params: { productQuantity: 1, product, userId, isCustom: true } } )
+            .then((res) => {
+              setChange(!change)
+              console.log(res.data);
+            })
+            .catch((error) => console.log({ error }));
+
         }
     }
     
