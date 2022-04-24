@@ -10,32 +10,32 @@ function UserCart() {
     const classes = useStyles();
     const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
 
-    console.log(cart.length);
+  
 
-    const fetchCart = async () => {
-        try {
-            const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
-            const { data } = res;
-            console.log(data);
-            setCart(data.result)
-        } catch (error) {
-            console.log(alert(error.message));
-        }
-    };
+//    const fetchCart = async () => {
+//         try {
+//             const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
+//             const { data } = res;
+            
+//             setCart(data.result)
+//         } catch (error) {
+//             console.log(alert(error.message));
+//         }
+//     };
 
     const handleEmptyCart = async (userId) => {
         await axios
             .put(`/cart/delete`, { params: { userId } } )
             .then((res) => {
               setChange(!change)
-              console.log(res.data);
+              
             })
             .catch((error) => console.log({ error }));
       }
 
-    useEffect(() => {
-        fetchCart();
-    },[change])
+    // useEffect(() => {
+    //     fetchCart();
+    // },[change])
 
 
     const EmptyCart = () => (

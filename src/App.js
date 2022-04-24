@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { keepLoginAction } from "./store/actions";
 import {useSelector} from 'react-redux'
 import { CartContext } from './helper/Context'
+import axios from "./utils/axios";
 import Login from "./pages/Login";
 import Navigation from "./components/Navigation/index";
 import Register from "./pages/Register";
@@ -122,6 +123,21 @@ function App() {
     useEffect(() => {
       getLocalStorage();
     },[])
+
+  const fetchCart = async () => {
+      try {
+          const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
+          const { data } = res;
+          
+          setCart(data.result)
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+  };
+
+  useEffect(() => {
+    fetchCart();
+},[change])
 
 
   if (isLocalStorageChecked) {

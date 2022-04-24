@@ -9,7 +9,7 @@ function CartItem({item, change, setChange}) {
     const {productId, id, productIMG, productQuantity} = item
     const classes= useStyles();
 
-    console.log(productQuantity);
+    
 
 
    
@@ -19,10 +19,10 @@ function CartItem({item, change, setChange}) {
 
         if (productQuantity) {
             await axios
-            .put(`/cart/quantity/:${id}`, { params: { productQuantity, id } } )
+            .put(`/cart/quantity/:${id}`, { params: { productQuantity, id,  price: item.price } } )
             .then((res) => {
               setChange(!change)
-              console.log(res.data);
+              
             })
             .catch((error) => console.log({ error }));
         
@@ -31,7 +31,7 @@ function CartItem({item, change, setChange}) {
             .put(`/cart/delete/:${id}`, { params: { productQuantity, id } } )
             .then((res) => {
               setChange(!change)
-              console.log(res.data);
+              
             })
             .catch((error) => console.log({ error }));
 
@@ -44,7 +44,7 @@ function CartItem({item, change, setChange}) {
             .put(`/cart/delete/:${id}`, { params: { id } } )
             .then((res) => {
               setChange(!change)
-              console.log(res.data);
+             
             })
             .catch((error) => console.log({ error }));
       }
