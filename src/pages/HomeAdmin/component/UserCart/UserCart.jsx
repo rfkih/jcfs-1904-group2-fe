@@ -23,6 +23,16 @@ function UserCart() {
         }
     };
 
+    const handleEmptyCart = async (userId) => {
+        await axios
+            .put(`/cart/delete`, { params: { userId } } )
+            .then((res) => {
+              setChange(!change)
+              console.log(res.data);
+            })
+            .catch((error) => console.log({ error }));
+      }
+
     useEffect(() => {
         fetchCart();
     },[change])
@@ -49,7 +59,7 @@ function UserCart() {
         <div className={classes.cardDetails}>
           <Typography variant="h4">Subtotal: </Typography>
           <div>
-            <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" >Empty cart</Button>
+            <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" onClick={() => handleEmptyCart(userId)} >Empty cart</Button>
             <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Checkout</Button>
           </div>
         </div>

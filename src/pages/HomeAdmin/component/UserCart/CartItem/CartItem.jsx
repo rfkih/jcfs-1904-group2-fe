@@ -16,7 +16,6 @@ function CartItem({item, change, setChange}) {
 
     const handleUpdateCartQty = async (id, productQuantity) => {
         
-        console.log(productQuantity);
 
         if (productQuantity) {
             await axios
@@ -40,6 +39,16 @@ function CartItem({item, change, setChange}) {
        
     } 
 
+    const handleRemoveFromCart = async (id) => {
+        await axios
+            .put(`/cart/delete/:${id}`, { params: { id } } )
+            .then((res) => {
+              setChange(!change)
+              console.log(res.data);
+            })
+            .catch((error) => console.log({ error }));
+      }
+
 
 
    
@@ -56,7 +65,7 @@ function CartItem({item, change, setChange}) {
                 <Typography>{productQuantity}</Typography> 
                 <Button type="button" size="small" onClick={() => handleUpdateCartQty(id, productQuantity + 1)} >+</Button>
             </div>
-            <Button variant="contained" type="button" color="secondary">Remove</Button>
+            <Button variant="contained" type="button" color="secondary" onClick={() => handleRemoveFromCart(id)} >Remove</Button>
         </CardActions>
     </Card>
   )
