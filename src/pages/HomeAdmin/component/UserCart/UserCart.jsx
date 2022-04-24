@@ -8,7 +8,7 @@ import {CartContext} from '../../../../helper/Context'
  
 function UserCart() {
     const classes = useStyles();
-    const {userId, orderId, cart, setCart} = useContext(CartContext)
+    const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
 
     console.log(cart.length);
 
@@ -25,7 +25,7 @@ function UserCart() {
 
     useEffect(() => {
         fetchCart();
-    },[])
+    },[change])
 
 
     const EmptyCart = () => (
@@ -42,7 +42,7 @@ function UserCart() {
         <Grid container spacing={3}>
           {cart.map((item) => (
             <Grid item xs={12} sm={4} key={item.id}>
-                <CartItem item={item} />
+                <CartItem change={change} setChange={setChange} item={item} />
             </Grid>
           ))}
         </Grid>

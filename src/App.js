@@ -49,6 +49,7 @@ function App() {
   const [userId, setUserId] = useState(0)
   const [orderId, setOrderId] = useState(0)
   const [cart, setCart] = useState([])
+  const [change, setChange] = useState(false)
   const {role} = useSelector((state) => {
     return state.auth;
   });
@@ -130,7 +131,7 @@ function App() {
     return (
       <div className={classes.root}>
         {role === "admin" ? (
-        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId}}>
+        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId, change, setChange}}>
           <Router>
             <div>
               <DrawerBar />
