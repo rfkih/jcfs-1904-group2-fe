@@ -49,12 +49,14 @@ function App() {
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const [userId, setUserId] = useState(0)
   const [orderId, setOrderId] = useState(0)
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState([{}])
   const [subTotal, setSubTotal] = useState(0)
   const [change, setChange] = useState(false)
   const {role} = useSelector((state) => {
     return state.auth;
   });
+
+  
 
   const dispatch = useDispatch();
    
@@ -66,7 +68,6 @@ function App() {
       const userData = JSON.parse(userLocalStorage);
 
       const { id, username, role, tokens, photo } = userData;
-     
       
       dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
@@ -84,6 +85,7 @@ function App() {
     );
     
     };
+    setChange(!change)
     setIsLocalStorageChecked(true);
     
   }, []);
@@ -117,7 +119,6 @@ function App() {
     useEffect(() => {
       if (isLocalStorageChecked) {       
         cartData(); 
-       
       }
     },[userId, orderId, cart])
 

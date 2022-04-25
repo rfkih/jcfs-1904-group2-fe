@@ -115,7 +115,7 @@ function AddProduct() {
           qtyStripsavailable,
           qtyStripsTotal: qtyStripsavailable
         }
-        console.log(newStock);
+        
       await axios
       .post("/products", { userId: data.id , username: data.username, newProduct, newStock} )
       .then((res) => {
