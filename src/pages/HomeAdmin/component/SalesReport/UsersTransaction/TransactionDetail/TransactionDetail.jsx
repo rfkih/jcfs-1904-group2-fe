@@ -32,7 +32,11 @@ function TransactionDetail() {
             const  {data} = res
             setTransactionDetail(data.result[0]);
             setUserDetail(data.user[0]);
-            setAddress(data.address[0]);
+            console.log(data);
+            if (data.address) {
+              setAddress(data.address[0])
+            }
+  
             
         } catch (error) {
             console.log(alert(error.message));

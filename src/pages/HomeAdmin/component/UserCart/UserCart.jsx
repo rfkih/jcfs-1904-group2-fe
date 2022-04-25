@@ -75,6 +75,9 @@ function UserCart() {
       </>
     );
 
+
+   
+
     if (orderId) {
       
       if(!userId) {
@@ -89,7 +92,7 @@ function UserCart() {
     <Container>
     <div className={classes.toolbar}/>
       <Typography className={classes.tittle} variant ="h3" gutterBottom>Your Shopping Cart</Typography>
-      { !cart.length ? <EmptyCart/> : <FilledCart/>}
+      {!cart.length ? <EmptyCart/> : <FilledCart/>}
       <div>
       <Dialog
         open={open}
