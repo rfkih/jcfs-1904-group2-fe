@@ -8,20 +8,11 @@ import {CartContext} from '../../../../helper/Context'
  
 function UserCart() {
     const classes = useStyles();
-    const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
+    const {userId, orderId, cart, setCart, change, setChange, subTotal} = useContext(CartContext)
 
   
 
-//    const fetchCart = async () => {
-//         try {
-//             const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
-//             const { data } = res;
-            
-//             setCart(data.result)
-//         } catch (error) {
-//             console.log(alert(error.message));
-//         }
-//     };
+
 
     const handleEmptyCart = async (userId) => {
         await axios
@@ -33,9 +24,7 @@ function UserCart() {
             .catch((error) => console.log({ error }));
       }
 
-    // useEffect(() => {
-    //     fetchCart();
-    // },[change])
+  
 
 
     const EmptyCart = () => (
@@ -57,7 +46,7 @@ function UserCart() {
           ))}
         </Grid>
         <div className={classes.cardDetails}>
-          <Typography variant="h4">Subtotal: </Typography>
+          <Typography variant="h4">Subtotal: Rp.{subTotal} </Typography>
           <div>
             <Button className={classes.emptyButton} size="large" type="button" variant="contained" color="secondary" onClick={() => handleEmptyCart(userId)} >Empty cart</Button>
             <Button component={Link} to="/checkout" className={classes.checkoutButton} size="large" type="button" variant="contained" color="primary">Checkout</Button>

@@ -50,6 +50,7 @@ function App() {
   const [userId, setUserId] = useState(0)
   const [orderId, setOrderId] = useState(0)
   const [cart, setCart] = useState([])
+  const [subTotal, setSubTotal] = useState(0)
   const [change, setChange] = useState(false)
   const {role} = useSelector((state) => {
     return state.auth;
@@ -129,6 +130,7 @@ function App() {
           const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
           const { data } = res;       
           setCart(data.result)
+          setSubTotal(data.count[0].subtotal);
       } catch (error) {
           console.log(alert(error.message));
       }
@@ -146,7 +148,7 @@ function App() {
     return (
       <div className={classes.root}>
         {role === "admin" ? (
-        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId, change, setChange}}>
+        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId, change, setChange, subTotal}}>
           <Router>
             <div>
               <DrawerBar />
