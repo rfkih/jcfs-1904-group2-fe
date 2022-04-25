@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {Card, Paper, CardMedia, Button, Grid, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
+import {CartContext} from '../../../../../helper/Context'
 
 
 import useStyles from './styles';
@@ -14,7 +15,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(0);
   const [ stocks, setStocks] = useState({})
   const [ stock, setStock] = useState(5)
-
+  const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
 
  const {stockLiquid, stockNonLiquid } = stocks
  
@@ -54,6 +55,40 @@ useEffect (() => {
       setStock(stockNonLiquid)
     }
   }, [stocks])
+
+
+  const onAdd = async () => {
+    const checkProductInCart = cart.find((item) => item.product_id === product.id)
+    
+    if (checkProductInCart) {
+        const totalQty = checkProductInCart.productQuantity + quantity;
+        await axios
+        .put(`/cart/quantity/:${checkProductInCart.id}`, { params: { productQuantity: totalQty, id: checkProductInCart.id,  price: product.price } } )
+        .then((res) => {
+          setChange(!change)
+          console.log(res.data);
+        })
+        .catch((error) => console.log({ error }));
+    } else {
+        await axios
+        .post(`/cart`, { params: { productQuantity: quantity, product, userId, isCustom: true } } )
+        .then((res) => {
+          setChange(!change)
+          console.log(res.data);
+        })
+        .catch((error) => console.log({ error }));
+
+    }
+}
+
+
+ const onAddToCartClick = () => {
+   if (quantity) {
+      onAdd();
+   } else{
+     alert('quantity still zero ')
+   }
+ }
 
 
 
@@ -98,15 +133,11 @@ useEffect (() => {
             {quantity === 0 ? <Button size="small" variant="contained" color="success"  > - </Button> : <Button  size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity - 1)}>-</Button> }
               <Typography variant="h6" >{quantity}</Typography>
             {quantity === stock ? <Button  size="small" variant="contained" color="success"  >+</Button> : <Button size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity + 1)}>+</Button> }          
-            <IconButton aria-label='Add to Cart' >
+            <IconButton onClick={onAddToCartClick} aria-label='Add to Cart' >
                 <AddShoppingCart/>
             </IconButton>  
-
           </Grid>
-
-        </Grid>
-          
-         
+        </Grid> 
         </CardActions>
     </Paper>
 

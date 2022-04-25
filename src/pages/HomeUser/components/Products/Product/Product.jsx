@@ -14,7 +14,7 @@ function Product({product}) {
    
     const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
 
-    console.log(cart[0].productQuantity);
+    
     
     const onAdd = async () => {
         const checkProductInCart = cart.find((item) => item.product_id === product.id)

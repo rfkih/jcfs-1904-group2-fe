@@ -127,8 +127,7 @@ function App() {
   const fetchCart = async () => {
       try {
           const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
-          const { data } = res;
-          
+          const { data } = res;       
           setCart(data.result)
       } catch (error) {
           console.log(alert(error.message));
