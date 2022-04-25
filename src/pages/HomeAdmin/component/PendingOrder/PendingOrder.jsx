@@ -132,7 +132,7 @@ function PendingOrder() {
                 </Card> : 
                 <Card>
                     <CardContent>
-                        <Typography>Ther is no Active order yet!</Typography>
+                        <Typography variant='h6'>There is no Active order yet!</Typography>
                     </CardContent>
                 </Card>    
             }          
@@ -178,22 +178,11 @@ function PendingOrder() {
                             </FormControl>
                         </Grid>
                         <Grid item xs={5}>
-                            <Input 
-                                placeholder="Search Invoice"
-                                name="keyword"
-                                align="center"
-                                // onChange={keywordTransactionHandleChange}
-                            />
-                            <IconButton  >
-                                
-                            </IconButton>
                         </Grid>
                     </Grid> 
                 </Paper>
             </Grid>
        </Grid>
-
-
         <Paper>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
