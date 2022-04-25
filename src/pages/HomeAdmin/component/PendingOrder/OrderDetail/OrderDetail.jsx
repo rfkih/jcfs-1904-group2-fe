@@ -80,9 +80,14 @@ function OrderDetail() {
   return (
       <Container>
           <div className={classes.toolbar}/>
-            <Paper>
-                <Grid container spacing={2}>
-                    <Grid item xs={5}>
+            <Paper className={classes.content}>
+                <Grid container justifyContent="space-around" spacing={2}>
+                    <Grid
+                    container  
+                    direction="row"
+                    justifyContent="space-around"
+                    alignItems="center" 
+                     item xs={5}>
                     <Card>
                         <CardMedia
                             component="img"

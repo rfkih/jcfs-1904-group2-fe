@@ -142,7 +142,7 @@ function PendingOrder() {
                             ))}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody className={classes.link}>
                         {orders.slice(page * ordersPerPage, page * ordersPerPage + ordersPerPage)
                             .map((order) => {
                                 return (
