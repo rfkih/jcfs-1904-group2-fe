@@ -9,6 +9,11 @@ export default makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
-}
+},
+paper: {
+  padding: theme.spacing(3),
+  margin: theme.spacing(2)
+},
+
 
 }));

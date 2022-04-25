@@ -16,6 +16,9 @@ function PendingOrder() {
     const {userId, orderId, setUserId, setOrderId} = useContext(CartContext)
     const params = useParams();
     const [activeOrder, setActiveOrder] = useState({})
+    const [status, setStatus] = useState(`where status = 'waiting'`)
+    const [sort, setSort] = useState(`order by created_at desc`)
+    const [orderCount, setOrderCount] = useState(2)
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -25,6 +28,14 @@ function PendingOrder() {
         setOrdersPerPage(+event.target.value);
         setPage(0);
       };
+
+
+      const handleChangeStatus = (e) => {
+        setStatus(e.target.value)
+      };
+      const selectSortHandler = (e) => {    
+        setSort(e.target.value);
+        };
 
       const fetchOrderByUserId = async () => {
         try {
@@ -61,14 +72,14 @@ function PendingOrder() {
         }
     },[orderId])
 
-    console.log(activeOrder);
+    
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get("/customorders")
+            const res = await axios.get("/customorders", {params: { sort, status, pages:(`limit ${ordersPerPage} offset ${(page) * ordersPerPage}`)}})
             const { data } = res;
-           setOrders(data)
-           console.log(data);
+           setOrders(data.result)
+           setOrderCount(data.count[0].count);
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -76,7 +87,7 @@ function PendingOrder() {
 
     useEffect(() => {
         fetchOrders();
-    },[]);
+    },[sort, status, page, ordersPerPage]);
 
     const columns = [
         { id:'id', label: 'Id', align: 'right', minWidth: 100},
@@ -90,7 +101,7 @@ function PendingOrder() {
   return (
     <Container>
         <div className={classes.toolbar}/>
-        <Paper>
+        <Paper elevation={0} className={classes.paper}>
             
             {userId ?
                 <Card>
@@ -126,7 +137,63 @@ function PendingOrder() {
                 </Card>    
             }          
         </Paper>
-        <Typography>Pending orders </Typography>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Paper className={classes.paper} >
+                    <Grid container spacing={2}>
+                        <Grid item xs={3}>
+                            <FormControl >
+                                <InputLabel id="range-select-label">Order Status</InputLabel>
+                                    <Select
+                                        displayEmpty
+                                        labelId="range-select-label"
+                                        id="range-select"
+                                        label="Transaction Status"
+                                        name="status"
+                                        defaultValue=""
+                                        onChange={handleChangeStatus}
+                                    >
+                                        <MenuItem key={1} value={""} >Order Status</MenuItem>
+                                        <MenuItem key={2} value={"where status = 'waiting'"} >Waiting</MenuItem>
+                                        <MenuItem key={3} value={"where status = 'rejected'"} >Rejected</MenuItem>
+                                        <MenuItem key={4} value={"where status = 'approved'"} >Approved</MenuItem>                                
+                                        </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <FormControl sx={{ m: 3, minWidth: 200 }}>
+                                <InputLabel id="sort-by" >Sort By</InputLabel>
+                                    <Select
+                                        displayEmpty
+                                        labelId="sort-by"
+                                        id="1"
+                                        defaultValue=""
+                                        name="sortBy"
+                                        onChange={selectSortHandler}
+                                    >
+                                        <MenuItem key={1} value={``} >Sort By</MenuItem>      
+                                        <MenuItem key={4} value={`order by created_at desc`} >Latest</MenuItem>
+                                        <MenuItem key={5} value={`order by created_at asc`}>Oldest</MenuItem>
+                                    </Select>   
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <Input 
+                                placeholder="Search Invoice"
+                                name="keyword"
+                                align="center"
+                                // onChange={keywordTransactionHandleChange}
+                            />
+                            <IconButton  >
+                                
+                            </IconButton>
+                        </Grid>
+                    </Grid> 
+                </Paper>
+            </Grid>
+       </Grid>
+
+
         <Paper>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
@@ -143,7 +210,7 @@ function PendingOrder() {
                         </TableRow>
                     </TableHead>
                     <TableBody className={classes.link}>
-                        {orders.slice(page * ordersPerPage, page * ordersPerPage + ordersPerPage)
+                        {orders
                             .map((order) => {
                                 return (
                                     <TableRow  component={userId ? 'text' : Link} to={`/orders/${order.id}`} hover role="checkbox" key={order.id}>
@@ -171,9 +238,9 @@ function PendingOrder() {
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
+                rowsPerPageOptions={[5, 10, 20]}
                 component="div"
-                count={orders.length}
+                count={orderCount}
                 rowsPerPage={ordersPerPage}
                 page={page}
                 onPageChange={handleChangePage}
