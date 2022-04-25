@@ -21,11 +21,12 @@ function OrderDetail() {
     const [ sort, setSort ] = useState('')
     const [ keyword, setKeyword] = useState('')
     const [products, setProducts] = useState([]);
-
+    const [isReject, setIsReject] = useState(false)
 
  
     const isApprovedHandlerClick = () => {
         isApprovedMessage();
+        
     }
 
   
@@ -34,9 +35,7 @@ function OrderDetail() {
         try {
             const res = await axios.get(`/customorders/${params.orderId}`, {params: {id: params.orderId}});
             const  {data} = res
-            setOrder(data[0])
-           
-            
+            setOrder(data[0]) 
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -47,6 +46,7 @@ function OrderDetail() {
             const res = await axios.put(`/customorders/${params.orderId}`, {params: { isApproved, id: params.orderId}} );
             const  {data} = res
             console.log(res);
+            fetchOrderById();
         } catch (error) {
             console.log(alert(error.message));
         }
@@ -67,7 +67,7 @@ function OrderDetail() {
 
 
   
-
+    console.log(order);
 
     useEffect(() => {
         fetchOrderById();
@@ -113,11 +113,12 @@ function OrderDetail() {
 
                     </Grid>
                     <Grid item xs={5}>
-                        {isApproved ? 
-                    <>
-                    <Typography>This Order Has Been Approved And User </Typography>
-                    </> 
-                    : null}
+                        <Card>
+                            <CardContent>
+                                <Typography>Status: {order.status}</Typography>
+                            </CardContent>
+
+                        </Card>
 
                     </Grid>
 

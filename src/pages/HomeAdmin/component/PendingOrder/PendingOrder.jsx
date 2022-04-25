@@ -5,7 +5,7 @@ import { Typography,Container, Grid, Card, CardContent,InputBase, CardMedia, Tex
 import {Link} from 'react-router-dom'
 import {CartContext} from '../../../../helper/Context'
 import { useParams } from "react-router-dom";
-
+import moment from 'moment'
 
 
 function PendingOrder() {
@@ -148,13 +148,22 @@ function PendingOrder() {
                                 return (
                                     <TableRow  component={userId ? 'text' : Link} to={`/orders/${order.id}`} hover role="checkbox" key={order.id}>
                                         {columns.map((column) => {
-                                            const value = order[column.id];
-                                            return(
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {value}
-                                                </TableCell>
-                                            )
-                                        })}
+                                                    const value = order[column.id];
+                                                    if (column.id === "created_at" ) {
+                                                        const date =  moment(value).utc().format('DD/MM/YYYY')
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
+                                                                {date}
+                                                            </TableCell>     
+                                                        )  
+                                                    } else {
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
+                                                            {value}
+                                                        </TableCell>                                                                                                                   
+                                                        )    
+                                                    }                                                   
+                                                })}
                                     </TableRow>
                                 )
                             })}
