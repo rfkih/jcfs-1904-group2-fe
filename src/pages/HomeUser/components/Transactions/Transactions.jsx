@@ -17,6 +17,18 @@ function Transactions() {
     const [checked, setChecked] = useState(false)
     const [totalPage, setTotalPage] = useState(1)
     const [page, setPage] = useState(1)
+    const [status, setStatus] = useState('')
+    const [sort, setSort] = useState('')
+
+
+
+    const selectStatusHandler = (e) => {
+        setStatus(e.target.value)
+    }
+
+    const selectSortHandler = (e) => {
+        setSort(e.target.value)
+    }
 
 
     
@@ -35,7 +47,7 @@ function Transactions() {
 
     const fetchTransaction = async () => {
         try {
-            const res = await axios.get(`/transaction/user/${id}`, {params: { pages:(`limit ${transactionPerPage} offset ${(page - 1)*transactionPerPage}`), id }})
+            const res = await axios.get(`/transaction/user/${id}`, {params: { sort, status, pages:(`limit ${transactionPerPage} offset ${(page - 1)*transactionPerPage}`), id }})
             .then((res=>{
               const { data } = res;
               setTransactions(data.result)
@@ -51,7 +63,7 @@ function Transactions() {
     useEffect(() => {
         setChecked(false)
         fetchTransaction();
-    },[page])
+    },[page, status, sort])
 
 
 
@@ -62,11 +74,60 @@ function Transactions() {
 
         <Grid container spacing={2}>
             <Grid item xs={3}>
-                <Card>
-                    <CardContent>
-                        <Typography variant="h5">Filter</Typography>
-                    </CardContent>
-                </Card>
+            <Paper variant="outlined" >
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div" >
+                Filter Transaction
+            </Typography>
+            <br />
+            <FormControl sx={{ m: 1, minWidth: 420 }}>
+                <InputLabel id="status-select">Status</InputLabel>
+                  <Select
+                    displayEmpty
+                    labelId="status-select"
+                    id="1"
+                    defaultValue=""
+                    name="status"
+                    label="status"
+                    onChange={selectStatusHandler}
+                  >
+                    <MenuItem key={1} value="">Status</MenuItem>
+                    <MenuItem key={2}  value="and transactionStatus = 'waiting'" > Waiting </MenuItem>
+                    <MenuItem key={3}  value="and transactionStatus = 'paid'" > Paid </MenuItem>
+                    <MenuItem key={4}  value="and transactionStatus = 'sent'" > Sent </MenuItem>
+                    <MenuItem key={5}  value="and transactionStatus = 'failed'" > Failed </MenuItem>
+                    <MenuItem key={6}  value="and transactionStatus = 'complete'" > Complete </MenuItem>
+                  </Select>
+              </FormControl>
+          </CardContent>
+          
+        </Card>
+        <Divider light />
+        {/* Sort */}
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <Typography variant="h5" component="div" >
+              Sort Transactions
+            </Typography>
+            <FormControl sx={{ m: 3, minWidth: 200 }}>
+              <InputLabel id="sort-by" >Sort By</InputLabel>
+                  <Select
+                    displayEmpty
+                    labelId="sort-by"
+                    id="1"
+                    defaultValue=""
+                    name="sortBy" 
+                    onChange={selectSortHandler} 
+                  >
+                    <MenuItem key={1} value="" > Sort By </MenuItem>
+                    <MenuItem key={2} value="order by created_at DESC" > Latest </MenuItem>
+                    <MenuItem key={3} value="order by created_at ASC" > Oldest </MenuItem>
+              </Select>   
+            </FormControl>
+          </CardContent>
+        </Card>
+      </Paper>
             </Grid>
             <Grid item xs={9}>                   
                 <Paper className={classes.content} variant='outlined' elevation={0}>
