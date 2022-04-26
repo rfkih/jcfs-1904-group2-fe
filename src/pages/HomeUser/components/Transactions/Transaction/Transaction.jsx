@@ -34,8 +34,11 @@ function Transaction({transaction}) {
                             {transaction.invoice}
                         </Typography>
                         {transaction.isByPresciption ? <Typography>Custom Order</Typography> : <Typography> Normal Order</Typography>}
-
-                    </CardContent>   
+                        
+                    </CardContent>  
+                    <CardActions>
+                        {transaction.transactionStatus === 'waiting' ? <Typography component={Link} to={`/usertransactions/${transaction.id}`} >Complete this Transaction</Typography> : null}
+                    </CardActions> 
                 </Grid>
             </Grid>                 
         </Card>

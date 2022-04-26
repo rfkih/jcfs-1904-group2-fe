@@ -6,6 +6,7 @@ import axios from '../../../../utils/axios'
 import Transaction from './Transaction/Transaction'
 import {useSelector} from 'react-redux'
 import Zoom from '@mui/material/Zoom';
+import {SearchOutlined} from '@material-ui/icons'
 
 function Transactions() {
     const classes = useStyles();
@@ -19,6 +20,7 @@ function Transactions() {
     const [page, setPage] = useState(1)
     const [status, setStatus] = useState('')
     const [sort, setSort] = useState('')
+    const [keyword, setKeyword] = useState('')
 
 
 
@@ -29,6 +31,10 @@ function Transactions() {
     const selectSortHandler = (e) => {
         setSort(e.target.value)
     }
+    const handleChange = (e) => {
+        setKeyword(`and invoice like '%${e.target.value}%'`);
+        setPage(1)
+      };
 
 
     
@@ -47,7 +53,7 @@ function Transactions() {
 
     const fetchTransaction = async () => {
         try {
-            const res = await axios.get(`/transaction/user/${id}`, {params: { sort, status, pages:(`limit ${transactionPerPage} offset ${(page - 1)*transactionPerPage}`), id }})
+            const res = await axios.get(`/transaction/user/${id}`, {params: { keyword, sort, status, pages:(`limit ${transactionPerPage} offset ${(page - 1)*transactionPerPage}`), id }})
             .then((res=>{
               const { data } = res;
               setTransactions(data.result)
@@ -63,7 +69,7 @@ function Transactions() {
     useEffect(() => {
         setChecked(false)
         fetchTransaction();
-    },[page, status, sort])
+    },[page, status, sort, keyword])
 
 
 
@@ -80,6 +86,21 @@ function Transactions() {
             <Typography variant="h5" component="div" >
                 Filter Transaction
             </Typography>
+            <Grid container spacing={1}>
+                <Grid item xs={9}>
+                <InputBase     
+                  placeholder="Search Invoice"
+                  name="keyword"
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={handleChange}
+                />
+                </Grid>
+                <Grid item xs={3}>
+                  <IconButton sx={{ p: '10px' }}>
+                    <SearchOutlined />
+                  </IconButton>
+                </Grid>
+              </Grid>
             <br />
             <FormControl sx={{ m: 1, minWidth: 420 }}>
                 <InputLabel id="status-select">Status</InputLabel>
