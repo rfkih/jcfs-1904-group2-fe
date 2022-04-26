@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import {Card, Paper, CardMedia, Button, Grid, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
+import {Card, Paper, CardMedia, Button, Grid, CardContent, CardActions, Dialog, DialogTitle, DialogActions, Typography, IconButton,} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
 import {CartContext} from '../../../../../helper/Context'
-
+import {useSelector} from 'react-redux'
 
 import useStyles from './styles';
 
@@ -16,8 +16,17 @@ function ProductDetail() {
   const [ stocks, setStocks] = useState({})
   const [ stock, setStock] = useState(5)
   const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
-
- const {stockLiquid, stockNonLiquid } = stocks
+  const {stockLiquid, stockNonLiquid } = stocks
+  const [open, setOpen] = useState(false)
+  const {role} = useSelector((state) => {
+         return state.auth;
+       });
+  const handleClickOpen = () => {
+         setOpen(true);
+       };
+  const handleClose = () => {
+         setOpen(false);
+       };
  
 
   useEffect(() => {
@@ -114,8 +123,6 @@ useEffect (() => {
             <Typography>{productDetails}</Typography>
         </CardActions>
       </Card>
-
-
       <CardActions className={classes.cardActions}>
         <Grid container  direction="row" justifyContent="center"  alignItems="center" spacing={2}>
           <Grid item xs={6}>
@@ -133,12 +140,31 @@ useEffect (() => {
             {quantity === 0 ? <Button size="small" variant="contained" color="success"  > - </Button> : <Button  size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity - 1)}>-</Button> }
               <Typography variant="h6" >{quantity}</Typography>
             {quantity === stock ? <Button  size="small" variant="contained" color="success"  >+</Button> : <Button size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity + 1)}>+</Button> }          
-            <IconButton onClick={onAddToCartClick} aria-label='Add to Cart' >
+            <IconButton onClick={userId ? onAddToCartClick : handleClickOpen} aria-label='Add to Cart' >
                 <AddShoppingCart/>
             </IconButton>  
           </Grid>
         </Grid> 
         </CardActions>
+        <div>
+          <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+               {role === 'admin' ? 
+                <DialogTitle>
+                    There is no active Orders..
+                </DialogTitle> : 
+                 <DialogTitle>
+                    Please Login First... 
+                </DialogTitle> }
+                <DialogActions>
+                    <Button onClick={handleClose} >Ok</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     </Paper>
 
     </main>

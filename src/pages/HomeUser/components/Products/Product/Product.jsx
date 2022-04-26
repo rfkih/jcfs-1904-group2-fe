@@ -108,7 +108,6 @@ function Product({product}) {
                 <DialogActions>
                     <Button onClick={handleClose} >Ok</Button>
                 </DialogActions>
-
             </Dialog>
         </div>
     </>
