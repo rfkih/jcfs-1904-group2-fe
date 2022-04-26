@@ -183,7 +183,7 @@ function PendingOrder() {
                 </Paper>
             </Grid>
        </Grid>
-        <Paper>
+        <Paper className={classes.paper}>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>

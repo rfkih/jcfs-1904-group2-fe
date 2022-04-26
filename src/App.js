@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Forgotpass from "./pages/Login/forgotpass";
 import EditProfile from "./pages/EditProfile";
 import ProfilePicture from "./pages/ProfilePicture";
+import Transactions from "./pages/HomeUser/components/Transactions/Transactions";
 
 import { makeStyles } from "@material-ui/core/styles";
 import HomeUser from "./pages/HomeUser/HomeUser";
@@ -218,6 +219,7 @@ function App() {
                   path="/edit-profile-picture"
                   element={<ProfilePicture />}
                 />
+                <Route path="/usertransactions" element={<Transactions />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
                 <Route path="/customorder/upload" element={<CustomOrderUpload />} />
                 <Route path="/customorders" element={<CustomOrders />} />
