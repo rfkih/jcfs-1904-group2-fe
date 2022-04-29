@@ -3,11 +3,12 @@ import axios from '../../../../utils/axios';
 import {useSelector} from 'react-redux'
 import { Grid, Box, Container, Typography, Paper, Dialog, List, Avatar, ListItemAvatar, ListItemText, ListItem, Card, DialogTitle, CardActions, Divider, Button, Input, TextField, CardMedia, CardContent, CircularProgress} from '@material-ui/core';
 import useStyles from './styles.js'
-
+import { useParams } from 'react-router-dom'
 
 
 
 function Address({nextStep}) {
+    const params = useParams();
     const classes = useStyles();
     const {id, role} = useSelector((state) => {
         return state.auth;
@@ -17,7 +18,6 @@ function Address({nextStep}) {
     const [open, setOpen] = useState(false)
     const [selectedValue, setSelectedValue] = useState("")
 
-    console.log(selectedValue);
 
 
     const fetchAddress = async () => {
@@ -52,13 +52,32 @@ function Address({nextStep}) {
         fetchAddress();
     },[]);
 
+
+    const inputAddress = async () => {
+      await axios
+      .put(`/transaction/${params.transactionId}`, {firstAddress, params: { id: params.transactioniId } } )
+      .then((res) => {
+        alert(res.data.message);
+      })
+      .catch((error) => console.log({ error }));
+  };
+
+  const nextClick = () => {
+    inputAddress();
+    nextStep();
+  }
+
+
   
 
 
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
-        fetchSelectedAddress(value);
+        if (value) {
+            fetchSelectedAddress(value);
+        }
+        
       };
     
     const handleClickOpen = () => {
@@ -73,9 +92,8 @@ function Address({nextStep}) {
         };
 
         const handleListItemClick = (value) => {
-            if (value) {
                 onClose(value)
-            }
+           
           };
 
 
@@ -106,9 +124,8 @@ function Address({nextStep}) {
         <Divider/>
             
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Button  className={classes.paper} variant="outlined" onClick={handleClickOpen} >Other Address</Button> 
-                   
-                    <Button className={classes.paper} type="submit" variant="contained" color="primary" onClick={nextStep}> Next </Button>
+                    <Button  className={classes.paper} variant="outlined" onClick={handleClickOpen} >Other Address</Button>    
+                    <Button className={classes.paper} type="submit" variant="contained" color="primary" onClick={nextClick}> Next </Button>
             </div> 
         <SelectAddress addresses={addresses} selectedValue={selectedValue} open={open} onClose={handleClose}/>
     </Paper>

@@ -10,8 +10,6 @@ function EditDetailProduct() {
     const data = useSelector((state) => {
         return state.auth;
       });
-
-    
     const classes = useStyles();
     const params = useParams();
     const [product, setProduct] = useState({});
