@@ -57,7 +57,7 @@ function Address({nextStep}) {
       await axios
       .put(`/transaction/${params.transactionId}`, {firstAddress, params: { id: params.transactioniId } } )
       .then((res) => {
-        alert(res.data.message);
+        console.log(res);
       })
       .catch((error) => console.log({ error }));
   };
@@ -106,10 +106,7 @@ function Address({nextStep}) {
                            <ListItemText primary={address.addressDetail}/>
                          </ListItem>
                      })}
-                    </List>
-                
-              
-
+                    </List>     
             </Dialog>
         )
         

@@ -18,9 +18,9 @@ function Checkout() {
     console.log("length", steps.length);
 
     const Confirmation = () => (
-      <div>
-          Confirmation
-      </div>
+      <Container>
+          Upload Payment Proof
+      </Container>
     );
 
     const nextStep = () => setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -29,7 +29,7 @@ function Checkout() {
 
     const Form = () => activeStep === 0 
     ? <Address nextStep={nextStep} />
-    : <Payment />
+    : <Payment  nextStep={nextStep} backStep={backStep}  />
 
 
   return (

@@ -57,7 +57,7 @@ function TransactionDetail() {
   ]
 
    
-console.log(transactionDetail);
+
 
   return (
     <Container>
