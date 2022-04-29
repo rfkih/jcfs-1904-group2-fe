@@ -28,7 +28,7 @@ function Checkout() {
 
 
     const Form = () => activeStep === 0 
-    ? <Address />
+    ? <Address nextStep={nextStep} />
     : <Payment />
 
 
@@ -46,10 +46,7 @@ function Checkout() {
                         ))}
                 </Stepper>
                 {activeStep === steps.length ? <Confirmation/> : <Form/>}
-                <div style={{display: 'flex', justifyContent: 'space-around'}}>
-                    <Button variant="outlined" onClick={backStep}> Back to Cart </Button>
-                    <Button type="submit" variant="contained" color="primary" onClick={nextStep}> Next </Button>
-                </div>
+                
             </Paper>
         </main>
             
