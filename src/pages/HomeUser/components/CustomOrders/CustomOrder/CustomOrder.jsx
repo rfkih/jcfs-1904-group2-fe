@@ -5,7 +5,7 @@ import { Link, Navigate } from "react-router-dom";
 
 function CustomOrder({order}) {
 
-    console.log(order);
+ 
   return (
     <Container>
         <Card sx={{ display: 'flex', flexDirection: 'row' }} >
