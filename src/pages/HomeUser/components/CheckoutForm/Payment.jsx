@@ -6,15 +6,21 @@ import useStyles from './styles.js'
 
 
 import Review from './Review'
+import { lightFormat } from 'date-fns';
 
 
-function Payment({nextStep, backStep, setPayment, payment}) {
+function Payment({nextStep, backStep, setSelected}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false)
   const [payments, setPayments] = useState([])
+  const [payment, setPayment] = useState('')
+  
+   
+  console.log(payment);
 
 
   const nextClick = () => {
+    setSelected(payment)
     nextStep();
   }
   const backClick = () => {
@@ -40,7 +46,6 @@ function Payment({nextStep, backStep, setPayment, payment}) {
   
 
 
-  
   useEffect(() => {
     fetchPayment();
   }, []);
@@ -51,7 +56,7 @@ function Payment({nextStep, backStep, setPayment, payment}) {
 
   return (
     <div>
-        <Review setPayment={setPayment}/>
+        <Review />
         <Container style={{ direction:"column",justifyContent:"space-around", alignItems:"center", paddingRight:'20px'}} >
          <Typography variant="h6"> Select Payment Method </Typography> 
           <Paper style={{ direction:"column",justifyContent:"space-around", alignItems:"center", padding:'10px'}} elevation={0} variant='outlined'>
