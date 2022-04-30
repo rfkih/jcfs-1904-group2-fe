@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Grid, Box, Container, Step, Stepper, Paper, Button, StepLabel, Typography } from "@material-ui/core";
+import axios from '../../../../../utils/axios';
 import useStyles from './styles.js'
 import {useSelector} from 'react-redux'
 import Address from '../Address'
@@ -13,7 +14,9 @@ function Checkout() {
     const {id, role} = useSelector((state) => {
       return state.auth;
     });
-    const [payment, setPayment] = useState('bca')
+   
+
+    
  
 
     const Confirmation = () => (
@@ -28,7 +31,9 @@ function Checkout() {
 
     const Form = () => activeStep === 0 
     ? <Address nextStep={nextStep} />
-    : <Payment setPayment={setPayment} payment={payment} nextStep={nextStep} backStep={backStep}  />
+    : <Payment nextStep={nextStep} backStep={backStep}  />
+
+
 
 
   return (

@@ -11,6 +11,7 @@ function Review({setPayment}) {
   const [userDetail, setUserDetail] = useState({})
   const [address, setAddress] = useState({})
   const [detail, setDetail] = useState([])
+  const [change,setChange] = useState(false)
 
 
   const fetchTransactionDetail = async () => {
@@ -33,26 +34,10 @@ function Review({setPayment}) {
 
 useEffect(() => {
     fetchTransactionDetail();
-   
 },[]);
 
 
-const fetchPayment = async () => {
-  try {
-      const res = await axios.get(`/payment`);
-      const  {data} = res
-      setPayment(data)
-      console.log(data);
-    
-      
-  } catch (error) {
-      console.log(alert(error.message));
-  }
-};
 
-// useEffect(() => {
-//   fetchPayment();
-// },[])
 
   const columns = [
     { id:'productName', label: 'Product Name', align: 'center', minWidth: 100},
