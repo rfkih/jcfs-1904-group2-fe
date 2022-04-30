@@ -33,6 +33,7 @@ function TransactionDetail() {
     
       const handleClose = () => {
         setOpen(false);
+        
       };
 
 
@@ -73,6 +74,42 @@ function TransactionDetail() {
         fetchPaymentProof();
     }, []);
 
+    const onSendClick = () => {
+      putTransactionStatusSend();
+      handleClose();
+      window.location.reload() 
+       
+    }
+
+    const onRejectClick = () => {
+      putTransactionStatusReject();
+      handleClose(); 
+      window.location.reload() 
+    }
+
+    const putTransactionStatusSend = async () => {
+      try {
+          const res = await axios.put(`/transaction/status/${params.transactionId}`,{ params: { status: 'sent', id: params.transactionId } } );
+          const  {data} = res
+          console.log(data)
+           
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+    };
+
+    
+    const putTransactionStatusReject = async () => {
+      try {
+          const res = await axios.put(`/transaction/status/${params.transactionId}`,{ params: { status: 'failed', id: params.transactionId } } );
+          const  {data} = res
+          console.log(data)
+                 
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+    };
+
 
 
 
@@ -111,6 +148,8 @@ function TransactionDetail() {
            
           </DialogContent>
           <DialogActions>
+            <Button onClick={onRejectClick}>Reject</Button>
+            <Button onClick={onSendClick}>Approve and Send</Button>
             <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
