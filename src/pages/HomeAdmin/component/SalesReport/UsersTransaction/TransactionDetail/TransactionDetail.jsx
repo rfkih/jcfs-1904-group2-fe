@@ -1,7 +1,7 @@
 import React, { useState , useEffect} from 'react'
 import axios from '../../../../../../utils/axios'
 import { useParams } from "react-router-dom";
-import { Typography,Container, Grid, Card, CardContent,InputBase, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import { Typography,Container, Grid, Card, CardContent,InputBase, Dialog, CardMedia, DialogContent, DialogActions, DialogTitle, DialogContentText, Input, IconButton,  FormControl, InputLabel, MenuItem, Select, CardActions, Button, Paper,Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core'
 import useStyles from './style'
 import moment from 'moment';
 
@@ -12,6 +12,8 @@ function TransactionDetail() {
     const [ transactionDetail, setTransactionDetail] = useState({})
     const [ userDetail, setUserDetail] = useState ({})
     const [ address, setAddress] = useState({})
+    const [ paymentProof, setPaymentProof ] = useState(0)
+    const [ open, setOpen ] = useState(false)
     const date =  moment(transactionDetail.created_at).utc().format('LLL')
 
     useEffect(() => {
@@ -24,6 +26,14 @@ function TransactionDetail() {
             console.log({ err });
           });
       }, []);
+
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
 
 
     const fetchTransactionDetail = async () => {
@@ -43,10 +53,28 @@ function TransactionDetail() {
         }
     };
 
+    const fetchPaymentProof = async () => {
+      try {
+          const res = await axios.get(`/payment/paymentproof/${params.transactionId}`, {params: { transactionId: params.transactionId}});
+          const  {data} = res 
+          console.log(data) 
+          if (data[0]) {
+            setPaymentProof(data[0]);
+          }         
+                
+      } catch (error) {
+          console.log(error.message);
+      }
+  };
+
    
     useEffect(() => {
         fetchTransactionDetail();
+        fetchPaymentProof();
     }, []);
+
+
+
 
     const columns = [
       { id:'product_id', label: 'Product Id', align: 'right', minWidth: 100},
@@ -61,6 +89,33 @@ function TransactionDetail() {
 
   return (
     <Container>
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle>
+            Payment Proof
+          </DialogTitle>
+          <DialogContent>
+            <Card>
+              <CardMedia
+                component="img"
+                height="270"
+                image={paymentProof.paymentPhoto}
+                alt="..."
+              />
+            </Card>
+           
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+
+      </div>
       <div className={classes.toolbar}/>
         <Paper>
           <Card variant="outlined">
@@ -120,13 +175,15 @@ function TransactionDetail() {
                     <Typography>: {address.zipCode}</Typography>
                   </Grid>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid container item xs={7}>
+                  <Grid item xs={6}>
                     { transactionDetail.isByPresciption ? <Typography variant='h6'>Custom Order</Typography> : null }
+                  </Grid>
+                  <Grid item xs={6}>
+                    {paymentProof ? <Button variant="outlined" onClick={handleClickOpen}>Show Payment Proof</Button> : <Button disabled variant="outlined" >Payment Proof not Available</Button> } 
+                  </Grid>                 
                 </Grid>
-                
-
               </Grid>
-
             </CardContent>
             <CardContent>
             <Paper>
