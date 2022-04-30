@@ -3,12 +3,32 @@ import { Grid, Box, Container, Typography, Paper, Card, CardActions, Button, Inp
 import { height } from '@mui/material/node_modules/@mui/system';
 import { Link, Navigate } from "react-router-dom";
 import moment from 'moment'
+import axios from '../../../../../utils/axios';
+import { useParams } from 'react-router-dom'
 
-function Transaction({transaction}) {
+
+function Transaction({transaction, change, setChange}) {
+    const params = useParams();
 
     const date =  moment(transaction.created_at).utc().format('LLL')
+    
 
-    console.log(transaction);
+
+    const onButtonClick = () => {
+        putTransactionStatusComplete();
+        setChange(!change)
+    }
+
+    const putTransactionStatusComplete = async () => {
+        try {
+            const res = await axios.put(`/transaction/status/${transaction.id}`,{ params: { status: 'complete' } } );
+            const  {data} = res
+            console.log(data)
+                   
+        } catch (error) {
+            console.log(alert(error.message));
+        }
+      };
   return (
     <Container>
         <Card sx={{ display: 'flex', flexDirection: 'row' }} >
@@ -37,6 +57,7 @@ function Transaction({transaction}) {
                         
                     </CardContent>  
                     <CardActions>
+                    {transaction.transactionStatus === 'sent' ? <Button onClick={onButtonClick} variant="outlined" color="primary" > <Typography>Package Received</Typography> </Button>  : null}
                         {transaction.transactionStatus === 'waiting' ? <Typography component={Link} to={`/usertransactions/${transaction.id}`} >Complete this Transaction</Typography> : null}
                     </CardActions> 
                 </Grid>

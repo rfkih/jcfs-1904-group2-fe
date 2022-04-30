@@ -21,6 +21,7 @@ function Transactions() {
     const [status, setStatus] = useState('')
     const [sort, setSort] = useState('')
     const [keyword, setKeyword] = useState('')
+    const [change, setChange] = useState(false)
 
 
 
@@ -44,7 +45,7 @@ function Transactions() {
     return transactions.map((transaction) => (
       <Grid  item key={transaction.id} xs= {12} >
         <Paper elevation={0} className={classes.paper} key={transaction.id} >
-          <Transaction key={transaction.id} transaction={transaction}/>
+          <Transaction change={change} setChange={setChange} key={transaction.id} transaction={transaction}/>
         </Paper> 
       </Grid>
     ));
@@ -69,7 +70,7 @@ function Transactions() {
     useEffect(() => {
         setChecked(false)
         fetchTransaction();
-    },[page, status, sort, keyword])
+    },[page, status, sort, keyword, change])
 
 
 
