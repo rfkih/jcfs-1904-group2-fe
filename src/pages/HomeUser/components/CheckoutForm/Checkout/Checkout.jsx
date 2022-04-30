@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Grid, Box, Container, Step, Stepper, Paper, Button, StepLabel, Typography } from "@material-ui/core";
+import { Grid, Box, Container, Step, Stepper, Paper, Card, CardContent, CardActions, Button, StepLabel, Typography } from "@material-ui/core";
 import axios from '../../../../../utils/axios';
 import useStyles from './styles.js'
 import {useSelector} from 'react-redux'
@@ -15,13 +15,23 @@ function Checkout() {
       return state.auth;
     });
     const [selected, setSelected] = useState('')
+    const [bank, setBank] = useState({})
    
-    console.log(selected);
+   
  
 
     const Confirmation = () => (
       <Container>
-          Upload Payment Proof
+        <Card>
+          <CardContent>
+          <Typography>Please Make Payment To: {bank.bank} </Typography>
+          <Typography>Account Number: {bank.account_number}</Typography>
+          </CardContent>
+
+        </Card>
+         
+
+          <Button onClick={backStep}> back</Button>
       </Container>
     );
 
@@ -32,6 +42,27 @@ function Checkout() {
     const Form = () => activeStep === 0 
     ? <Address nextStep={nextStep} />
     : <Payment setSelected={setSelected} nextStep={nextStep} backStep={backStep}  />
+
+
+    const fetchSelectedPayment = async () => {
+    
+      try {
+          const res = await axios.get(`/payment/selected`,  { params: { selected } } );
+          const  {data} = res
+          console.log(data);
+          setBank(data[0])
+          
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+    };
+    
+  
+  
+    useEffect(() => {
+      fetchSelectedPayment();
+    }, [selected]);
+  
 
 
 

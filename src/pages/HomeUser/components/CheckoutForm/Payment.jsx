@@ -16,7 +16,7 @@ function Payment({nextStep, backStep, setSelected}) {
   const [payment, setPayment] = useState('')
   
    
-  console.log(payment);
+  
 
 
   const nextClick = () => {
