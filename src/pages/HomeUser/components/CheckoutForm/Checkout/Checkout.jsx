@@ -13,9 +13,8 @@ function Checkout() {
     const {id, role} = useSelector((state) => {
       return state.auth;
     });
-
-    console.log("active", activeStep);
-    console.log("length", steps.length);
+    const [payment, setPayment] = useState('bca')
+ 
 
     const Confirmation = () => (
       <Container>
@@ -29,7 +28,7 @@ function Checkout() {
 
     const Form = () => activeStep === 0 
     ? <Address nextStep={nextStep} />
-    : <Payment  nextStep={nextStep} backStep={backStep}  />
+    : <Payment setPayment={setPayment} payment={payment} nextStep={nextStep} backStep={backStep}  />
 
 
   return (

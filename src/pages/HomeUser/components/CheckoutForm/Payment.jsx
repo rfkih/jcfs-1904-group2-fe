@@ -4,10 +4,11 @@ import {useSelector} from 'react-redux'
 import { Grid, Box, Container, Typography, Paper, Dialog, List, Avatar, ListItemAvatar, ListItemText, ListItem, Card, DialogTitle, CardActions, Divider, Button, Input, TextField, CardMedia, CardContent, CircularProgress} from '@material-ui/core';
 import useStyles from './styles.js'
 
+
 import Review from './Review'
 
 
-function Payment({nextStep, backStep}) {
+function Payment({nextStep, backStep, setPayment, payment}) {
   const classes = useStyles();
 
 
@@ -17,11 +18,18 @@ function Payment({nextStep, backStep}) {
   const backClick = () => {
     backStep();
   }
+
+
+
+
+
+
+
   return (
     <div>
-         <Review/>
+        <Review setPayment={setPayment}/>
         <Container>
-          <Typography variant="h6"> Transfer To : 12323875744 </Typography>
+          <Typography variant="h6"> Select Payment Method </Typography>
         </Container>
        
         <div style={{display: 'flex', justifyContent: 'flex-end'}}>

@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
 
 
-function Review() {
+function Review({setPayment}) {
   const params = useParams();
   const [transactionDetail, setTransactionDetail] = useState({})
   const [userDetail, setUserDetail] = useState({})
@@ -20,11 +20,10 @@ function Review() {
         setTransactionDetail(data.result[0]);
         setUserDetail(data.user[0]);
         setDetail(data.transactiondetail)
-        console.log(data);
+       
         if (data.address) {
           setAddress(data.address[0])
         }
-
         
     } catch (error) {
         console.log(alert(error.message));
@@ -34,7 +33,26 @@ function Review() {
 
 useEffect(() => {
     fetchTransactionDetail();
-}, []);
+   
+},[]);
+
+
+const fetchPayment = async () => {
+  try {
+      const res = await axios.get(`/payment`);
+      const  {data} = res
+      setPayment(data)
+      console.log(data);
+    
+      
+  } catch (error) {
+      console.log(alert(error.message));
+  }
+};
+
+// useEffect(() => {
+//   fetchPayment();
+// },[])
 
   const columns = [
     { id:'productName', label: 'Product Name', align: 'center', minWidth: 100},
