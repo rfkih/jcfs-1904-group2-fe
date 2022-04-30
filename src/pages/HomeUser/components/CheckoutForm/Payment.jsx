@@ -9,7 +9,7 @@ import Review from './Review'
 import { lightFormat } from 'date-fns';
 
 
-function Payment({nextStep, backStep, setSelected}) {
+function Payment({nextStep, backStep, setSelected , setSubtotal}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false)
   const [payments, setPayments] = useState([])
@@ -56,7 +56,7 @@ function Payment({nextStep, backStep, setSelected}) {
 
   return (
     <div>
-        <Review />
+        <Review setSubtotal={setSubtotal} />
         <Container style={{ direction:"column",justifyContent:"space-around", alignItems:"center", paddingRight:'20px'}} >
          <Typography variant="h6"> Select Payment Method </Typography> 
           <Paper style={{ direction:"column",justifyContent:"space-around", alignItems:"center", padding:'10px'}} elevation={0} variant='outlined'>

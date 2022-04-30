@@ -23,9 +23,10 @@ function Checkout() {
     const [formState, setFormState] = useState({ 
       paymentPhoto: "", 
   });
+    const [subTotal, setSubtotal] = useState(0)
 
+  console.log(subTotal);
 
-  console.log(formState);
 
     const fileSelectedHandler = (e) => {
       let uploaded = e.target.files[0]
@@ -64,6 +65,7 @@ function Checkout() {
    
     const completeClick = () => {
       postPaymentPhoto();
+      putTransactionStatus();
     }
  
 
@@ -73,6 +75,7 @@ function Checkout() {
           <CardContent>
           <Typography>Please Make Payment To: {bank.bank} </Typography>
           <Typography>Account Number: {bank.account_number}</Typography>
+          <Typography>Transfer Amount: {subTotal}</Typography>
           </CardContent>
           <CardMedia
             component="img"
@@ -94,8 +97,11 @@ function Checkout() {
               </label>                         
           </CardActions>
         </Card>
+        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Button onClick={backStep}> back</Button>
-          <Button onClick={completeClick}> Complete</Button>
+          <Button onClick={completeClick} component={Link} to={`/usertransactions`}  > Complete</Button>
+        </div>
+          
       </Container>
     );
 
@@ -105,7 +111,7 @@ function Checkout() {
 
     const Form = () => activeStep === 0 
     ? <Address nextStep={nextStep} />
-    : <Payment setSelected={setSelected} nextStep={nextStep} backStep={backStep}  />
+    : <Payment setSubtotal={setSubtotal} setSelected={setSelected} nextStep={nextStep} backStep={backStep}  />
 
 
     const fetchSelectedPayment = async () => {
@@ -113,7 +119,7 @@ function Checkout() {
       try {
           const res = await axios.get(`/payment/selected`,  { params: { selected } } );
           const  {data} = res
-          console.log(data);
+        
           setBank(data[0])
           
       } catch (error) {
@@ -140,7 +146,7 @@ function Checkout() {
       .post("/payment", { formState , transactionId: params.transactionId} )
       .then((res) => {
        alert("Transaction Completed");
-       putTransactionStatus()
+       
       })
       .catch((error) => console.log({ error }));
     }

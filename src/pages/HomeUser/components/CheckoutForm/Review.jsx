@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
 
 
-function Review({setPayment}) {
+function Review({setSubtotal}) {
   const params = useParams();
   const [transactionDetail, setTransactionDetail] = useState({})
   const [userDetail, setUserDetail] = useState({})
@@ -21,6 +21,7 @@ function Review({setPayment}) {
         setTransactionDetail(data.result[0]);
         setUserDetail(data.user[0]);
         setDetail(data.transactiondetail)
+        setSubtotal(data.result[0].totalPrice);
        
         if (data.address) {
           setAddress(data.address[0])
