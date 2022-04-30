@@ -11,7 +11,7 @@ import Review from './Review'
 function Payment({nextStep, backStep, setPayment, payment}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false)
-
+  const [payments, setPayments] = useState([])
 
 
   const nextClick = () => {
@@ -21,6 +21,29 @@ function Payment({nextStep, backStep, setPayment, payment}) {
     backStep();
   }
 
+  const handleChange = (event) => {
+    setPayment(event.target.value);
+   
+  };
+
+
+  const fetchPayment = async () => {
+    try {
+        const res = await axios.get(`/payment`);
+        const  {data} = res
+        setPayments(data)
+        
+    } catch (error) {
+        console.log(alert(error.message));
+    }
+  };
+  
+
+
+  
+  useEffect(() => {
+    fetchPayment();
+  }, []);
 
 
 
@@ -32,8 +55,20 @@ function Payment({nextStep, backStep, setPayment, payment}) {
         <Container style={{ direction:"column",justifyContent:"space-around", alignItems:"center", paddingRight:'20px'}} >
          <Typography variant="h6"> Select Payment Method </Typography> 
           <Paper style={{ direction:"column",justifyContent:"space-around", alignItems:"center", padding:'10px'}} elevation={0} variant='outlined'>
-         
-   
+          <FormControl>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={payment}
+              onChange={handleChange}
+            >
+            {payments.map((item) => {
+                      return(
+                        <FormControlLabel key={item.id} value={item.bank} control={<Radio />} label={item.bank} />
+                      )
+                    })}
+            </RadioGroup>
+          </FormControl>
 
           </Paper>
       
