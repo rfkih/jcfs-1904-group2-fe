@@ -15,7 +15,7 @@ function ItemSoldDetail() {
     const [category, setCategory] = useState([])
     const [page, setPage] = useState(0);
     const [product, setProduct] = useState([])
-    const [productPerPage, setProductPerPage] = useState(1);
+    const [productPerPage, setProductPerPage] = useState(5);
     const [detail, setDetail] = useState({})
     const [sort, setSort] = useState(``)
     const [stocks, setStocks] = useState([])
@@ -249,7 +249,7 @@ function ItemSoldDetail() {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[1, 10, 15]}
+                        rowsPerPageOptions={[5, 10, 15]}
                         component="div"
                         count={productCount}
                         rowsPerPage={productPerPage}

@@ -168,23 +168,21 @@ function StocksDetail() {
             qtyBoxAvailable , qtyBoxTotal, qtyBottleAvailable , qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable  ,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
         };
 
-        let addStock = { addBox : (parseInt(qtyBoxAvailable) + parseInt(initialStocks.qtyBoxAvailable)), addBottle: (parseInt(qtyBottleAvailable)  + parseInt(initialStocks.qtyBottleAvailable)), addStrips: (parseInt(qtyStripsavailable) + parseInt(initialStocks.qtyStripsavailable)) }
+        let addStock = { addBoxTotal: (parseInt(qtyBoxAvailable) + parseInt(initialStocks.qtyBoxTotal)), addBox : (parseInt(qtyBoxAvailable) + parseInt(initialStocks.qtyBoxAvailable)), addBottleTotal: (parseInt(qtyBottleAvailable)  + parseInt(initialStocks.qtyBottleTotal)), addBottle: (parseInt(qtyBottleAvailable)  + parseInt(initialStocks.qtyBottleAvailable)), addStripsTotal: (parseInt(qtyStripsavailable) + parseInt(initialStocks.qtyStripsTotal)), addStrips: (parseInt(qtyStripsavailable) + parseInt(initialStocks.qtyStripsavailable)) }
 
        
         if (isLiquid) {
             updatedStocks = {
-                qtyBoxAvailable: addStock.addBox, qtyBoxTotal: addStock.addBox, qtyBottleAvailable: addStock.addBottle, qtyBottleTotal: addStock.addBottle, qtyMlAvailable, qtyMlTotal, qtyStripsavailable: 0, qtyStripsTotal: 0, qtyMgAvailable: 0, qtyMgTotal: 0
+                qtyBoxAvailable: addStock.addBox, qtyBoxTotal:  addStock.addBoxTotal, qtyBottleAvailable: addStock.addBottle, qtyBottleTotal: addStock.addBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable: 0, qtyStripsTotal: 0, qtyMgAvailable: 0, qtyMgTotal: 0
             };
             
         } else {
             updatedStocks = {
-                qtyBoxAvailable: addStock.addBox , qtyBoxTotal: addStock.addBox, qtyBottleAvailable: 0, qtyBottleTotal: 0, qtyMlAvailable: 0, qtyMlTotal: 0, qtyStripsavailable: addStock.addStrips, qtyStripsTotal: addStock.addStrips, qtyMgAvailable, qtyMgTotal
+                qtyBoxAvailable: addStock.addBox , qtyBoxTotal: addStock.addBoxTotal, qtyBottleAvailable: 0, qtyBottleTotal: 0, qtyMlAvailable: 0, qtyMlTotal: 0, qtyStripsavailable: addStock.addStrips, qtyStripsTotal: addStock.addStripsTotal, qtyMgAvailable, qtyMgTotal
             };
             
         }
         
-     
-    
        
       await axios
       .put(`/stocks/add/${params.productId}`, {updatedStocks, addStock, isLiquid, calculatedAddStock, userId: data.id, username: data.username,  params: { id: params.productId } } )
