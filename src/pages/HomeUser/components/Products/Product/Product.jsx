@@ -14,8 +14,8 @@ function Product({product}) {
     const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
     const [priceTotal, setPriceTotal] = useState(0)
     const [open, setOpen] = useState(false)
-    const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
-    const {role} = useSelector((state) => {
+    const {userId, setUserId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
+    const {role, id} = useSelector((state) => {
         return state.auth;
       });
 
@@ -62,17 +62,17 @@ function Product({product}) {
         }
     },[])
 
-    const handleAddToCart = async (product) => {
-        await axios
-            .post(`/cart`, product )
-            .then((res) => {
-              setChange(!change)
-              console.log(res.data);
-            })
-            .catch((error) => console.log({ error }));
-      }
+    // const handleAddToCart = async (product) => {
+    //     await axios
+    //         .post(`/cart`, product )
+    //         .then((res) => {
+    //           setChange(!change)
+    //           console.log(res.data);
+    //         })
+    //         .catch((error) => console.log({ error }));
+    //   }
 
-
+      console.log('user id disini', userId);
   return (
       <>
         <Card classes={classes.card} >

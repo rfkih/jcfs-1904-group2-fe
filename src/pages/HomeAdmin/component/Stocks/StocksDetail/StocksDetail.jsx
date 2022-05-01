@@ -149,6 +149,7 @@ function StocksDetail() {
         { id:'status', label: 'Status',align: 'right', minWidth: 70},
         { id:'stock_in', label: 'Stock In', align: 'right', minWidth: 70},
         { id:'stock_out', label: 'Stock Out', align: 'right', minWidth: 70},
+        { id:'progress', label: 'Progress', align: 'right', minWidth: 70},
         { id:'username', label: 'Username', align: 'right', minWidth: 70},
         { id:'created_at', label: 'Date', align: 'right', minWidth: 100},
     ]

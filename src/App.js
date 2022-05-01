@@ -54,7 +54,7 @@ function App() {
   const [cart, setCart] = useState([{}])
   const [subTotal, setSubTotal] = useState(0)
   const [change, setChange] = useState(false)
-  const {role} = useSelector((state) => {
+  const {role, id} = useSelector((state) => {
     return state.auth;
   });
 
@@ -105,6 +105,7 @@ function App() {
       );
   
     };
+  
 
   const getLocalStorage = () => {
     const dataLocalStorage = window.localStorage.getItem("cartData")
@@ -117,7 +118,7 @@ function App() {
     
   }
 
-    
+    console.log(userId);
     useEffect(() => {
       if (isLocalStorageChecked) {       
         cartData(); 
@@ -126,6 +127,7 @@ function App() {
 
     useEffect(() => {
       getLocalStorage();
+      // setUserId(id)
     },[])
 
   const fetchCart = async () => {

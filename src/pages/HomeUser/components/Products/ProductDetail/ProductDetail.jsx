@@ -94,6 +94,7 @@ useEffect (() => {
  const onAddToCartClick = () => {
    if (quantity) {
       onAdd();
+      setQuantity(0)
    } else{
      alert('quantity still zero ')
    }

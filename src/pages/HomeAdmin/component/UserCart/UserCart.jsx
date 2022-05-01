@@ -6,8 +6,12 @@ import {Link, Navigate} from 'react-router-dom'
 import CartItem from './CartItem/CartItem'
 import {CartContext} from '../../../../helper/Context'
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@mui/material'
+import {useSelector} from 'react-redux'
  
 function UserCart() {
+  const {username, role} = useSelector((state) => {
+    return state.auth;
+  });
     const classes = useStyles();
     const {userId, orderId, setUserId, setOrderId, cart, setCart, change, setChange, subTotal} = useContext(CartContext)
     const [open, setOpen] = useState(false)
@@ -36,7 +40,7 @@ function UserCart() {
     
     const checkoutHandle = async () => {
       await axios
-      .post("/transaction", { userId, subTotal, cart } )
+      .post("/transaction", { username, userId, subTotal, cart } )
       .then((res) => {
         setUserId(0);
         setChange(!change)
