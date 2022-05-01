@@ -101,7 +101,7 @@ function TransactionDetail() {
     
     const putTransactionStatusReject = async () => {
       try {
-          const res = await axios.put(`/transaction/status/${params.transactionId}`,{ params: { status: 'failed', id: params.transactionId } } );
+          const res = await axios.put(`/transaction/reject/${params.transactionId}`,{ params: { status: 'failed', id: params.transactionId } } );
           const  {data} = res
           console.log(data)
                  
