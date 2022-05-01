@@ -148,8 +148,12 @@ function TransactionDetail() {
            
           </DialogContent>
           <DialogActions>
+          {transactionDetail.transactionStatus === 'complete' ?
+           null
+          : <div>
             <Button onClick={onRejectClick}>Reject</Button>
             <Button onClick={onSendClick}>Approve and Send</Button>
+          </div> }
             <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
