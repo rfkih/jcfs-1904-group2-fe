@@ -170,8 +170,6 @@ function StocksDetail() {
 
         let addStock = { addBox : (parseInt(qtyBoxAvailable) + parseInt(initialStocks.qtyBoxAvailable)), addBottle: (parseInt(qtyBottleAvailable)  + parseInt(initialStocks.qtyBottleAvailable)), addStrips: (parseInt(qtyStripsavailable) + parseInt(initialStocks.qtyStripsavailable)) }
 
-        console.log(addStock);
-        console.log(calculatedAddStock);
        
         if (isLiquid) {
             updatedStocks = {

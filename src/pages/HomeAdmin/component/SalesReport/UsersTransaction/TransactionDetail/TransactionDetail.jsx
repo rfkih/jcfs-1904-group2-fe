@@ -89,7 +89,7 @@ function TransactionDetail() {
 
     const putTransactionStatusSend = async () => {
       try {
-          const res = await axios.put(`/transaction/status/${params.transactionId}`,{ params: { status: 'sent', id: params.transactionId } } );
+          const res = await axios.put(`/transaction/send/${params.transactionId}`,{ params: { status: 'sent', id: params.transactionId } } );
           const  {data} = res
           console.log(data)
            
