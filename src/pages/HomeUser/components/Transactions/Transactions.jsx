@@ -66,7 +66,7 @@ function Transactions() {
         }
     };
 
-
+console.log(change);
     useEffect(() => {
         setChecked(false)
         fetchTransaction();

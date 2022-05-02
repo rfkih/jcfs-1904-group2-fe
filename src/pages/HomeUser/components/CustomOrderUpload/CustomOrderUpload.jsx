@@ -3,7 +3,7 @@ import useStyles from './styles.js'
 import { Grid, Box, Container, Typography, Paper, Card, CardActions, Button, Input, TextField, CardMedia, CardContent, CircularProgress} from '@material-ui/core';
 import axios from '../../../../utils/axios'
 import {useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, Navigate} from 'react-router-dom'
 
 
 function CustomOrderUpload() {
@@ -13,7 +13,7 @@ function CustomOrderUpload() {
     const classes = useStyles();
     const [ image, setImage ] = useState('https://image.shutterstock.com/image-vector/various-meds-pills-capsules-blisters-600w-1409823341.jpg')
     const [ selectedFile, setSelectedFile] = useState(null)
-    const [formState, setFormState] = useState({
+    const [ formState, setFormState] = useState({
         user_id: 0,
         image: "",
         status: "waiting",
@@ -64,6 +64,7 @@ function CustomOrderUpload() {
 
       const onSendClick = () => {
           addNewCustomOrder();
+         
       }
 
 
@@ -73,7 +74,8 @@ function CustomOrderUpload() {
       .post("/customorders", {formState})
       .then((res) => {
           console.log(res.data);
-       alert(res.data.message);    
+       alert(res.data.message); 
+       return <Navigate to="/customorders" replace />   
       })
       .catch((error) => console.log({ error }));
   };
@@ -111,7 +113,7 @@ function CustomOrderUpload() {
                                     Upload Image
                                 </Button>  
                       </label> 
-                            <Button component={Link} to='/customorders' onClick={onSendClick}>Send</Button>
+                            <Button component={Link} to='/customorders' onClick={addNewCustomOrder}>Send</Button>
                         </CardActions>
 
                     </Card>

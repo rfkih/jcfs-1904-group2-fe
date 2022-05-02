@@ -33,9 +33,9 @@ function CustomOrders() {
         ));
       };
 
-    const onButtonClick = () => {
-        <Navigate/>
-    }
+    // const onButtonClick = () => {
+    //     <Navigate/>
+    // }
     
     const fetchCustomOrders = async () => {
         try {
@@ -51,7 +51,7 @@ function CustomOrders() {
 
     useEffect(() => {
         fetchCustomOrders();
-    }, [])
+    }, [checked])
 
 
   return (

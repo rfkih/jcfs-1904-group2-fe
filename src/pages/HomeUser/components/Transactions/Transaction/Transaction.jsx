@@ -16,7 +16,7 @@ function Transaction({transaction, change, setChange}) {
 
     const onButtonClick = () => {
         putTransactionStatusComplete();
-        setChange(!change)
+        
     }
 
     const putTransactionStatusComplete = async () => {
@@ -24,7 +24,7 @@ function Transaction({transaction, change, setChange}) {
             const res = await axios.put(`/transaction/status/${transaction.id}`,{ params: { status: 'complete' } } );
             const  {data} = res
             console.log(data)
-                   
+            setChange(!change)
         } catch (error) {
             console.log(alert(error.message));
         }
