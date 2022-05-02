@@ -22,10 +22,59 @@ function Address({nextStep}) {
     const [formOpen, setFormOpen] = useState(false)
     const [selectedProvinceId, setSelectedProvinceId] = useState({})
     const [selectedCityId, setSelectedCityId] = useState({})
-console.log(selectedCityId);
+    const [formState, setFormState] = useState({
+      user_id: 0,
+      country: "indonesia",
+      province_id: 0,
+      province: "",
+      city_id: 0,
+      city: "",
+      district: "",
+      zipCode: 0,
+      addressDetail: ""
+  });
+
+console.log(formState);
+
+
+  const addressDetail = () => {
+    const selectedAddress = city.find((item) => item.city_id === selectedCityId.city)
+
+    if (selectedAddress) {
+      setFormState({...formState, user_id: id, province_id: selectedAddress.province_id, province: selectedAddress.province, city_id: selectedAddress.city_id, city: selectedAddress.city_name   })
+    }
+
+  }
+
+  const onAddClick = () => {
+    addNewAddress();
+    setFormOpen(false);
+    fetchAddress();
+  }
+
+  const addNewAddress = async () => {
+
+    await axios
+      .post("/address", { formState} )
+      .then((res) => {
+       console.log(res.data);
+        
+      })
+      .catch((error) => console.log({ error }));
+  }
+
+ 
+  useEffect(() => {
+    addressDetail();
+  },[selectedCityId])
+
+  const handleChange = (e) => {
+  setFormState({ ...formState, [e.target.name]: e.target.value });
+  };
 
   const onAddAddressClick = () => {
     getProvince()
+    setOpen(false)
     setFormOpen(true)
   }
 
@@ -106,7 +155,7 @@ console.log(selectedCityId);
     useEffect(() => {
         fetchAddress();
        
-    },[]);
+    },[formOpen]);
 
 
     const inputAddress = async () => {
@@ -156,7 +205,7 @@ console.log(selectedCityId);
 
 
         return (
-            <Dialog onClose={handleClose} open={open}>
+            <Dialog fullWidth onClose={handleClose} open={open}>
                  <DialogTitle>Select other Address</DialogTitle>
                     <List className={classes.paper} >
                      {addresses.map((address) => {
@@ -164,7 +213,10 @@ console.log(selectedCityId);
                            <ListItemText primary={address.addressDetail}/>
                          </ListItem>
                      })}
-                    </List>     
+                    </List> 
+                    <Container>
+                      <Button className={classes.paper} color="primary" variant="outlined" onClick={onAddAddressClick} >Add Other Address</Button> 
+                    </Container>    
             </Dialog>
         )
         
@@ -188,8 +240,8 @@ console.log(selectedCityId);
           <DialogTitle>Input Address Detail</DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-              <FormControl sx={{ m: 1, minWidth: 420 }}>
+              <Grid item xs={6}>
+              <FormControl fullWidth sx={{ m: 1, minWidth: 420 }}>
                 <InputLabel id="category-select">Select Province</InputLabel>
                   <Select
                     displayEmpty
@@ -211,8 +263,8 @@ console.log(selectedCityId);
                   </Select>
               </FormControl>
               </Grid>
-              <Grid item xs={12}>
-              <FormControl sx={{ m: 1, minWidth: 420 }}>
+              <Grid item xs={6}>
+              <FormControl fullWidth sx={{ m: 1, minWidth: 420 }}>
                 <InputLabel id="city-select">Select City</InputLabel>
                   <Select
                     displayEmpty
@@ -233,7 +285,18 @@ console.log(selectedCityId);
                     ))}
                   </Select>
               </FormControl>
-
+              </Grid>
+              <Grid item xs={6}>
+              <TextField className={classes.content} fullWidth  name='district' onInput={handleChange} label='District' />
+              </Grid>
+              <Grid item xs={6}>
+              <TextField className={classes.content} fullWidth  name='zipCode' onInput={handleChange} label='zipCode' />
+              </Grid>
+              <Grid item xs={12}>
+              <TextField className={classes.content} fullWidth multiline name='addressDetail' onInput={handleChange} label='Address Detail' />
+              </Grid>
+              <Grid className={classes.button} item xs={12}>
+                      <Button variant="contained" color="primary" onClick={onAddClick} >Add Address</Button>
               </Grid>
 
             </Grid>
