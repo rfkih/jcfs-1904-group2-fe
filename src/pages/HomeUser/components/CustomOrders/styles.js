@@ -19,6 +19,9 @@ export default makeStyles((theme) => ({
         transform: 'scale(1.02)'
       },
   },
+    button : {
+      margin: theme.spacing(1)
+    },
       input: {
         display: 'none'
       }
