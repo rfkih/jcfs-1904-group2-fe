@@ -77,14 +77,14 @@ function TransactionDetail() {
     const onSendClick = () => {
       putTransactionStatusSend();
       handleClose();
-      window.location.reload() 
+
        
     }
 
     const onRejectClick = () => {
       putTransactionStatusReject();
       handleClose(); 
-      window.location.reload() 
+    
     }
 
     const putTransactionStatusSend = async () => {
@@ -92,6 +92,7 @@ function TransactionDetail() {
           const res = await axios.put(`/transaction/send/${params.transactionId}`,{ params: { status: 'sent', id: params.transactionId } } );
           const  {data} = res
           console.log(data)
+          window.location.reload() 
            
       } catch (error) {
           console.log(alert(error.message));
@@ -104,6 +105,7 @@ function TransactionDetail() {
           const res = await axios.put(`/transaction/reject/${params.transactionId}`,{ params: { status: 'failed', id: params.transactionId } } );
           const  {data} = res
           console.log(data)
+          window.location.reload() 
                  
       } catch (error) {
           console.log(alert(error.message));
