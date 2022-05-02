@@ -189,6 +189,7 @@ console.log(formState);
     
     const handleClickOpen = () => {
         setOpen(true);
+        fetchAddress();
     };
 
     function SelectAddress (props) {
@@ -207,9 +208,10 @@ console.log(formState);
         return (
             <Dialog fullWidth onClose={handleClose} open={open}>
                  <DialogTitle>Select other Address</DialogTitle>
+                  
                     <List className={classes.paper} >
                      {addresses.map((address) => {
-                        return <ListItem button onClick={() => handleListItemClick(address.id)} key={address.id} >
+                        return <ListItem  button onClick={() => handleListItemClick(address.id)} key={address.id} >
                            <ListItemText primary={address.addressDetail}/>
                          </ListItem>
                      })}
