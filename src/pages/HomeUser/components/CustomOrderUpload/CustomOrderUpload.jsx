@@ -3,6 +3,7 @@ import useStyles from './styles.js'
 import { Grid, Box, Container, Typography, Paper, Card, CardActions, Button, Input, TextField, CardMedia, CardContent, CircularProgress} from '@material-ui/core';
 import axios from '../../../../utils/axios'
 import {useSelector} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 function CustomOrderUpload() {
@@ -110,7 +111,7 @@ function CustomOrderUpload() {
                                     Upload Image
                                 </Button>  
                       </label> 
-                            <Button onClick={onSendClick}>Send</Button>
+                            <Button component={Link} to='/customorders' onClick={onSendClick}>Send</Button>
                         </CardActions>
 
                     </Card>

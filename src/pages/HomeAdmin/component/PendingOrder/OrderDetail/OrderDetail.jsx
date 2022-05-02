@@ -124,9 +124,6 @@ function OrderDetail() {
 
                 </Grid>
                
-                
-
-
             </Paper>
       </Container>
     
