@@ -150,7 +150,7 @@ function TransactionDetail() {
            
           </DialogContent>
           <DialogActions>
-          {transactionDetail.transactionStatus === 'complete' ?
+          {transactionDetail.transactionStatus === 'complete' || transactionDetail.transactionStatus === 'sent' ||  transactionDetail.transactionStatus === 'failed' ?
            null
           : <div>
             <Button onClick={onRejectClick}>Reject</Button>
