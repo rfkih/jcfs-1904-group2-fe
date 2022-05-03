@@ -22,6 +22,8 @@ function CustomOrders() {
     const [ page, setPage ] = useState(1)
     const [ totalPage, setTotalPage] = useState(2)
     const [ orderPerPage, setOrderPerPage] = useState(5)
+    const [ selectedStatus, setSelectedStatus ] = useState('')
+    const [ sort, setSort ] = useState('order by created_at DESC')
 
    
 
@@ -38,13 +40,19 @@ function CustomOrders() {
         ));
       };
 
-    // const onButtonClick = () => {
-    //     <Navigate/>
-    // }
+      const handleSelectedStatus = (e) => {
+        setSelectedStatus(e.target.value);
+        setPage(1)
+      }
+
+      const handleSelectedSort = (e) => {
+        setSort(e.target.value);
+        
+      }
     
     const fetchCustomOrders = async () => {
         try {
-            await axios.get(`/customorders/user/${id}`, {params: { pages:(`limit ${orderPerPage} offset ${(page - 1)*orderPerPage}`), id}})
+            await axios.get(`/customorders/user/${id}`, {params: { pages:(`limit ${orderPerPage} offset ${(page - 1)*orderPerPage}`), selectedStatus, sort, id}})
             .then((res=>{
               const { data } = res;
               setOrder(data.result);
@@ -59,7 +67,7 @@ function CustomOrders() {
     useEffect(() => {
       setChecked(false)
         fetchCustomOrders();
-    }, [page])
+    }, [page, selectedStatus, sort])
 
 
   return (
@@ -76,19 +84,19 @@ function CustomOrders() {
                       </Typography>             
                       <br />
                       <FormControl sx={{ m: 1, minWidth: 420 }}>
-                        <InputLabel id="category-select">Status</InputLabel>
+                        <InputLabel id="status-select">Status</InputLabel>
                           <Select
                             displayEmpty
-                            labelId="category-select"
+                            labelId="status-select"
                             id="1"
                             defaultValue=""
-                            name="category_id"
-                            label="Age"
-                            // onChange={handleSelectedCategory}
+                            name="status"
+                            onChange={handleSelectedStatus}
                           >
-                            <MenuItem key={1} value="">
-                              Status
-                            </MenuItem>                
+                            <MenuItem key={1} value="">Status</MenuItem>
+                            <MenuItem key={2}  value="and status = 'waiting'" > Waiting </MenuItem>
+                            <MenuItem key={3}  value="and status = 'rejected'" > Rejected </MenuItem>
+                            <MenuItem key={4}  value="and status = 'approved'" > Approved </MenuItem>                    
                           </Select>
                       </FormControl>
                     </CardContent>      
@@ -108,13 +116,11 @@ function CustomOrders() {
                               id="1"
                               defaultValue=""
                               name="sortBy"
-                              // onChange={selectSortHandler}
+                              onChange={handleSelectedSort}
                             >
                               <MenuItem value="" > Sort By </MenuItem>
-                              <MenuItem value="order by price ASC" > Lowest Price </MenuItem>
-                              <MenuItem value="order by price DESC" > Highest Price </MenuItem>
-                              <MenuItem value="order by productName ASC" > A - Z </MenuItem>
-                              <MenuItem value="order by productName DESC" > Z - A</MenuItem>
+                              <MenuItem value="order by created_at ASC" > Oldest </MenuItem>
+                              <MenuItem value="order by created_at DESC" > Latest </MenuItem>
                             </Select>   
                       </FormControl>
                     </CardContent>

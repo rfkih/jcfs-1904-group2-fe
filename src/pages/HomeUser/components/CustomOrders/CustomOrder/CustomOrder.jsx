@@ -2,8 +2,12 @@ import React from 'react'
 import { Grid, Box, Container, Typography, Paper, Card, CardActions, Button, Input, TextField, CardMedia, CardContent, CircularProgress} from '@material-ui/core';
 import { height } from '@mui/material/node_modules/@mui/system';
 import { Link, Navigate } from "react-router-dom";
+import moment from 'moment'
 
 function CustomOrder({order}) {
+
+
+    const date =  moment(order.created_at).utc().format('LLL')
 
  
   return (
@@ -14,7 +18,7 @@ function CustomOrder({order}) {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }} >
                 <CardContent sx={{ flex: '1 0 auto' }} >
                     <Typography variant="subtitle1" color="textSecondary" component="div">
-                        {order.created_at}
+                        {date}
                     </Typography>
                     <Typography component="div" variant="h6">
                         Status : {order.status}
