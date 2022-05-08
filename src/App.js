@@ -109,27 +109,32 @@ function App() {
   
 
   const getLocalStorage = () => {
-    const dataLocalStorage = window.localStorage.getItem("cartData")
-    
+    const dataLocalStorage = window.localStorage.getItem("cartData") 
       const getData = JSON.parse(dataLocalStorage);
-      setUserId(getData.userId)
-      setOrderId(getData.orderId)
-      setCart(getData.cart)
+     
+      if (getData.userId) {
+        setUserId(getData.userId)
+        setOrderId(getData.orderId)
+        setCart(getData.cart)
+      } 
       
     
   }
-
-    console.log(userId);
+  useEffect(() => {
+    getLocalStorage();
+    
+   
+  },[])
+  
+  
     useEffect(() => {
       if (isLocalStorageChecked) {       
         cartData(); 
+        setUserId(id)   
       }
     },[userId, orderId, cart])
 
-    useEffect(() => {
-      getLocalStorage();
-      setUserId(id)
-    },[])
+ 
 
   const fetchCart = async () => {
       try {
@@ -144,7 +149,8 @@ function App() {
 
   useEffect(() => {
     fetchCart();
-},[change])
+
+},[change, userId])
 
 
   if (isLocalStorageChecked) {

@@ -72,7 +72,6 @@ function Product({product}) {
     //         .catch((error) => console.log({ error }));
     //   }
 
-      console.log('user id disini', userId);
   return (
       <>
         <Card classes={classes.card} >
