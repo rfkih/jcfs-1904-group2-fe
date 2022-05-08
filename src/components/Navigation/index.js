@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import {
   AppBar,
   Box,
@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import {CartContext} from '../../helper/Context'
 import Logo from "@mui/icons-material/HealingRounded";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +17,7 @@ import { logoutAction } from "../../store/actions";
 
 function Navigation() {
   const dispatch = useDispatch();
+  const {setCart} = useContext(CartContext)
   const { username, role } = useSelector((state) => {
     return state.auth;
   });
@@ -31,6 +33,7 @@ function Navigation() {
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
+    setCart([])
   };
 
   return (
