@@ -72,7 +72,7 @@ function PendingOrder() {
         }
     },[orderId])
 
-    
+    console.log(userId);
 
     const fetchOrders = async () => {
         try {
@@ -103,7 +103,7 @@ function PendingOrder() {
         <div className={classes.toolbar}/>
         <Paper elevation={0} className={classes.paper}>
             
-            {userId ?
+            {orderId ?
                 <Card>
                     <Typography>Current Active Order : </Typography>
                 <Grid container spacing={2}>
@@ -123,7 +123,7 @@ function PendingOrder() {
                             <CardMedia
                                 component="img"
                                 sx={{ width: 151 }}
-                                image={activeOrder.image}
+                                image={activeOrder?.image}
                                 alt="Picture"
                             />
 
@@ -202,7 +202,7 @@ function PendingOrder() {
                         {orders
                             .map((order) => {
                                 return (
-                                    <TableRow  component={userId ? 'text' : Link} to={`/orders/${order.id}`} hover role="checkbox" key={order.id}>
+                                    <TableRow  component={orderId ? 'text' : Link} to={`/orders/${order.id}`} hover role="checkbox" key={order.id}>
                                         {columns.map((column) => {
                                                     const value = order[column.id];
                                                     if (column.id === "created_at" ) {

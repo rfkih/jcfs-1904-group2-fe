@@ -129,8 +129,11 @@ function App() {
   
     useEffect(() => {
       if (isLocalStorageChecked) {       
-        cartData(); 
-        setUserId(id)   
+        cartData();  
+        if (role == "user") {
+          setUserId(id)   
+        }
+        
       }
     },[userId, orderId, cart])
 
