@@ -61,6 +61,7 @@ function App() {
   
 
   const dispatch = useDispatch();
+  console.log(cart);
    
   
   useEffect(() => {
@@ -127,7 +128,7 @@ function App() {
 
     useEffect(() => {
       getLocalStorage();
-      // setUserId(id)
+      setUserId(id)
     },[])
 
   const fetchCart = async () => {
@@ -204,6 +205,7 @@ function App() {
           </Router>
         </CartContext.Provider>
         ) : (
+        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId, change, setChange, subTotal}}>
           <Router>
             <div>
               <Navigation />
@@ -230,6 +232,7 @@ function App() {
               </Routes>
             </div>
           </Router>
+        </CartContext.Provider>
         )}
       </div>
     );
