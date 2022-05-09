@@ -14,7 +14,6 @@ function Product({product}) {
     const [image ,setImage] = useState('https://pharmanewsintel.com/images/site/article_headers/_normal/Medicine.png')
     const [priceTotal, setPriceTotal] = useState(0)
     const [open, setOpen] = useState(false)
-    // const [isCustom, setIsCustom] = useState(false)
     const {userId, setUserId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
     const {role, id} = useSelector((state) => {
         return state.auth;
@@ -43,7 +42,6 @@ function Product({product}) {
             })
             .catch((error) => console.log({ error }));
         } else {
-
             if (role == 'admin') {
                 await axios
             .post(`/cart`, { params: { productQuantity: 1, product, userId, isCustom: true }} )

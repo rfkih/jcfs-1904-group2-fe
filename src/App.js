@@ -62,6 +62,8 @@ function App() {
   
 
   const dispatch = useDispatch();
+  console.log(cart);
+   
   
   console.log(cart);
   
@@ -92,7 +94,45 @@ function App() {
     setChange(!change)
     setIsLocalStorageChecked(true);
     
-  }, []);
+  })
+  useEffect(() => {
+    getLocalStorage();
+    
+   
+  },[])
+  
+  
+    useEffect(() => {
+      if (isLocalStorageChecked) {       
+        cartData();  
+        if (role == "user") {
+          setUserId(id)   
+        }
+        
+      }
+    },[userId, orderId, cart])
+
+ 
+
+  const fetchCart = async () => {
+      try {
+          const res = await axios.get("/cart", {params: { userId, custom}});
+          const { data } = res;       
+          setCart(data.result)
+          setSubTotal(data.count[0].subtotal);
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+  };
+
+  useEffect(() => {
+    if (role == 'admin') {
+      setCustom('and isCustom = 1')
+      fetchCart();
+    }else{
+      fetchCart();
+    }
+},[change, userId])
 
   const cartData  = ( ) => {
 
@@ -137,16 +177,7 @@ function App() {
 
  
 
-  const fetchCart = async () => {
-      try {
-          const res = await axios.get("/cart", {params: { userId, custom}});
-          const { data } = res;       
-          setCart(data.result)
-          setSubTotal(data.count[0].subtotal);
-      } catch (error) {
-          console.log(alert(error.message));
-      }
-  };
+
 
   useEffect(() => {
     if (role == 'admin') {
