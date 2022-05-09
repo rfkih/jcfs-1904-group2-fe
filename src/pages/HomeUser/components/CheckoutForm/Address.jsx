@@ -297,8 +297,9 @@ console.log(formState);
               <Grid item xs={12}>
               <TextField className={classes.content} fullWidth multiline name='addressDetail' onInput={handleChange} label='Address Detail' />
               </Grid>
-              <Grid className={classes.button} item xs={12}>
+              <Grid className={classes.buttons} item xs={12}>
                       <Button variant="contained" color="primary" onClick={onAddClick} >Add Address</Button>
+                      <Button variant="contained" color="primary" onClick={()=>{setFormOpen(false)}} >Close</Button>
               </Grid>
 
             </Grid>
