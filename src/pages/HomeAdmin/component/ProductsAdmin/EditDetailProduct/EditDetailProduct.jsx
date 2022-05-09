@@ -283,7 +283,7 @@ function EditDetailProduct() {
   .catch((error) => console.log({ error }));
 };
 
-  
+console.log(isLiquid);
 
 let choosenCategory = categories.filter(function (category) {
     return category.id === category_id
@@ -420,7 +420,7 @@ let choosenCategory = categories.filter(function (category) {
                     <Paper className={classes.paper} >
                         <Grid container spacing={2} >
                             <Grid item xs={8}>
-                                {isLiquid ? <Typography> Type : Liquid</Typography> : <Typography>Type: Non-Liquid</Typography> }     
+                                {isLiquid == 1 ? <Typography> Type : Liquid</Typography> : <Typography>Type: Non-Liquid</Typography> }     
                             </Grid>
                             <Grid item xs={2}>
                             <Select   defaultValue="" name='isLiquid' onChange={handleChange} >
@@ -484,12 +484,12 @@ let choosenCategory = categories.filter(function (category) {
                             <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyBottleTotal'  label="Bottle Total"  placeholder={`${qtyBottleTotal}`} onInput={stockHandleChange} />
                             </Grid>
-                            <Grid xs={5}>
+                            {/* <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyMlAvailable'  label="Ml Available"  placeholder={`${qtyMlAvailable}`} onInput={stockHandleChange} />
                             </Grid>
                             <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyMlTotal'  label="Ml Total"  placeholder={`${qtyMlTotal}`} onInput={stockHandleChange} />
-                            </Grid>
+                            </Grid> */}
                             <Grid xs={2}d>
                                 <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
                                 <Button onClick={editStockCancelHandle} size="medium" color="secondary"> Cancel </Button>
@@ -502,13 +502,13 @@ let choosenCategory = categories.filter(function (category) {
                             <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyStripsTotal'  label="Strips Total"  placeholder={qtyStripsTotal} onInput={stockHandleChange} />
                             </Grid>
-                            <Grid xs={5}>
+                            {/* <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyMgAvailable'  label="Mg Available"  placeholder={qtyMgAvailable} onInput={stockHandleChange} />
                             </Grid>
                             <Grid xs={5}>
                                 <TextField id="outlined-textarea" name='qtyMgTotal'  label="Mg Total"  placeholder={qtyMgTotal} onInput={stockHandleChange} />
-                            </Grid>
-                            <Grid xs={2}d>
+                            </Grid> */}
+                            <Grid xs={2}>
                                 <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
                                 <Button onClick={editStockCancelHandle} size="medium" color="secondary"> Cancel </Button>
                             </Grid>                                                       
