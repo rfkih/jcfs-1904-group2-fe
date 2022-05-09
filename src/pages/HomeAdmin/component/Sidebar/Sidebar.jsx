@@ -12,7 +12,7 @@ function DrawerBar() {
     const { username, photo } = useSelector((state) => {
         return state.auth;
       });
-    const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
+    const {userId, orderId, setUserId, cart, setCart, change, setChange} = useContext(CartContext)
     const classes = useStyles();
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,7 +20,7 @@ function DrawerBar() {
 
 
     const onLogoutClick = () => {
-        
+        setUserId(0)
         dispatch(logoutAction());
         <Navigate to="/" replace />
         

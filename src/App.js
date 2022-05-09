@@ -50,6 +50,7 @@ function App() {
   const classes = useStyles();
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const [userId, setUserId] = useState(0)
+  const [custom, setCustom] = useState('')
   const [orderId, setOrderId] = useState(0)
   const [cart, setCart] = useState([{}])
   const [subTotal, setSubTotal] = useState(0)
@@ -141,7 +142,7 @@ function App() {
 
   const fetchCart = async () => {
       try {
-          const res = await axios.get("/cart", {params: { userId, custom: 'and isCustom = 1'}});
+          const res = await axios.get("/cart", {params: { userId, custom}});
           const { data } = res;       
           setCart(data.result)
           setSubTotal(data.count[0].subtotal);
@@ -151,8 +152,12 @@ function App() {
   };
 
   useEffect(() => {
-    fetchCart();
-
+    if (role == 'admin') {
+      setCustom('and isCustom = 1')
+      fetchCart();
+    }else{
+      fetchCart();
+    }
 },[change, userId])
 
 

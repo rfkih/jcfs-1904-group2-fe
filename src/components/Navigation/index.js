@@ -17,7 +17,7 @@ import { logoutAction } from "../../store/actions";
 
 function Navigation() {
   const dispatch = useDispatch();
-  const {setCart} = useContext(CartContext)
+  const {setCart, setUserId} = useContext(CartContext)
   const { username, role } = useSelector((state) => {
     return state.auth;
   });
@@ -33,6 +33,7 @@ function Navigation() {
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
+    setUserId(0)
     setCart([])
   };
 
