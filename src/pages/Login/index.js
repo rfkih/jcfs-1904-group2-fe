@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Button, TextField } from "@mui/material";
 import { loginAction } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import {CartContext} from '../../helper/Context'
 import { Link, Navigate } from "react-router-dom";
 import axios from "../../utils/axios";
 
@@ -11,6 +12,7 @@ function LoginPage() {
     return state.auth;
   });
   const [isLoading, setIsLoading] = useState(false);
+  const {userId, setUserId} = useContext(CartContext)
   const [formState, setFormState] = useState({
     username: "",
     password: "",
@@ -36,10 +38,12 @@ function LoginPage() {
         password: formState.password,
       });
       const payload = res.data;
-      console.log(res.data);
-      // const id = payload.id;
-      // const username = payload.username;
-      // const role = payload.role;
+
+      if (res.data.role == 'user') {
+        setUserId(res.data.id)
+      }
+      console.log(res.data.role);
+  
 
       const actionObj = loginAction(payload);
       console.log(actionObj);
@@ -48,11 +52,6 @@ function LoginPage() {
       console.log(error.response.data);
     }
 
-    // setIsLoading(true);
-    // console.log({ formState });
-    // const action = loginAction(formState);
-    // dispatch(action); // --> kirim ke reducer --> kirim ke state (selesai)
-    // setIsLoading(false);
   };
 
   

@@ -43,7 +43,7 @@ function Product({product}) {
             })
             .catch((error) => console.log({ error }));
         } else {
-            
+
             if (role == 'admin') {
                 await axios
             .post(`/cart`, { params: { productQuantity: 1, product, userId, isCustom: true }} )
@@ -76,24 +76,12 @@ function Product({product}) {
         }
     },[])
 
-    // useEffect(() => {
-    //     if(role == 'admin'){
-    //         setIsCustom(true)
-    //     }
-    // })
+   
 
   
     console.log(userId)
 
-    // const handleAddToCart = async (product) => {
-    //     await axios
-    //         .post(`/cart`, product )
-    //         .then((res) => {
-    //           setChange(!change)
-    //           console.log(res.data);
-    //         })
-    //         .catch((error) => console.log({ error }));
-    //   }
+   
 
   return (
       <>

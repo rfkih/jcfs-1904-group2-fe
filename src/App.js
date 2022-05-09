@@ -50,7 +50,7 @@ function App() {
   const classes = useStyles();
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
   const [userId, setUserId] = useState(0)
-  const [custom, setCustom] = useState('')
+  const [custom, setCustom] = useState('and isCustom = 0')
   const [orderId, setOrderId] = useState(0)
   const [cart, setCart] = useState([{}])
   const [subTotal, setSubTotal] = useState(0)
@@ -62,8 +62,8 @@ function App() {
   
 
   const dispatch = useDispatch();
+  
   console.log(cart);
-   
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
@@ -108,7 +108,7 @@ function App() {
   
     };
   
-
+    console.log(custom);
   const getLocalStorage = () => {
     const dataLocalStorage = window.localStorage.getItem("cartData") 
       const getData = JSON.parse(dataLocalStorage);
@@ -123,18 +123,15 @@ function App() {
   }
   useEffect(() => {
     getLocalStorage();
-    
-   
   },[])
   
   
     useEffect(() => {
+      if (role == "user") {
+        setUserId(id)  
+      }
       if (isLocalStorageChecked) {       
         cartData();  
-        if (role == "user") {
-          setUserId(id)   
-        }
-        
       }
     },[userId, orderId, cart])
 
