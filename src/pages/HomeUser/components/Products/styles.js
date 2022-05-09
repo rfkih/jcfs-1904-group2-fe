@@ -12,6 +12,7 @@ export default makeStyles((theme) => ({
   },
   paper : {
     transition:" all 200ms ease",
+    backgroundColor: theme.palette.background.default,
     margin: theme.spacing(1),
     padding: theme.spacing(1),
     "&:hover": {
