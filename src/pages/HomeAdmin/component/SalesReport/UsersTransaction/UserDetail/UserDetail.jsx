@@ -93,7 +93,7 @@ function UserDetail() {
                             {transaction
                                 .map((item) => {
                                     return(
-                                        <TableRow component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" key={item.id}>
+                                        <TableRow className={classes.link} component={Link} to={`/transactiondetails/${item.id}`} hover role="checkbox" key={item.id}>
                                             {columns.map((column) => {
                                                 const value = item[column.id];
                                                 return(

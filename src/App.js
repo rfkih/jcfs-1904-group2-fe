@@ -4,12 +4,16 @@ import { Grid, Box, Container, CircularProgress} from '@material-ui/core';
 import { useDispatch } from "react-redux";
 import { keepLoginAction } from "./store/actions";
 import {useSelector} from 'react-redux'
+import { CartContext } from './helper/Context'
+import axios from "./utils/axios";
 import Login from "./pages/Login";
 import Navigation from "./components/Navigation/index";
 import Register from "./pages/Register";
 import Forgotpass from "./pages/Login/forgotpass";
 import EditProfile from "./pages/EditProfile";
 import ProfilePicture from "./pages/ProfilePicture";
+import Transactions from "./pages/HomeUser/components/Transactions/Transactions";
+import Checkout from "./pages/HomeUser/components/CheckoutForm/Checkout/Checkout";
 
 import { makeStyles } from "@material-ui/core/styles";
 import HomeUser from "./pages/HomeUser/HomeUser";
@@ -28,6 +32,9 @@ import ItemSoldDetail from './pages/HomeAdmin/component/SalesReport/ItemSold/Ite
 import Stocks from "./pages/HomeAdmin/component/Stocks/Stocks";
 import StocksDetail from "./pages/HomeAdmin/component/Stocks/StocksDetail/StocksDetail";
 import Spinner from "./pages/HomeUser/Spinner";
+import CustomOrderUpload from "./pages/HomeUser/components/CustomOrderUpload/CustomOrderUpload";
+import CustomOrders from "./pages/HomeUser/components/CustomOrders/CustomOrders";
+import UserCart from "./pages/HomeAdmin/component/UserCart/UserCart";
 
 const useStyles = makeStyles({
   page: {
@@ -42,29 +49,116 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const [isLocalStorageChecked, setIsLocalStorageChecked] = useState(false);
-  const {role} = useSelector((state) => {
+  const [userId, setUserId] = useState(0)
+  const [custom, setCustom] = useState('')
+  const [orderId, setOrderId] = useState(0)
+  const [cart, setCart] = useState([{}])
+  const [subTotal, setSubTotal] = useState(0)
+  const [change, setChange] = useState(false)
+  const {role, id} = useSelector((state) => {
     return state.auth;
   });
 
+  
+
   const dispatch = useDispatch();
+  console.log(cart);
+   
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
+    const dataLocalStorage = localStorage.getItem("cartData")
     if (userLocalStorage) {
       const userData = JSON.parse(userLocalStorage);
 
       const { id, username, role, tokens, photo } = userData;
-     
       
       dispatch(keepLoginAction({ id, username, role, tokens, photo }));
     }
-
-
-   
-
+    if(dataLocalStorage){
+      const getData = JSON.parse(dataLocalStorage);
+  
+     const data = {
+      userId: getData.userId,
+      orderId: getData.orderId,
+      cart: getData.cart
+    }
+     localStorage.setItem(
+      "cartData",
+      JSON.stringify(data)
+    );
+    
+    };
+    setChange(!change)
     setIsLocalStorageChecked(true);
     
   }, []);
+
+  const cartData  = ( ) => {
+
+    const data = {
+      userId: userId,
+      orderId: orderId,
+      cart: cart
+    }
+      localStorage.setItem(
+        "cartData",
+        JSON.stringify(data)
+      );
+  
+    };
+  
+
+  const getLocalStorage = () => {
+    const dataLocalStorage = window.localStorage.getItem("cartData") 
+      const getData = JSON.parse(dataLocalStorage);
+     
+      if (getData.userId) {
+        setUserId(getData.userId)
+        setOrderId(getData.orderId)
+        setCart(getData.cart)
+      } 
+      
+    
+  }
+  useEffect(() => {
+    getLocalStorage();
+    
+   
+  },[])
+  
+  
+    useEffect(() => {
+      if (isLocalStorageChecked) {       
+        cartData();  
+        if (role == "user") {
+          setUserId(id)   
+        }
+        
+      }
+    },[userId, orderId, cart])
+
+ 
+
+  const fetchCart = async () => {
+      try {
+          const res = await axios.get("/cart", {params: { userId, custom}});
+          const { data } = res;       
+          setCart(data.result)
+          setSubTotal(data.count[0].subtotal);
+      } catch (error) {
+          console.log(alert(error.message));
+      }
+  };
+
+  useEffect(() => {
+    if (role == 'admin') {
+      setCustom('and isCustom = 1')
+      fetchCart();
+    }else{
+      fetchCart();
+    }
+},[change, userId])
 
 
   if (isLocalStorageChecked) {
@@ -74,6 +168,7 @@ function App() {
     return (
       <div className={classes.root}>
         {role === "admin" ? (
+        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId, change, setChange, subTotal}}>
           <Router>
             <div>
               <DrawerBar />
@@ -87,6 +182,7 @@ function App() {
                 <Route path="orders" element={<PendingOrder />} />
                 <Route path="stocks/:productId" element={<StocksDetail />} />
                 <Route path={`orders/:orderId`} element={<OrderDetail />} />
+                <Route path={`userscart`} element={<UserCart />} />
                 <Route
                   path={`products/:productId`}
                   element={<ProductDetail />}
@@ -121,7 +217,9 @@ function App() {
               </Routes>
             </div>
           </Router>
+        </CartContext.Provider>
         ) : (
+        <CartContext.Provider value={{cart, setCart, userId, setUserId, orderId, setOrderId, change, setChange, subTotal}}>
           <Router>
             <div>
               <Navigation />
@@ -140,15 +238,20 @@ function App() {
                   path="/edit-profile-picture"
                   element={<ProfilePicture />}
                 />
+                <Route path="/usertransactions" element={<Transactions />} />
                 <Route path="/edit-profile" element={<EditProfile />} />
+                <Route path="/customorder/upload" element={<CustomOrderUpload />} />
+                <Route path="/customorders" element={<CustomOrders />} />
+                <Route path="/usertransactions/:transactionId" element={<Checkout />} />
               </Routes>
             </div>
           </Router>
+        </CartContext.Provider>
         )}
       </div>
     );
   } else {
-    return  <Spinner message="We are adding products!"/>   
+    return  <Spinner message="Loading"/>   
   }
 }
 

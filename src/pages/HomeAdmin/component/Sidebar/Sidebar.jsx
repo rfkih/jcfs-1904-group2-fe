@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useLocation, useNavigate, Navigate} from 'react-router-dom';
 import {HomeRounded, ReportOutlined, MenuRounded, CloseRounded, ShoppingCart, People, EmailSharp, SubjectOutlined, AddCircleOutlineOutlined, AccountBalanceOutlined} from '@material-ui/icons'
-import { AppBar, Drawer, ListItem, Button, Paper, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
+import { AppBar, Drawer, ListItem, Button, Paper, Badge, Toolbar, List, ListItemText, Typography, Avatar, ListItemIcon} from '@material-ui/core';
 import {format} from 'date-fns'
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../../../store/actions";
 import useStyles from './style'
-import { WindowSharp } from '@mui/icons-material';
+import { CartContext } from '../../../../helper/Context';
 
 function DrawerBar() {
     const { username, photo } = useSelector((state) => {
         return state.auth;
       });
-  
+    const {userId, orderId, setUserId, cart, setCart, change, setChange} = useContext(CartContext)
     const classes = useStyles();
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,7 +20,7 @@ function DrawerBar() {
 
 
     const onLogoutClick = () => {
-        
+        setUserId(0)
         dispatch(logoutAction());
         <Navigate to="/" replace />
         
@@ -54,6 +54,12 @@ function DrawerBar() {
             text: 'Products Stock',
             icon: <ReportOutlined color="primary"/>,
             path: '/stocks'
+
+        },
+        {
+            text: 'User Cart',
+            icon: <Badge  badgeContent={cart.length} color="secondary" > <ShoppingCart color="primary"/> </Badge> ,
+            path: '/userscart'
 
         }
     ]

@@ -71,6 +71,7 @@ function ProductManager(props) {
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                       <InputLabel id="category-select">Category</InputLabel>
                         <Select
+                          displayEmpty
                           labelId="category-select"
                           id="1"
                           defaultValue=""
@@ -79,7 +80,7 @@ function ProductManager(props) {
                           onChange={handleSelectedCategory}
                         >
                           <MenuItem key={1} value="">
-                            <Typography>Default</Typography>
+                            Category
                           </MenuItem>
                           {category.map((category) => (
                           <MenuItem key={category.id}  value={category.id}>
@@ -106,13 +107,14 @@ function ProductManager(props) {
                     <FormControl sx={{ m: 3, minWidth: 200 }}>
                       <InputLabel id="sort-by" >Sort By</InputLabel>
                         <Select
+                          displayEmpty
                           labelId="sort-by"
                           id="1"
                           defaultValue=""
                           name="sortBy"
                           onChange={selectSortHandler}
                         >
-                          <MenuItem value="" > Default </MenuItem>
+                          <MenuItem value="" > Sort-By </MenuItem>
                           <MenuItem value="order by price ASC" > Lowest Price </MenuItem>
                           <MenuItem value="order by price DESC" > Highest Price </MenuItem>
                           <MenuItem value="order by productName ASC" > A - Z </MenuItem>

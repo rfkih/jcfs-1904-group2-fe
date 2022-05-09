@@ -133,7 +133,8 @@ function SalesReport() {
                     </CardContent>
                     <CardActions>
                         <Button onClick={revenueDetailHandler}>Back</Button>
-                        <Button>More...</Button>
+                        <a href='#detail'><Button >More...</Button></a>
+                        
                     </CardActions>
                 </Card> 
             }      
@@ -164,7 +165,7 @@ function SalesReport() {
             </Grid>
         </Grid>
         <Chart graphData={graphData} setRange={setRange} setYear={setYear} />
-        <Paper className={classes.paper}>
+        <Paper id="detail"  className={classes.paper}>
             <RevenueDetail/>
         </Paper>
     </Container>

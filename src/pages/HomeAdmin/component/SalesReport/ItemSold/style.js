@@ -15,7 +15,11 @@ export default makeStyles( (theme) => {
           },
         input: {
             flexGrow: 1,
-        }
+        },
+        link: {
+            textDecoration: 'none'
+          },
+        
     }
 
     

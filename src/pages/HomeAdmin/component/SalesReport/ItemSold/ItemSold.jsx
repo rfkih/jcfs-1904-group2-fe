@@ -166,13 +166,14 @@ function ItemSold() {
                                     <FormControl sx={{ m: 3, minWidth: 200 }}>
                                         <InputLabel id="sort-by" >Sort By</InputLabel>
                                             <Select
+                                                displayEmpty
                                                 labelId="sort-by"
                                                 id="1"
                                                 defaultValue=""
                                                 name="sortBy"
                                                 onChange={selectSortHandler}
                                             >
-                                                <MenuItem key={0} value="" > Default </MenuItem>
+                                                <MenuItem key={0} value="" >Sort By</MenuItem>
                                                 <MenuItem key={1} value="order by total_bought asc" > Least Bought </MenuItem>
                                                 <MenuItem key={2} value="order by total_bought desc" > Most Bought </MenuItem>
                                                 <MenuItem key={3} value="order by product_id asc" > Product id (Ascending) </MenuItem>
@@ -215,13 +216,14 @@ function ItemSold() {
                             <FormControl sx={{ m: 3, minWidth: 200 }}>
                                 <InputLabel id="sort-by-category" >Sort By</InputLabel>
                                     <Select
+                                        displayEmpty
                                         labelId="sort-by-category"
                                         id="1"
                                         defaultValue=""
                                         name="categorySortBy"
                                         onChange={selectSortCategoryHandler}
                                     >
-                                        <MenuItem value="" > Default </MenuItem>
+                                        <MenuItem value="" >Sort By</MenuItem>
                                         <MenuItem value="order by total_bought asc" > Least Bought </MenuItem>
                                         <MenuItem value="order by total_bought desc" > Most Bought </MenuItem>
                                         <MenuItem value="order by productCategory asc" > Category Id(Ascending) </MenuItem>
@@ -258,7 +260,7 @@ function ItemSold() {
                                         {columns.map((column) => {
                                             const value = item[column.id];
                                             return (
-                                            <TableCell component={Link} to={`/itemsold/product/${item.product_id}`}  key={column.id} align={column.align}>
+                                            <TableCell className={classes.link} component={Link} to={`/itemsold/product/${item.product_id}`}  key={column.id} align={column.align}>
                                                     {value}
                                             </TableCell>
                                             )

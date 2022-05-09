@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Paper, Typography, Button} from '@material-ui/core'
 import useStyles from './styles'
 import AddProduct from './AddProduct/AddProduct'
@@ -7,13 +7,15 @@ import ProductManager from './ProductManager'
 
 
 function EditProducts(props) {
-    const { products, deletedProducts, setDeletedProducts, setSelectedCategory, setPage, totalPage, page, setSort, setKeyword  } = props;
+    const { products, deletedProducts, checked, setDeletedProducts, setSelectedCategory, setPage, totalPage, page, setSort, setKeyword, deleteState, setDeleteState } = props;
     const classes = useStyles();
+   
+
+   
   return (
     <>
       <div className={classes.toolbar}/>
-      <AddProduct/>
-      
+      <AddProduct />
       <ProductManager
         deletedProducts={deletedProducts}
         setDeletedProducts={setDeletedProducts}
@@ -23,12 +25,16 @@ function EditProducts(props) {
         setKeyword={setKeyword}
         
       />
+    
       <ProductsAdmin
         products={products}
         deletedProducts={deletedProducts}
         page={page}
         totalPage={totalPage}
         setPage={setPage}
+        checked={checked}
+        deleteState={deleteState}
+        setDeleteState={setDeleteState}
       />  
     </>
   )

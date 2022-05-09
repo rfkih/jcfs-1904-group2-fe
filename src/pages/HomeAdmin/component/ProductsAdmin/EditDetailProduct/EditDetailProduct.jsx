@@ -10,8 +10,6 @@ function EditDetailProduct() {
     const data = useSelector((state) => {
         return state.auth;
       });
-
-    
     const classes = useStyles();
     const params = useParams();
     const [product, setProduct] = useState({});
@@ -26,24 +24,24 @@ function EditDetailProduct() {
     const [isEditStock, setIsEditStock] = useState(false)
     const [isSave, setIsSave] = useState(false)
     const [stocks, setStocks] = useState({
-        product_id: null,
-        qtyBoxAvailable: null,
-        qtyBoxTotal: null,
-        qtyBottleAvailable: null,
-        qtyBottleTotal: null,
-        qtyMlAvailable: null,
-        qtyMlTotal: null,
-        qtyStripsavailable: null,
-        qtyStripsTotal: null,
-        qtyMgAvailable: null,
-        qtyMgTotal: null
+        product_id: 0,
+        qtyBoxAvailable: 0,
+        qtyBoxTotal: 0,
+        qtyBottleAvailable: 0,
+        qtyBottleTotal: 0,
+        qtyMlAvailable: 0,
+        qtyMlTotal: 0,
+        qtyStripsavailable: 0,
+        qtyStripsTotal: 0,
+        qtyMgAvailable: 0,
+        qtyMgTotal: 0
     })
     const [onCancelData, setOnCancelData] = useState([])
     const [onCancelStock, setOnCancelStock] = useState([])
     const [calculatedStock, setCalculatedStock] = useState({})
     const { product_id, qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal } = stocks
     
-    console.log(calculatedStock);
+   
 
 
     const handleChange = (e) => {
@@ -261,12 +259,12 @@ function EditDetailProduct() {
 
     if (isLiquid) {
         updatedStocks = {
-            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable: null, qtyStripsTotal: null, qtyMgAvailable: null, qtyMgTotal: null
+            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable, qtyBottleTotal, qtyMlAvailable, qtyMlTotal, qtyStripsavailable: 0, qtyStripsTotal: 0, qtyMgAvailable: 0, qtyMgTotal: 0
         };
         
     } else {
         updatedStocks = {
-            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable: null, qtyBottleTotal: null, qtyMlAvailable: null, qtyMlTotal: null, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
+            qtyBoxAvailable, qtyBoxTotal, qtyBottleAvailable: 0, qtyBottleTotal: 0, qtyMlAvailable: 0, qtyMlTotal: 0, qtyStripsavailable,qtyStripsTotal, qtyMgAvailable, qtyMgTotal
         };
         
     }
@@ -513,9 +511,7 @@ let choosenCategory = categories.filter(function (category) {
                             <Grid xs={2}d>
                                 <Button onClick={editStockHandleChange} size="medium" color="primary"> Save </Button>
                                 <Button onClick={editStockCancelHandle} size="medium" color="secondary"> Cancel </Button>
-                            </Grid>
-                            
-                            
+                            </Grid>                                                       
                             </>
                             }  
                             </Grid>   

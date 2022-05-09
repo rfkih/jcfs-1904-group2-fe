@@ -13,6 +13,11 @@ export default makeStyles( (theme) => {
             marginTop: theme.spacing(3),
             padding: theme.spacing(6),
           },
+        paper: {
+           
+            padding: theme.spacing(1)
+        },
+
         card: {
             padding: theme.spacing(2)
         }

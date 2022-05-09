@@ -8,9 +8,16 @@ export default makeStyles( (theme) => {
 
         toolbar: theme.mixins.toolbar,
         paper: {
-            marginTop: theme.spacing(2.8),
-            padding: theme.spacing(1),
+            margin: theme.spacing(1),
+            padding: theme.spacing(2),
           },
+          link: {
+            textDecoration: 'none'
+          },
+        papers:{
+          margin: theme.spacing(1),
+          padding: theme.spacing(1.08),
+        },
         
     }
 

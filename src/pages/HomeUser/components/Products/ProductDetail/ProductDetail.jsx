@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {Card, Paper, CardMedia, Button, Grid, CardContent, CardActions, Typography, IconButton,} from '@material-ui/core';
+import React, { useState, useEffect, useContext } from "react";
+import {Card, Paper, CardMedia, Button, Grid, CardContent, CardActions, Dialog, DialogTitle, DialogActions, Typography, IconButton,} from '@material-ui/core';
 import { AddShoppingCart } from '@material-ui/icons'
 import axios from '../../../../../utils/axios'
 import { useParams } from "react-router-dom";
-
+import {CartContext} from '../../../../../helper/Context'
+import {useSelector} from 'react-redux'
 
 import useStyles from './styles';
 
@@ -14,9 +15,18 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(0);
   const [ stocks, setStocks] = useState({})
   const [ stock, setStock] = useState(5)
-
-
- const {stockLiquid, stockNonLiquid } = stocks
+  const {userId, orderId, cart, setCart, change, setChange} = useContext(CartContext)
+  const {stockLiquid, stockNonLiquid } = stocks
+  const [open, setOpen] = useState(false)
+  const {role} = useSelector((state) => {
+         return state.auth;
+       });
+  const handleClickOpen = () => {
+         setOpen(true);
+       };
+  const handleClose = () => {
+         setOpen(false);
+       };
  
 
   useEffect(() => {
@@ -56,6 +66,41 @@ useEffect (() => {
   }, [stocks])
 
 
+  const onAdd = async () => {
+    const checkProductInCart = cart.find((item) => item.product_id === product.id)
+    
+    if (checkProductInCart) {
+        const totalQty = checkProductInCart.productQuantity + quantity;
+        await axios
+        .put(`/cart/quantity/:${checkProductInCart.id}`, { params: { productQuantity: totalQty, id: checkProductInCart.id,  price: product.price } } )
+        .then((res) => {
+          setChange(!change)
+          console.log(res.data);
+        })
+        .catch((error) => console.log({ error }));
+    } else {
+        await axios
+        .post(`/cart`, { params: { productQuantity: quantity, product, userId, isCustom: true } } )
+        .then((res) => {
+          setChange(!change)
+          console.log(res.data);
+        })
+        .catch((error) => console.log({ error }));
+
+    }
+}
+
+
+ const onAddToCartClick = () => {
+   if (quantity) {
+      onAdd();
+      setQuantity(0)
+   } else{
+     alert('quantity still zero ')
+   }
+ }
+
+
 
  
 
@@ -65,7 +110,7 @@ useEffect (() => {
       <Paper className={classes.paper}>
       <Card className={classes.root}>
         <CardMedia className={classes.media} image={product.productIMG} tittle={product.productName}/>
-        <CardContent>
+        <CardContent >
             <div className={classes.cardContent}>
                 <Typography variant="h6" gutterBottom>
                     {productName}
@@ -79,23 +124,48 @@ useEffect (() => {
             <Typography>{productDetails}</Typography>
         </CardActions>
       </Card>
-
-
-      <CardActions disableSpacing className={classes.cardActions}>
-          <Grid>
+      <CardActions className={classes.cardActions}>
+        <Grid container  direction="row" justifyContent="center"  alignItems="center" spacing={2}>
+          <Grid item xs={6}>
+            {product.isLiquid ? 
               <Typography>
-                Stock Available : {stock}
-              </Typography>
+                Stock Available : {stock} Bottle
+              </Typography> 
+              : 
+              <Typography>
+                Stock Available : {stock} Strips
+              </Typography>  }
+              
           </Grid>
-          {quantity === 0 ? <Button type="button" size="small" > - </Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity - 1)}>-</Button> }
-            <Typography>{quantity}</Typography>
-
-          {quantity === stock ? <Button type="button" size="small" >+</Button> : <Button type="button" size="small" onClick={() => setQuantity(quantity + 1)}>+</Button> }
-            
-            <IconButton aria-label='Add to Cart' >
+          <Grid container direction="row" justifyContent="space-around"  alignItems="center"  item xs={6}>
+            {quantity === 0 ? <Button size="small" variant="contained" color="success"  > - </Button> : <Button  size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity - 1)}>-</Button> }
+              <Typography variant="h6" >{quantity}</Typography>
+            {quantity === stock ? <Button  size="small" variant="contained" color="success"  >+</Button> : <Button size="small" variant="contained" color="secondary" onClick={() => setQuantity(quantity + 1)}>+</Button> }          
+            <IconButton onClick={userId ? onAddToCartClick : handleClickOpen} aria-label='Add to Cart' >
                 <AddShoppingCart/>
             </IconButton>  
+          </Grid>
+        </Grid> 
         </CardActions>
+        <div>
+          <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+               {role === 'admin' ? 
+                <DialogTitle>
+                    There is no active Orders..
+                </DialogTitle> : 
+                 <DialogTitle>
+                    Please Login First... 
+                </DialogTitle> }
+                <DialogActions>
+                    <Button onClick={handleClose} >Ok</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     </Paper>
 
     </main>
