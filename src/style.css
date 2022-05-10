@@ -8,30 +8,104 @@
   padding: 10px;
 }
 
+.register{
+  text-decoration: none;
+    color: black;
+    position: relative;
+}
+
+.register:hover{
+  text-decoration: underline;
+}
+
+.login {
+      color: black;
+      margin: 0 -.25rem;
+      padding: 0 .25rem;
+      transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+      text-decoration: none;
+    }
+  
+    .login:hover {
+      box-shadow: inset 100px 0 0 0 black;
+      color: white;
+      border-radius: 15px;
+    }
+
+
 .product-navbar {
   display: flex;
   padding: 10px;
 }
 
-.pages {
-  max-width: 900px;
+.product {
+  text-decoration: none;
+  color: black;
+  position: relative;
+  font-size: larger;
+  
+}
+
+.product::before{
+content: '';
+  position: absolute;
   width: 100%;
-  margin: 100px auto;
+  height: 4px;
+  border-radius: 4px;
+  background-color: #18272F;
+  bottom: 0;
+  left: 0;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform .3s ease-in-out;
+}
+
+.product:hover::before {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.profile-bar{
+  text-decoration: none;
+  color: black;
+}
+
+.landing-page {
+  max-width: 500px;
+  width: 100%;
+  margin: 150px auto;
   box-shadow: 0 0 10px grey;
   border-radius: 10px;
   text-align: center;
+  padding-top: 2px;
 }
+
+.login-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-text {
+  text-decoration: none;
+  color: black
+}
+
+.login-text:hover {
+  text-decoration: underline;
+  color: black
+}
+
 
 .profile-picture {
   max-width: 800px;
   width: 100%;
   margin: 100px auto;
-  box-shadow: 0 0 10px cornflowerblue;
+  box-shadow: 0 0 10px grey;
   border-radius: 10px;
   text-align: center;
   padding: 5px 5px 30px;
   justify-content: center;
-  
+
 }
 
 .avatar {
@@ -48,8 +122,26 @@
   justify-content: center;
 }
 
+.cart {
+  cursor: pointer;
+}
+
+.cart-span {
+  color: red;
+  font-weight: bold;
+  position: relative;
+  top: -12px;
+}
 .slide-bottom {
   -webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: rgb(0, 0, 0);
+  color: white
 }
 

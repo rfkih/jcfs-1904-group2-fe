@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Box,
@@ -8,16 +8,18 @@ import {
   Button,
   Menu,
   MenuItem,
+  Badge,
 } from "@mui/material";
-import {CartContext} from '../../helper/Context'
+import { CartContext } from "../../helper/Context";
 import Logo from "@mui/icons-material/HealingRounded";
+import { ShoppingCart } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../store/actions";
 
 function Navigation() {
   const dispatch = useDispatch();
-  const {setCart, setUserId} = useContext(CartContext)
+  const { setUserId, cart, setCart } = useContext(CartContext);
   const { username, role } = useSelector((state) => {
     return state.auth;
   });
@@ -33,8 +35,8 @@ function Navigation() {
 
   const onLogoutClick = () => {
     dispatch(logoutAction());
-    setUserId(0)
-    setCart([])
+    setUserId(0);
+    setCart([]);
   };
 
   return (
@@ -55,12 +57,35 @@ function Navigation() {
           </IconButton>
 
           <div className="product-navbar">
-            <Typography sx={{ mr: 3 }}> Products </Typography>
-            <Typography component={Link} to='/customorders'> Custom Products </Typography>
+            <Typography
+              sx={{ mr: 3 }}
+              component={Link}
+              to="/"
+              className="product"
+              variant="h6"
+            >
+              {" "}
+              Products{" "}
+            </Typography>
+            <Typography
+              component={Link}
+              to="/customorders"
+              className="product"
+              variant="h6"
+            >
+              {" "}
+              Custom Products{" "}
+            </Typography>
           </div>
 
           {username ? (
             <div>
+              <Button component={Link} to="/cart">
+                <Badge badgeContent={cart.length} color="secondary">
+                  <ShoppingCart color="primary" />
+                </Badge>
+              </Button>
+
               <Button
                 id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
@@ -80,10 +105,20 @@ function Navigation() {
                 }}
               >
                 <MenuItem>
-                  <Link to="/edit-profile-picture"> Profile Picture </Link>
+                  <Link to="/edit-profile-picture" className="profile-bar">
+                    {" "}
+                    Profile Picture{" "}
+                  </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link to="/edit-profile">Edit Profile</Link>
+                  <Link to="/edit-profile" className="profile-bar">
+                    Edit Profile
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to="/usertransactions" className="profile-bar">
+                    Transaction
+                  </Link>
                 </MenuItem>
                 <MenuItem>
                   <Link to="/usertransactions">Transaction</Link>
@@ -93,11 +128,15 @@ function Navigation() {
             </div>
           ) : (
             <div className="register-login-navbar">
-              <Typography sx={{ mr: 3 }}>
-                <Link to="/register">Register</Link>
+              <Typography sx={{ mr: 3 }} variant="h6">
+                <Link to="/register" className="register">
+                  Register
+                </Link>
               </Typography>
-              <Typography>
-                <Link to="/login">Login</Link>
+              <Typography variant="h6">
+                <Link to="/login" className="login">
+                  Login
+                </Link>
               </Typography>
             </div>
           )}

@@ -13,7 +13,6 @@ function ProfilePicture() {
 
   const { id } = JSON.parse(localStorage.getItem("userData"));
   console.log("Avatar", image);
-  
 
   const getUserById = async () => {
     try {
@@ -58,7 +57,7 @@ function ProfilePicture() {
     <div className="profile-picture">
       <div className="avatar">
         <Stack direction="column" spacing={2} sx={{ mt: 5 }}>
-          <Avatar alt="user photo" src={image} sx={{ width: 56, height: 56 }} />
+          <Avatar alt="user photo" src={image} sx={{ width: 60, height: 60 }} />
           <Button variant="outlined" component="label" size="small">
             <input type="file" onChange={onPhotoChange} />
           </Button>
