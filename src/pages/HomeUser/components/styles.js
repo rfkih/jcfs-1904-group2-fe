@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       marginTop: 60,
