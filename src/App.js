@@ -63,9 +63,18 @@ function App() {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (role == 'admin') {
+      setCustom('and isCustom = 1')
+      fetchCart();
+    }else{
+      fetchCart();
+    }
+},[change, userId, custom])
+
    
   
-  console.log(cart);
+  console.log(custom);
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
@@ -152,14 +161,7 @@ function App() {
  
 
 
-  useEffect(() => {
-    if (role == 'admin') {
-      setCustom('and isCustom = 1')
-      fetchCart();
-    }else{
-      fetchCart();
-    }
-},[change, userId])
+  
 
 
   if (isLocalStorageChecked) {
