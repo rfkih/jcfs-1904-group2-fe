@@ -74,7 +74,7 @@ function App() {
 
    
   
-  console.log(custom);
+  console.log(cart);
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
