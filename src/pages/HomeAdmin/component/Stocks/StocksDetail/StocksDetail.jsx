@@ -33,7 +33,7 @@ function StocksDetail() {
         qtyMgTotal: 0
     })
     const [log, setLog] = useState([])
-    const [sort, setSort] = useState('')
+    const [sort, setSort] = useState('order by created_at desc')
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2021-04-04`))
     const [selectedDateTo, setSelectedDateTo] = useState( new Date())
     const [detailedData, setDetailedData] = useState([{total_stock_in: 0, total_stock_out:0 }, {total_bought: 0}])

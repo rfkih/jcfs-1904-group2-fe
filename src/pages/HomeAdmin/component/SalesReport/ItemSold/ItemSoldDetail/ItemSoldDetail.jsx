@@ -145,7 +145,7 @@ function ItemSoldDetail() {
             <Paper className={classes.paper}>
                 <Grid container  spacing={2}>
                     <Grid item xs={4}>
-                        <Typography>Total Bought : {detail.total_bought} pcs</Typography>
+                        <Typography>Total Bought : {detail.total_bought} {productDetail.isLiquid === 1 ? <>Bottle</> : <>Strips</>}</Typography>
                         <Typography>Total Amountt : Rp.{detail.total_amount}</Typography>
                         <Typography>Outstanding Stocks: {stock} {productDetail.isLiquid === 1 ? <>Bottle</> : <>Strips</>} </Typography>
                     </Grid>
