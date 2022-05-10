@@ -1,23 +1,18 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "../../../../utils/axios";
+import React, { useState, useContext } from "react";
+import axios from "../../utils/axios";
 import {
-  InputLabel,
+  Button,
   Grid,
   Typography,
   Container,
-  Paper,
-  Button,
   Card,
   CardActions,
   CardContent,
-  TextField,
-  Divider,
-  Box,
 } from "@material-ui/core";
 import useStyles from "./styles";
 import { Link, Navigate } from "react-router-dom";
-import CartItem from "./CartItem/CartItem";
-import { CartContext } from "../../../../helper/Context";
+import CartItem from "../HomeAdmin/component/UserCart/CartItem/CartItem";
+import { CartContext } from "../../helper/Context";
 import {
   Dialog,
   DialogActions,
@@ -63,10 +58,9 @@ function UserCart() {
       .catch((error) => console.log({ error }));
   };
 
-    
-    const checkoutHandle = async () => {
-      await axios
-      .post("/transaction", { username, userId, subTotal, cart, isByPresciption: 1 } )
+  const checkoutHandle = async () => {
+    await axios
+      .post("/transaction", { username, userId, subTotal, cart })
       .then((res) => {
         setUserId(0);
         setChange(!change);
@@ -131,59 +125,64 @@ function UserCart() {
   }
 
   return (
-    <Container>
-      <div className={classes.toolbar} />
-      <Typography className={classes.tittle} variant="h3" gutterBottom>
-        Your Shopping Cart
-      </Typography>
-      {!cart.length ? <EmptyCart /> : <FilledCart />}
+    <Container className="landing-page">
       <div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-checkout"
-          aria-describedby="alert-dialog-checkout"
-        >
-          <DialogTitle id="alert-dialog-checkout">
-            {" "}
-            Checkout Details..
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-checkout">
-              <Grid container spacing={3}>
-                {cart.map((item) => (
-                  <Grid item xs={12} key={item.id}>
-                    <Card>
-                      <CardContent>
-                        <Grid container spacing={2}>
-                          <Grid item xs={4}>
-                            <Typography>{item.productName}</Typography>
+        <Typography className={classes.title} variant="h3" gutterBottom>
+          Your Shopping Cart
+        </Typography>
+        {!cart.length ? <EmptyCart /> : <FilledCart />}
+        <div>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-checkout"
+            aria-describedby="alert-dialog-checkout"
+          >
+            <DialogTitle id="alert-dialog-checkout">
+              {" "}
+              Checkout Details..
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-checkout">
+                <Grid container spacing={3}>
+                  {cart.map((item) => (
+                    <Grid item xs={12} key={item.id}>
+                      <Card>
+                        <CardContent>
+                          <Grid container spacing={2}>
+                            <Grid item xs={4}>
+                              <Typography>{item.productName}</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Typography>
+                                {item.productQuantity} pcs
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Typography>Rp.{item.price}</Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={4}>
-                            <Typography>{item.productQuantity} pcs</Typography>
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography>Rp.{item.price}</Typography>
-                          </Grid>
-                        </Grid>
-                      </CardContent>
-                      <CardActions>
-                        <Typography>total: Rp.{item.totalPrice} </Typography>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-              <Typography variant="h6">SubTotal: {subTotal}</Typography>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Back</Button>
-            <Button onClick={checkoutHandle} autoFocus>
-              Confirm
-            </Button>
-          </DialogActions>
-        </Dialog>
+                        </CardContent>
+                        <CardActions>
+                          <Typography>total: Rp.{item.totalPrice} </Typography>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Typography variant="h6" className={classes.title}>
+                  Subtotal: {subTotal}
+                </Typography>
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Back</Button>
+              <Button onClick={checkoutHandle} autoFocus>
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       </div>
     </Container>
   );

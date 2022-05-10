@@ -66,6 +66,7 @@ function EditProfile() {
         gender,
         address,
         email,
+        oldPassword,
         newPassword,
       };
 
@@ -86,7 +87,7 @@ function EditProfile() {
   };
 
   return (
-    <div className="pages">
+    <div className="profile-picture">
       <div>
         <div className="form-control">
           <FormControl sx={{ m: 3 }}>

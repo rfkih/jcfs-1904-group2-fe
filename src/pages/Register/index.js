@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, FormLabel, TextField } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import axios from "../../utils/axios";
@@ -40,43 +40,56 @@ function RegisterPage() {
   }
 
   return (
-    <div className="pages">
+    <div className="landing-page">
       <h1> Register Here </h1>
+      <h4> Welcome to Pharmacy! </h4>
 
-      <div>
-        <TextField
-          required
-          name="username"
-          id="outlined-required"
-          label="Username"
-          type="username"
-          onChange={handleChange}
-          value={username}
-        />
+      <div className="form-control">
+        <FormControl sx={{ m: 3 }}>
+          <FormLabel sx={{ mb: 4 }}>
+            <TextField
+              required
+              name="username"
+              id="outlined-required"
+              label="Username"
+              type="username"
+              onChange={handleChange}
+              value={username}
+              fullWidth
+            />
 
-        <TextField
-          required
-          name="email"
-          id="outlined-required"
-          label="Email"
-          type="email"
-          onChange={handleChange}
-          value={email}
-        />
+            <TextField
+              required
+              name="email"
+              id="outlined-required"
+              label="Email"
+              type="email"
+              onChange={handleChange}
+              value={email}
+              fullWidth
+              sx={{ mt: 2 }}
+            />
 
-        <TextField
-          required
-          name="password"
-          id="outlined-password-input-required"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          onChange={handleChange}
-          value={password}
-        />
-        <Button variant="outlined" onClick={onRegisterClick}>
-          Register
-        </Button>
+            <TextField
+              required
+              name="password"
+              id="outlined-password-input-required"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              onChange={handleChange}
+              value={password}
+              fullWidth
+              sx={{ mt: 2 }}
+            />
+          </FormLabel>
+          <Button variant="outlined" onClick={onRegisterClick}>
+            Register
+          </Button>
+          <Button variant="text" a href="/login" sx={{ mt: 2 }} size="small">
+            Already have an account?
+          </Button>
+        </FormControl>
       </div>
     </div>
   );

@@ -1,15 +1,12 @@
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, FormLabel, TextField } from "@mui/material";
 import React, { useState } from "react";
 import axios from "../../utils/axios";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
 function Forgotpass() {
-  const initFormState = {
+  const [formState, setFormState] = useState({
     email: "",
-  };
-  const [formState, setFormState] = useState(initFormState);
-  const { email } = formState;
+  });
+  console.log(formState);
 
   const handleChangeEmail = (e) => {
     setFormState({ [e.target.name]: e.target.value });
@@ -17,7 +14,7 @@ function Forgotpass() {
 
   const onSubmitClick = async () => {
     try {
-      await axios.put("/users/reset-password", {
+      await axios.post("/users/forgot-password", {
         email: formState.email,
       });
       alert("Check your email");
@@ -25,24 +22,30 @@ function Forgotpass() {
   };
 
   return (
-    <div className="pages">
+    <div className="landing-page">
       <div>
         <h1> Forgot Password</h1>
-        <p> Fill the Email and Submit to get an update password page</p>
+        <p> Fill and Submit your Email to Update your password </p>
       </div>
-      <div>
-        <TextField
-          required
-          id="outlined-required"
-          label="Email"
-          type="email"
-          onChange={handleChangeEmail}
-          value={email}
-        />
+      <div className="form-control">
+        <FormControl sx={{ m: 3 }}>
+          <FormLabel sx={{ mb: 4 }}>
+            <TextField
+              required
+              id="outlined-required"
+              label="Email"
+              type="email"
+              name="email"
+              onChange={handleChangeEmail}
+              value={formState.email}
+              fullWidth
+            />
 
-        <Button variant="contained" onClick={onSubmitClick}>
-          Submit
-        </Button>
+            <Button variant="contained" onClick={onSubmitClick} sx={{ mt: 2 }}>
+              Submit
+            </Button>
+          </FormLabel>
+        </FormControl>
       </div>
     </div>
   );
