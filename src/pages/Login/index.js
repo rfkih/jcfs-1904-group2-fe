@@ -12,7 +12,7 @@ function LoginPage() {
     return state.auth;
   });
   const [isLoading, setIsLoading] = useState(false);
-  const { userId, setUserId } = useContext(CartContext);
+  const { userId, setUserId, setChange, change } = useContext(CartContext);
   const [formState, setFormState] = useState({
     username: "",
     password: "",
@@ -37,6 +37,7 @@ function LoginPage() {
         password: formState.password,
       });
       const payload = res.data;
+      setChange(!change)
 
       if (res.data.role == "user") {
         setUserId(res.data.id);
