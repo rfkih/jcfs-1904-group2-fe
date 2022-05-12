@@ -38,7 +38,6 @@ function Transaction({ transaction, change, setChange }) {
     }
   };
 
-
   return (
     <Container>
       <Card sx={{ display: "flex", flexDirection: "row" }}>

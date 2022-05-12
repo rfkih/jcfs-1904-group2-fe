@@ -43,7 +43,6 @@
   color: black;
   position: relative;
   font-size: larger;
-  
 }
 
 .product::before{
@@ -74,7 +73,9 @@ content: '';
   max-width: 500px;
   width: 100%;
   margin: 150px auto;
-  box-shadow: 0 0 10px grey;
+
+  box-shadow: 0 0 10px rgb(84, 84, 84);
+
   border-radius: 10px;
   text-align: center;
   padding-top: 2px;
@@ -99,13 +100,25 @@ content: '';
 .profile-picture {
   max-width: 800px;
   width: 100%;
-  margin: 100px auto;
+
+  margin: 170px auto;
   box-shadow: 0 0 10px grey;
   border-radius: 10px;
   text-align: center;
   padding: 5px 5px 30px;
   justify-content: center;
+}
 
+.edit-profile {
+  max-width: 800px;
+  width: 100%;
+  margin: 120px auto;
+
+  box-shadow: 0 0 10px grey;
+  border-radius: 10px;
+  text-align: center;
+  padding: 5px 5px 30px;
+  justify-content: center;
 }
 
 .avatar {

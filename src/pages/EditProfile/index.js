@@ -87,7 +87,7 @@ function EditProfile() {
   };
 
   return (
-    <div className="profile-picture">
+    <div className="edit-profile">
       <div>
         <div className="form-control">
           <FormControl sx={{ m: 3 }}>

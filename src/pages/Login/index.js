@@ -39,6 +39,8 @@ function LoginPage() {
       const payload = res.data;
       setChange(!change)
 
+      setChange(!change)
+
       if (res.data.role == "user") {
         setUserId(res.data.id);
       }

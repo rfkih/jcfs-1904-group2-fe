@@ -149,12 +149,6 @@ function App() {
   };
 
   
-
-
-
-
-
-
   if (isLocalStorageChecked) {
     return (
       <div className={classes.root}>
