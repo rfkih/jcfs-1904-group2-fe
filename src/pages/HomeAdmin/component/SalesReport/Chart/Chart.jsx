@@ -116,6 +116,7 @@ function ChartRevenue({graphData, setRange, setYear}) {
                   onChange={handleYearChange}
                 >
                   <MenuItem key={0} value="">Select Year</MenuItem>
+                  <MenuItem key={2} value={2020} >2020</MenuItem>
                   <MenuItem key={2} value={2021} >2021</MenuItem>
                   <MenuItem key={3} value={2022} >2022</MenuItem>
                 </Select>
