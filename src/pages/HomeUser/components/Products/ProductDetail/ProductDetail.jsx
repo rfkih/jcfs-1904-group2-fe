@@ -101,7 +101,9 @@ function ProductDetail() {
         })
         .catch((error) => console.log({ error }));
     } else {
-      await axios
+
+      if (role == "admin") {
+        await axios
         .post(`/cart`, {
           params: {
             productQuantity: quantity,
@@ -115,6 +117,25 @@ function ProductDetail() {
           console.log(res.data);
         })
         .catch((error) => console.log({ error }));
+        
+      } else {
+        await axios
+        .post(`/cart`, {
+          params: {
+            productQuantity: quantity,
+            product,
+            userId,
+            isCustom: false,
+          },
+        })
+        .then((res) => {
+          setChange(!change);
+          console.log(res.data);
+        })
+        .catch((error) => console.log({ error }));
+        
+      }
+     
     }
   };
 
