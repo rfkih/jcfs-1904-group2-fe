@@ -75,10 +75,6 @@ function App() {
       fetchCart();
     }
 },[change, userId, custom])
-
-   
-  
-  
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");

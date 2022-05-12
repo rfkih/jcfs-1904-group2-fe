@@ -31,7 +31,6 @@ function Transaction({ transaction, change, setChange }) {
         params: { status: "complete" },
       });
       const { data } = res;
-      
       setChange(!change);
     } catch (error) {
       console.log(alert(error.message));

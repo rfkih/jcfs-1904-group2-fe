@@ -117,7 +117,6 @@ function ProductDetail() {
           console.log(res.data);
         })
         .catch((error) => console.log({ error }));
-        
       } else {
         await axios
         .post(`/cart`, {
