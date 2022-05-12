@@ -109,7 +109,6 @@ function Navigation() {
                     {" "}
                     Profile Picture{" "}
                   </Link>
-
                 </MenuItem>
                 <MenuItem>
                   <Link to="/edit-profile" className="profile-bar">

@@ -64,8 +64,6 @@ function App() {
 
   const dispatch = useDispatch();
 
-  console.log(cart);
-
   console.log(role);
 
   useEffect(() => {
@@ -73,11 +71,13 @@ function App() {
       setCustom('and isCustom = 1')
       fetchCart();
     }else{
+
       setCustom('and isCustom = 0')
       fetchCart();
     }
 },[change, userId, custom])
 
+  
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
     const dataLocalStorage = localStorage.getItem("cartData");
@@ -146,15 +146,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (role == "user") {
-      setUserId(id);
-    }
-    if (isLocalStorageChecked) {
-      cartData();
-    }
-  }, [userId, orderId, cart]);
-
+  
   if (isLocalStorageChecked) {
     return (
       <div className={classes.root}>

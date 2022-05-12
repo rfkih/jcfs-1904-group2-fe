@@ -3,6 +3,7 @@ import { Transform } from "@material-ui/icons";
 import { Scale } from "@mui/icons-material";
 
 export default makeStyles((theme) => ({
+
   root: {
     maxWidth: "100%",
   },

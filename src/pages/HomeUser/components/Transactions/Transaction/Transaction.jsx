@@ -38,7 +38,7 @@ function Transaction({ transaction, change, setChange }) {
       console.log(alert(error.message));
     }
   };
-  
+
   return (
     <Container>
       <Card sx={{ display: "flex", flexDirection: "row" }}>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, FormControl, FormLabel, TextField } from "@mui/material";
-
 import { useParams } from "react-router-dom";
 import axios from "../../utils/axios";
 
@@ -10,6 +9,7 @@ function ResetPassword() {
   const [formState, setFormState] = useState({
     newPassword: "",
     confirmPassword: "",
+
   });
 
   const handleChangePassword = (e) => {
@@ -33,7 +33,6 @@ function ResetPassword() {
   const onConfirmClick = () => {
     onResetPassword();
     alert("Password has been reset");
-
   };
 
   const onInputPress = (e) => {
