@@ -37,6 +37,7 @@ function LoginPage() {
         password: formState.password,
       });
       const payload = res.data;
+      setChange(!change)
 
       setChange(!change)
 

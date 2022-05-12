@@ -19,7 +19,6 @@ function Transactions() {
     const [totalPage, setTotalPage] = useState(1)
     const [page, setPage] = useState(1)
     const [status, setStatus] = useState('')
-
     const [sort, setSort] = useState('order by created_at desc')
     const [keyword, setKeyword] = useState('')
     const [change, setChange] = useState(false)
