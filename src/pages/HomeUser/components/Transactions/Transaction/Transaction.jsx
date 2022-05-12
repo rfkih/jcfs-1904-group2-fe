@@ -32,11 +32,13 @@ function Transaction({ transaction, change, setChange }) {
       });
       const { data } = res;
       console.log(data);
+
       setChange(!change);
     } catch (error) {
       console.log(alert(error.message));
     }
   };
+
   return (
     <Container>
       <Card sx={{ display: "flex", flexDirection: "row" }}>

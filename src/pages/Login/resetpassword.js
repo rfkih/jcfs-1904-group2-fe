@@ -1,38 +1,29 @@
 import React, { useState } from "react";
 import { Button, FormControl, FormLabel, TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, Navigate } from "react-router-dom";
-import { loginAction } from "../../store/actions";
+import { useParams } from "react-router-dom";
 import axios from "../../utils/axios";
 
 function ResetPassword() {
-  const dispatch = useDispatch;
   const params = useParams();
-  const usernameLogin = useSelector((state) => state.auth.username);
 
   const [formState, setFormState] = useState({
-    password: "",
+    newPassword: "",
+    confirmPassword: "",
+
   });
 
   const handleChangePassword = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  console.log(formState);
+  const { token } = useParams();
 
   const onResetPassword = async () => {
     try {
-      const res = await axios.put(`/users/reset-password/${params.token}`, {
+      const res = await axios.put(`/users/reset-password/${token}`, {
         password: formState.confirmPassword,
         token: params.token,
       });
-      console.log(res.data);
-
-      // const user = res.data.user;
-      // const postToken = res.data.token;
-
-      // const action = loginAction({ user, postToken });
-      // dispatch(action);
     } catch (error) {
       console.log({ error });
       window.alert(error.message);
@@ -42,16 +33,12 @@ function ResetPassword() {
   const onConfirmClick = () => {
     onResetPassword();
     alert("Password has been reset");
-    // <Navigate to="/login" replace />;
   };
 
   const onInputPress = (e) => {
     if (e.code === "Enter") onResetPassword();
   };
 
-  // if (usernameLogin) {
-  //   return <Navigate to="/" replace />;
-  // }
 
   return (
     <div className="landing-page">

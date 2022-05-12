@@ -21,7 +21,8 @@ function UsersTransaction() {
     const [status, setStatus] = useState('')
     const [ users, setUsers] = useState([])
     const [ sortUser, setSortUser] = useState('')
-    const [sortTransactions, setSortTransactions] = useState('')
+
+    const [sortTransactions, setSortTransactions] = useState('order by created_at desc')
     const [keywordTransaction, setKeywordTransaction] = useState('')
     const [keywordUser, setKeywordUser] = useState('')
     const [selectedDateFrom, setSelectedDateFrom] = useState( (`2018-04-04`))

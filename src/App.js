@@ -71,13 +71,12 @@ function App() {
       setCustom('and isCustom = 1')
       fetchCart();
     }else{
+
+      setCustom('and isCustom = 0')
       fetchCart();
     }
 },[change, userId, custom])
 
-   
-  
-  console.log(cart);
   
   useEffect(() => {
     const userLocalStorage = localStorage.getItem("userData");
@@ -148,12 +147,6 @@ function App() {
   };
 
   
-
-
-
-
-
-
   if (isLocalStorageChecked) {
     return (
       <div className={classes.root}>
