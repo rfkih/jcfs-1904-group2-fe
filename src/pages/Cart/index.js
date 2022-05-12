@@ -60,7 +60,9 @@ function UserCart() {
 
   const checkoutHandle = async () => {
     await axios
+
       .post("/transaction", { username, userId, subTotal, cart, isByPresciption: 0 })
+
       .then((res) => {
         setUserId(0);
         setChange(!change);

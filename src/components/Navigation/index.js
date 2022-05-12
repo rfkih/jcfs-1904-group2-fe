@@ -109,19 +109,18 @@ function Navigation() {
                     {" "}
                     Profile Picture{" "}
                   </Link>
+
                 </MenuItem>
                 <MenuItem>
                   <Link to="/edit-profile" className="profile-bar">
                     Edit Profile
+
                   </Link>
                 </MenuItem>
                 <MenuItem>
                   <Link to="/usertransactions" className="profile-bar">
                     Transaction
                   </Link>
-                </MenuItem>
-                <MenuItem>
-                  <Link to="/usertransactions">Transaction</Link>
                 </MenuItem>
                 <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
               </Menu>

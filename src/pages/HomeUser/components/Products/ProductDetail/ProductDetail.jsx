@@ -68,6 +68,7 @@ function ProductDetail() {
     }
   };
 
+
   useEffect(() => {
     fetchStocks();
   }, []);
@@ -101,7 +102,6 @@ function ProductDetail() {
         })
         .catch((error) => console.log({ error }));
     } else {
-
       if (role == "admin") {
         await axios
         .post(`/cart`, {
@@ -117,6 +117,7 @@ function ProductDetail() {
           console.log(res.data);
         })
         .catch((error) => console.log({ error }));
+
         
       } else {
         await axios
