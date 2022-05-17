@@ -149,7 +149,7 @@ function PendingOrder() {
                       Status : {activeOrder.status}
                     </Typography>
                     <Typography variant="subtitle1">
-                      Order Date : {activeOrder.created_at}
+                      Order Date : {moment(activeOrder.created_at).utc().format("LLL")}
                     </Typography>
                     <Typography variant="subtitle1">
                       Notes : {activeOrder.notes}
