@@ -118,7 +118,7 @@ function App() {
     const dataLocalStorage = window.localStorage.getItem("cartData");
     const getData = JSON.parse(dataLocalStorage);
 
-    if (getData.userId) {
+    if (getData) {
       setUserId(getData.userId);
       setOrderId(getData.orderId);
       setCart(getData.cart);
