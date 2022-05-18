@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import Address from '../Address'
 import Payment from '../Payment'
-import {Link} from 'react-router-dom'
+import {Link, Navigate} from 'react-router-dom'
 
 function Checkout() {
     const classes = useStyles();
@@ -24,8 +24,12 @@ function Checkout() {
       paymentPhoto: "", 
   });
     const [subTotal, setSubtotal] = useState(0)
+    const [isPaid, setIsPaid] = useState(false)
 
-  console.log(subTotal);
+  
+
+    
+
 
 
     const fileSelectedHandler = (e) => {
@@ -67,6 +71,9 @@ function Checkout() {
       postPaymentPhoto();
       putTransactionStatus();
     }
+
+    
+ 
  
 
     const Confirmation = () => (
@@ -99,7 +106,7 @@ function Checkout() {
         </Card>
         <div style={{display: 'flex', justifyContent: 'flex-end'}}>
           <Button onClick={backStep}> back</Button>
-          <Button onClick={completeClick} component={Link} to={`/usertransactions`}  > Complete</Button>
+          <Button onClick={completeClick} > Complete </Button>
         </div>
           
       </Container>
@@ -134,7 +141,7 @@ function Checkout() {
           const res = await axios.put(`/transaction/status/${params.transactionId}`,{ params: { status: 'paid', id: params.transactionId } } );
           const  {data} = res
           console.log(data);
-       
+          setIsPaid(true)
           
       } catch (error) {
           console.log(alert(error.message));
@@ -158,7 +165,9 @@ function Checkout() {
     }, [selected]);
   
 
-
+    if(isPaid){
+      return <Navigate to="/usertransactions" replace />;
+    }
 
 
   return (
