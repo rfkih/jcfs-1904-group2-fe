@@ -57,6 +57,7 @@ function ItemSold() {
             const { data } = res;
             
             setSoldItem(data.result);
+            
             setSoldItemTotalPage(data.count.length)
 
         } catch (error) {
@@ -129,7 +130,7 @@ function ItemSold() {
 
 
     const columns = [
-        { id:'product_id', label: 'Product Id', align: 'right', minWidth: 100},
+        { id:'rownumber', label: 'No', align: 'right', minWidth: 100},
         { id:'category', label: 'Product Category', align: 'right', minWidth: 100},
         { id:'productName', label: 'Product Name',align: 'left', minWidth: 170},
         { id:'total_bought', label: 'Total Bought', align: 'right', minWidth: 100},
@@ -176,8 +177,8 @@ function ItemSold() {
                                                 <MenuItem key={0} value="" >Sort By</MenuItem>
                                                 <MenuItem key={1} value="order by total_bought asc" > Least Bought </MenuItem>
                                                 <MenuItem key={2} value="order by total_bought desc" > Most Bought </MenuItem>
-                                                <MenuItem key={3} value="order by product_id asc" > Product id (Ascending) </MenuItem>
-                                                <MenuItem key={4} value="order by product_id desc" > Product id (Descending) </MenuItem>
+                                                <MenuItem key={3} value="order by rownumber asc" > Ascending </MenuItem>
+                                                <MenuItem key={4} value="order by rownumber desc" > Descending </MenuItem>
                                             </Select>   
                                     </FormControl>
                                 </CardContent>

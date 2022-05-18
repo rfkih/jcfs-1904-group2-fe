@@ -59,6 +59,7 @@ function UsersTransaction() {
             const res = await axios.get("/users/admin", {params: { pages:(`limit ${userPerPage} offset ${(pageUser) * userPerPage}`), sortUser, keywordUser }});
             const {data} = res;
             setUsers(data.result)
+            
             setTotalUser(data.userCount[0].user_count)
            
         } catch (error) {
@@ -124,7 +125,7 @@ function UsersTransaction() {
     ]
 
     const columnsUser = [
-        { id:'id', label: 'Id', align: 'right', minWidht: 10},
+        { id:'rownumber', label: 'No', align: 'right', minWidht: 10},
         { id:'username', label: 'Username', align: 'right', minWidth: 50},
         { id:'name', label: 'Name', align: 'right', minWidth: 100},
         { id:'email', label: 'E-Mail', align: 'right', minWidth: 70},
@@ -223,8 +224,8 @@ function UsersTransaction() {
                                         onChange={selectSortUserHandler}
                                     >
                                         <MenuItem key={1} value={""} >Sort By</MenuItem>
-                                        <MenuItem key={2} value={"order by id asc"} >User Id (ascending)</MenuItem>
-                                        <MenuItem key={3} value={"order by id desc"} >User Id (descending)</MenuItem>
+                                        <MenuItem key={2} value={"order by rownumber asc"} >Ascending</MenuItem>
+                                        <MenuItem key={3} value={"order by rownumber desc"} >Descending</MenuItem>
                                         <MenuItem key={4} value={"order by username asc"} >Username(ascending)</MenuItem>
                                         <MenuItem key={5} value={"order by username desc"}>Username (descending)</MenuItem>
                                         <MenuItem key={6} value={" order by name asc"} >Name (ascending)</MenuItem>

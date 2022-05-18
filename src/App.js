@@ -64,7 +64,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  console.log(role);
+  
 
   useEffect(() => {
     if (role == 'admin') {
@@ -113,7 +113,7 @@ function App() {
     localStorage.setItem("cartData", JSON.stringify(data));
   };
 
-  console.log(custom);
+  
   const getLocalStorage = () => {
     const dataLocalStorage = window.localStorage.getItem("cartData");
     const getData = JSON.parse(dataLocalStorage);
