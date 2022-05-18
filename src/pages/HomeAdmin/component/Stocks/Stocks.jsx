@@ -85,6 +85,7 @@ const fetchProducts = async () => {
       .then((res=>{
         const { data } = res;
         setProducts(data.result);
+        console.log(data.result)
         setProductsCount(data.count[0].count);
       }));
       
@@ -130,7 +131,7 @@ useEffect(() => {
 },[page, productsPerPage, sort, keyword, selectedCategory])
 
 const columns = [
-  { id:'id', label: 'Product Id', align: 'right', minWidth: 20},
+  { id:'rownumber', label: 'Number', align: 'right', minWidth: 20},
   { id:'category', label: 'Category', align: 'right', minWidth: 30},
   { id:'productName', label: 'Product Name',align: 'right', minWidth: 100},
   { id:'price', label: 'Price', align: 'right', minWidth: 70},
@@ -170,8 +171,8 @@ const datalogs = [
                                                 onChange={selectSortHandler}
                                             >
                                                 <MenuItem key={0} value="" >Sort By</MenuItem>
-                                                <MenuItem key={3} value="order by id asc" > Product id (Ascending) </MenuItem>
-                                                <MenuItem key={4} value="order by id desc" > Product id (Descending) </MenuItem>
+                                                <MenuItem key={3} value="order by rownumber asc" > Ascending </MenuItem>
+                                                <MenuItem key={4} value="order by rownumber desc" > Descending </MenuItem>
                                                 <MenuItem key={1} value="order by productName asc" > Product Name (Ascending) </MenuItem>
                                                 <MenuItem key={2} value="order by productName desc" > Product Name (Descending) </MenuItem>
                                                 <MenuItem key={5} value="order by price asc" > Price (Acending) </MenuItem>
