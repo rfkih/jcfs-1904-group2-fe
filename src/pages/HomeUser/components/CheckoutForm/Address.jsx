@@ -22,6 +22,15 @@ function Address({nextStep}) {
     const [formOpen, setFormOpen] = useState(false)
     const [selectedProvinceId, setSelectedProvinceId] = useState({})
     const [selectedCityId, setSelectedCityId] = useState({})
+    const [ courrier, setCourrier] = useState('')
+    const [ costs, setCosts] = useState([])
+    const [ courrierForm, setCourrierForm ] = useState({
+      courrier: '',
+      service: '',
+      description: '',
+      cost: '',
+      etd: ''
+    })
     const [formState, setFormState] = useState({
       user_id: 0,
       country: "indonesia",
@@ -34,7 +43,7 @@ function Address({nextStep}) {
       addressDetail: ""
   });
 
-console.log(formState);
+
 
 
   const addressDetail = () => {
@@ -85,6 +94,22 @@ console.log(formState);
   const handleSelectedCity = (e) => {
     setSelectedCityId({[e.target.name]: e.target.value}); 
   }
+  const handleSelectedCourier = (e) => {
+    setCourrier(e.target.value); 
+  }
+
+  const handleSelectedService = (e) => {
+    const selectedService = costs.find((cost) => cost.service === e.target.value)
+    console.log(selectedService);
+    if (selectedService) {
+      setCourrierForm({...courrierForm, courrier: courrier, service: selectedService.service,
+      description: selectedService.description,
+      cost: selectedService.cost[0].value,
+      etd: selectedService.cost[0].etd   })
+    }
+
+  }
+  console.log(courrierForm);
 
   const getProvince = async () => {
 
@@ -119,6 +144,31 @@ console.log(formState);
     }
     
   },[selectedProvinceId])
+
+  
+
+  const getCost = async () => {
+    try {
+      const res = await axios.get(`/rajaongkir/cost/501/${firstAddress.city_id}/1000/${courrier}`)
+      .then((res=>{
+        const { data } = res;
+        
+        setCosts(data.rajaongkir.results[0].costs)
+      
+      }));
+  } catch (error) {
+      console.log(alert(error.message));
+  }
+  }
+
+  console.log(costs);
+
+  useEffect(() => {
+    if( firstAddress.city_id && courrier ){
+      getCost()
+    }
+    
+  },[firstAddress, courrier])
 
 
     const fetchAddress = async () => {
@@ -231,7 +281,71 @@ console.log(formState);
         <Divider/>
         {addresses[0] ? <Typography className={classes.paper} >{firstAddress.addressDetail}</Typography> : <Typography className={classes.paper} >No Address Available</Typography> }    
         <Divider/>
-            
+          <div style={{display: 'flex', justifyContent: 'flex-start'}} >
+            <div style={{margin: '1em'}}>
+              <FormControl fullWidth sx={{ m: 1, minWidth: 420 }}>
+                <InputLabel id="courier-select">Courier</InputLabel>
+                  <Select
+                    displayEmpty
+                    labelId="courier-select"
+                    id="1"
+                    defaultValue=""
+                    name="courrier"
+                    label="Select Corier"
+                    onChange={handleSelectedCourier}
+                  >
+                    <MenuItem key={1} value="">
+                      Courier
+                    </MenuItem> 
+                    <MenuItem key={2} value={'jne'}>
+                      JNE
+                    </MenuItem>
+                    <MenuItem key={3} value={'pos'}>
+                      POS
+                    </MenuItem>
+                    <MenuItem key={4} value={'tiki'}>
+                      Tiki
+                    </MenuItem>               
+                  </Select>
+              </FormControl>
+            </div>
+            <div style={{margin: '1em'}} >
+              <FormControl fullWidth sx={{ m: 1, minWidth: 420 }}>
+                <InputLabel id="Service-select">Service</InputLabel>
+                  <Select
+                    displayEmpty
+                    labelId="Service-select"
+                    id="1"
+                    defaultValue=""
+                    name=""
+                    label="Service"
+                    onChange={handleSelectedService}
+                  >
+                    <MenuItem key={1} value="">
+                    Service
+                    </MenuItem>
+                    {costs?.map((cost) => (
+                    <MenuItem key={cost.service}  value={cost.service}>
+                      {cost.service} | Rp.{cost.cost[0].value} 
+                    </MenuItem>
+                    ))}
+                  </Select>
+              </FormControl>
+            </div>     
+          </div>
+          {courrier && 
+          <div style={{display: 'flex', justifyContent: 'space-between', margin: '1em'}}>
+            { courrierForm.courrier === 'pos' ? 
+            <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
+              <Typography>{courrierForm.description}</Typography> 
+              <Typography>Perkiraan Sampai : {courrierForm.etd}</Typography> 
+            </div> : 
+            <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
+              <Typography>{courrierForm.description}</Typography> 
+              <Typography>Perkiraan Sampai : {courrierForm.etd} Hari</Typography> 
+            </div>
+            }  
+          </div> }
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               {addresses[0] ? <Button  className={classes.paper} variant="outlined" onClick={handleClickOpen} >Other Address</Button> : <Button className={classes.paper} variant="outlined" onClick={onAddAddressClick} >Add Address</Button> }             
               {addresses[0] ? <Button className={classes.paper} type="submit" variant="contained" color="primary" onClick={nextClick}> Next </Button> : <Button disabled className={classes.paper} type="submit" variant="contained" color="primary" > Next </Button> }
