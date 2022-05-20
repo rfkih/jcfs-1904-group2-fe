@@ -12,7 +12,9 @@ function Review({setSubtotal}) {
   const [address, setAddress] = useState({})
   const [detail, setDetail] = useState([])
   const [change,setChange] = useState(false)
+  const [courier, setCourier] = useState([])
 
+  console.log(courier);
 
   const fetchTransactionDetail = async () => {
     try {
@@ -21,7 +23,12 @@ function Review({setSubtotal}) {
         setTransactionDetail(data.result[0]);
         setUserDetail(data.user[0]);
         setDetail(data.transactiondetail)
-        setSubtotal(data.result[0].totalPrice);
+        
+        
+        if(data.courier[0]) {    
+          setCourier(data.courier[0])
+          setSubtotal(parseInt(data.result[0].totalPrice) + parseInt(data.courier[0].cost));
+        }
        
         if (data.address) {
           setAddress(data.address[0])
@@ -81,7 +88,8 @@ useEffect(() => {
                   </TableBody>
                 </Table>
           </TableContainer>
-          <Typography style={{display: 'flex', justifyContent: 'flex-end', paddingRight:'20px'}} variant="h6"  >SubTotal : Rp.{transactionDetail.totalPrice}</Typography>
+          <Typography style={{display: 'flex', justifyContent: 'flex-end', paddingRight:'20px'}} variant="h6"  >Delivery Cost : Rp.{courier.cost}</Typography>
+          <Typography style={{display: 'flex', justifyContent: 'flex-end', paddingRight:'20px'}} variant="h6"  >SubTotal : Rp.{parseInt(transactionDetail.totalPrice) + parseInt(courier.cost)}</Typography>
       </Paper>
     </Container>
   )

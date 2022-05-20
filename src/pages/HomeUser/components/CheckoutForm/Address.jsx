@@ -207,10 +207,11 @@ function Address({nextStep}) {
        
     },[formOpen]);
 
-    console.log(courierForm)
+    // console.log(courierForm)
     const inputAddress = async () => {
+      console.log('disini jalan');
       await axios
-      .put(`/transaction/${params.transactionId}`, { courierForm, firstAddress ,  params: { id: params.transactioniId, courier: courierForm } } )
+      .put(`/transaction/${params.transactionId}`, { courierForm, firstAddress ,  params: { id: params.transactioniId } } )
       .then((res) => {
         console.log(res);
       })
