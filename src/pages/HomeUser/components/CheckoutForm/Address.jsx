@@ -22,10 +22,10 @@ function Address({nextStep}) {
     const [formOpen, setFormOpen] = useState(false)
     const [selectedProvinceId, setSelectedProvinceId] = useState({})
     const [selectedCityId, setSelectedCityId] = useState({})
-    const [ courrier, setCourrier] = useState('')
+    const [ courier, setCourier] = useState('')
     const [ costs, setCosts] = useState([])
-    const [ courrierForm, setCourrierForm ] = useState({
-      courrier: '',
+    const [ courierForm, setCourierForm ] = useState({
+      courier: '',
       service: '',
       description: '',
       cost: '',
@@ -95,21 +95,21 @@ function Address({nextStep}) {
     setSelectedCityId({[e.target.name]: e.target.value}); 
   }
   const handleSelectedCourier = (e) => {
-    setCourrier(e.target.value); 
+    setCourier(e.target.value); 
   }
 
   const handleSelectedService = (e) => {
     const selectedService = costs.find((cost) => cost.service === e.target.value)
     console.log(selectedService);
     if (selectedService) {
-      setCourrierForm({...courrierForm, courrier: courrier, service: selectedService.service,
+      setCourierForm({...courierForm, courier: courier, service: selectedService.service,
       description: selectedService.description,
       cost: selectedService.cost[0].value,
       etd: selectedService.cost[0].etd   })
     }
 
   }
-  console.log(courrierForm);
+  console.log(courierForm);
 
   const getProvince = async () => {
 
@@ -149,7 +149,7 @@ function Address({nextStep}) {
 
   const getCost = async () => {
     try {
-      const res = await axios.get(`/rajaongkir/cost/501/${firstAddress.city_id}/1000/${courrier}`)
+      const res = await axios.get(`/rajaongkir/cost/501/${firstAddress.city_id}/1000/${courier}`)
       .then((res=>{
         const { data } = res;
         
@@ -164,11 +164,11 @@ function Address({nextStep}) {
   console.log(costs);
 
   useEffect(() => {
-    if( firstAddress.city_id && courrier ){
+    if( firstAddress.city_id && courier ){
       getCost()
     }
     
-  },[firstAddress, courrier])
+  },[firstAddress, courier])
 
 
     const fetchAddress = async () => {
@@ -207,10 +207,10 @@ function Address({nextStep}) {
        
     },[formOpen]);
 
-
+    console.log(courierForm)
     const inputAddress = async () => {
       await axios
-      .put(`/transaction/${params.transactionId}`, {firstAddress, params: { id: params.transactioniId } } )
+      .put(`/transaction/${params.transactionId}`, { courierForm, firstAddress ,  params: { id: params.transactioniId, courier: courierForm } } )
       .then((res) => {
         console.log(res);
       })
@@ -333,16 +333,16 @@ function Address({nextStep}) {
               </FormControl>
             </div>     
           </div>
-          {courrier && 
+          {courier && 
           <div style={{display: 'flex', justifyContent: 'space-between', margin: '1em'}}>
-            { courrierForm.courrier === 'pos' ? 
+            { courierForm.courrier === 'pos' ? 
             <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
-              <Typography>{courrierForm.description}</Typography> 
-              <Typography>Perkiraan Sampai : {courrierForm.etd}</Typography> 
+              <Typography>{courierForm.description}</Typography> 
+              <Typography>Perkiraan Sampai : {courierForm.etd}</Typography> 
             </div> : 
             <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
-              <Typography>{courrierForm.description}</Typography> 
-              <Typography>Perkiraan Sampai : {courrierForm.etd} Hari</Typography> 
+              <Typography>{courierForm.description}</Typography> 
+              <Typography>Perkiraan Sampai : {courierForm.etd} Hari</Typography> 
             </div>
             }  
           </div> }
