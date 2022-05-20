@@ -14,7 +14,10 @@ function TransactionDetail() {
     const [ address, setAddress] = useState({})
     const [ paymentProof, setPaymentProof ] = useState(0)
     const [ open, setOpen ] = useState(false)
+    const [ courier, setCourier ] = useState([])
     const date =  moment(transactionDetail.created_at).utc().format('LLL')
+
+    console.log(courier);
 
     useEffect(() => {
         axios
@@ -43,7 +46,9 @@ function TransactionDetail() {
             const  {data} = res
             setTransactionDetail(data.result[0]);
             setUserDetail(data.user[0]);
-            console.log(data);
+            if(data.courier[0]){
+              setCourier(data.courier[0])
+            }
             if (data.address) {
               setAddress(data.address[0])
             }
@@ -268,7 +273,8 @@ function TransactionDetail() {
 
                 </Grid>
                 <Grid item xs={2}>
-                    <Typography>Grand Total: Rp.{transactionDetail.totalPrice} </Typography>
+                    <Typography>Delivery Cost: Rp.{courier.cost} </Typography>
+                    <Typography>Grand Total  : Rp.{parseInt(transactionDetail.totalPrice) + parseInt(courier.cost)} </Typography>
                 </Grid>
 
               </Grid>
