@@ -339,11 +339,11 @@ function Address({nextStep}) {
             { courierForm.courrier === 'pos' ? 
             <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
               <Typography>{courierForm.description}</Typography> 
-              <Typography>Perkiraan Sampai : {courierForm.etd}</Typography> 
+              <Typography>Estimated Arrived : {courierForm.etd}</Typography> 
             </div> : 
             <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
               <Typography>{courierForm.description}</Typography> 
-              <Typography>Perkiraan Sampai : {courierForm.etd} Hari</Typography> 
+              <Typography>Estimated Arrived : {courierForm.etd} day</Typography> 
             </div>
             }  
           </div> }

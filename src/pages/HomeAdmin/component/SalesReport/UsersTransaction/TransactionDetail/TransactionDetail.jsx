@@ -223,7 +223,16 @@ function TransactionDetail() {
                   </Grid>
                   <Grid item xs={7}>
                     <Typography>: {address.zipCode}</Typography>
-                  </Grid>
+                  </Grid>  
+                    <Grid item xs={3}>
+                      <Typography> Courier </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Typography>: {courier.courier} {courier.service}</Typography>
+                    </Grid>
+
+                  
+
                 </Grid>
                 <Grid container item xs={7}>
                   <Grid item xs={6}>
