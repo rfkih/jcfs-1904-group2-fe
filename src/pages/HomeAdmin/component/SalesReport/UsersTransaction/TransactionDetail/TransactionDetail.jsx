@@ -272,11 +272,15 @@ function TransactionDetail() {
                 <Grid item xs={10}> 
 
                 </Grid>
+                {courier.cost ?
                 <Grid item xs={2}>
-                    <Typography>Delivery Cost: Rp.{courier.cost} </Typography>
-                    <Typography>Grand Total  : Rp.{parseInt(transactionDetail.totalPrice) + parseInt(courier.cost)} </Typography>
-                </Grid>
-
+                  <Typography>Delivery Cost: Rp.{courier.cost} </Typography>
+                  <Typography>Grand Total  : Rp.{parseInt(transactionDetail.totalPrice) + parseInt(courier.cost)} </Typography>
+                </Grid> :
+                 <Grid item xs={2}>
+                 <Typography>Grand Total  : Rp.{parseInt(transactionDetail.totalPrice)} </Typography>
+               </Grid>
+                 }
               </Grid>
             </Paper>
             </CardContent>

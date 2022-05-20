@@ -29,7 +29,7 @@ function UsersTransaction() {
     const [ totalTransaction, setTotalTransaction] = useState(1)
     const [ totalUser, setTotalUser ] = useState(1)
     const [ isCustom, setIsCustom ] = useState('')
-    console.log(isCustom);
+    
     const searchBtnHandler = () => {
         fetchTransaction();
     }
