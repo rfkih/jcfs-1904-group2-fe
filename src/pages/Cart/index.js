@@ -64,6 +64,7 @@ function UserCart() {
       .then((res) => {
         setUserId(0);
         setChange(!change);
+        setCart([])
         handleClose();
         alert(res.data);
       })

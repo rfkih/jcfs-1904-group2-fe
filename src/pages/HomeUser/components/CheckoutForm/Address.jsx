@@ -336,7 +336,7 @@ function Address({nextStep}) {
           </div>
           {courier && 
           <div style={{display: 'flex', justifyContent: 'space-between', margin: '1em'}}>
-            { courierForm.courrier === 'pos' ? 
+            { courierForm.courier === 'pos' ? 
             <div style={{display: 'column', justifyContent: 'space-between', marginLeft: '1em'}}> 
               <Typography>{courierForm.description}</Typography> 
               <Typography>Estimated Arrived : {courierForm.etd}</Typography> 
