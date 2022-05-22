@@ -57,7 +57,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="landing-page">
+    <div className="landing-page-login">
       <h1> Login </h1>
       <p>
         New to Pharmacy.com? <a href="/register"> Create an account </a>
