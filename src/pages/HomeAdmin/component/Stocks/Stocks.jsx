@@ -25,6 +25,8 @@ const [ filterData, setFilterData] = useState('')
 const [ pageData, setPageData] = useState(0)
 const [ dataPerPage, setDataPerPage] = useState(10)
 
+console.log(products);
+
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage)

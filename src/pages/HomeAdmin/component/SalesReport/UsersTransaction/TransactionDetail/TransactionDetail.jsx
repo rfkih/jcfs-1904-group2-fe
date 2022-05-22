@@ -46,9 +46,12 @@ function TransactionDetail() {
             const  {data} = res
             setTransactionDetail(data.result[0]);
             setUserDetail(data.user[0]);
-            if(data.courier[0]){
+
+            if(data.courier[0]) {
               setCourier(data.courier[0])
             }
+            
+          
             if (data.address) {
               setAddress(data.address[0])
             }
