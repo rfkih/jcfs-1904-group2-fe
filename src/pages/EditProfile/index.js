@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 function EditProfile() {
   const params = useParams();
 
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState(""); // female / male
   const [address, setAddress] = useState("");
@@ -43,8 +43,8 @@ function EditProfile() {
     try {
       const response = await axios.get(`/users/${id}`);
 
-      const { fullName, email, age, gender, address } = response.data[0];
-      setFullName(fullName);
+      const { name, email, age, gender, address } = response.data[0];
+      setName(name);
       setAge(age);
       setGender(gender.toLowerCase());
       setAddress(address);
@@ -61,7 +61,7 @@ function EditProfile() {
   const onSaveData = async () => {
     try {
       const data = {
-        fullName,
+        name,
         age,
         gender,
         address,
@@ -87,7 +87,9 @@ function EditProfile() {
   };
 
   return (
+
     <div className="edit-profile">
+
       <div>
         <div className="form-control">
           <FormControl sx={{ m: 3 }}>
@@ -97,10 +99,10 @@ function EditProfile() {
                 required
                 fullWidth
                 label="Fullname"
-                name="fullname"
-                value={fullName}
+                name="name"
+                value={name}
                 onChange={(e) => {
-                  setFullName(e.target.value);
+                  setName(e.target.value);
                 }}
                 sx={{ mt: 2 }}
               />
