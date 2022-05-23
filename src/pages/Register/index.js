@@ -29,7 +29,7 @@ function RegisterPage() {
       };
       await axios.post("/users", newUser);
       setFormState(initFormState);
-      alert("Registrasi berhasil");
+      alert("Registrasi berhasil & verifikasi account melalui Email");
     } catch (error) {
       alert("Registrasi gagal");
     }
